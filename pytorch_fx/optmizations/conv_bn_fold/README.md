@@ -7,7 +7,8 @@ Running inference on resnet 18 for 10000 images for some variants like:
 4. fx traced model with batch norm weights fused into conv
 5. fx traced model with batch norm weights fused into conv, and torch compiled
 ```bash
-HF_TOKEN=xxx python resnet_conv_bn_fold.py
+cd notes
+HF_TOKEN=xxx python -m pytorch_fx.optmizations.conv_bn_fold.resnet_conv_bn_fold
 ```
 
 Note we need a HF_TOKEN with approprate permissions as the dataset is gated. In all cases the accuracy is 70.41%.

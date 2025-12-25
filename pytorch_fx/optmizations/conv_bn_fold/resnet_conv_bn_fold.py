@@ -1,44 +1,10 @@
+
 import torch
-import torchvision.models as models
-from torchvision.models import ResNet18_Weights
 from datasets import load_dataset
-from tqdm import tqdm
 import torch.fx as fx
-import time
 import torch.nn as nn
-
-
-def get_device():
-    if torch.cuda.is_available():
-        device = torch.device("cuda")
-    elif getattr(torch.backends, "mps", None) and torch.backends.mps.is_available():
-        device = torch.device("mps")
-    else:
-        device = torch.device("cpu")
-    return device
-
-def get_model(device):
-    weights = ResNet18_Weights.DEFAULT
-    model = models.resnet18(weights=weights)
-    model.eval()
-    return model.to(device), weights.transforms()
-
-def eval(dataset, model, preprocess, device, num_imgs = 20):
-    correct = 0
-    with torch.no_grad():
-        for i, example in enumerate(tqdm(dataset, total=num_imgs)):
-            if i==10: # warmup
-                start_time = time.time()
-            if i >= num_imgs: break # Stop after 20 images
-
-            image = preprocess(example['image'].convert('RGB')).unsqueeze(0).to(device)
-            output = model(image)
-
-            if example['label'] == output.argmax(1).item():
-                correct += 1
-        end_time = time.time()
-    print(f"Accuracy on {num_imgs} streamed images: {100 * correct / num_imgs:.2f}%. Time taken: {(end_time - start_time)/(num_imgs - 10):.6f} seconds per image")
-    return (100 * correct) / num_imgs
+from pytorch_fx.utils import get_device
+from pytorch_fx.utils_resnet18 import get_resnet18_model, eval
 
 
 def fold_bn_into_conv(conv: nn.Conv2d, bn: nn.BatchNorm2d):
@@ -111,7 +77,7 @@ def fuse_conv_bn(gm: fx.GraphModule):
 
 def run_expt(fuse):
     device = get_device()
-    model, preprocess = get_model(device)
+    model, preprocess = get_resnet18_model(device)
     print(f"Model initialized and moved to: {device}")
     dataset = load_dataset("ILSVRC/imagenet-1k", split="validation", streaming=True)
     num_imgs = 10000
@@ -125,9 +91,9 @@ def run_expt(fuse):
     model_compiled = torch.compile(model)
     eval(dataset, model_compiled, preprocess, device, num_imgs)
 
-
-run_expt(fuse=False)
-run_expt(fuse=True)
+if __name__ == "__main__":
+    run_expt(fuse=False)
+    run_expt(fuse=True)
 
 
 '''
