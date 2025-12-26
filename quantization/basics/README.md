@@ -225,6 +225,7 @@ We have 2 options:
 
 
 Whatever option we follow must give us same result in float domain:
+
 $$
 A = DQ^{(s_A,z_A)}(A_q^{(s_A,z_A))} = s_A(A_q^{(s_A,z_A)} - z_A) \\
 B = DQ^{(s_B,z_B)}(B_q^{(s_B,z_B))} = s_B(B_q^{(s_B,z_B)} - z_B) \\
@@ -234,6 +235,7 @@ $$
 ### Option 1
 
 Quantize back to A:
+
 $$
 \begin{aligned}
 C_q^{(s_C,z_C)} &= Q^{(s_C,z_C)}(C) = Q^{(s_C,z_C)}(A+B) \\
@@ -251,13 +253,13 @@ First lets move $B$ to $A$'s scale/zero domain.
 $$
 \begin{aligned}
 B_q^{(s_A,z_A)} &= Q^{(s_A,z_A)}( DQ^{(s_B,z_B)}( B_q^{(s_B,z_B)} )) \\
-
  &= \frac{s_B}{s_A}(B_q^{(s_B,z_B)} - z_B) +z_A 
  \end{aligned}
 $$
 
 
 Now we can safely add in quantized domain. However we do not know yet what C's scale zero is
+
 $$
 \begin{aligned}
 C_q^{s_C, z_C} =& A_q^{(s_A,z_A)} + B_q^{(s_A,z_A)} \\
@@ -275,11 +277,13 @@ A_q^{(s_A,z_A)} + \frac{s_B}{s_A}B_q^{(s_B,z_B)} +z_A - \frac{s_B}{s_A}z_B &= \f
 $$
 
 Equating coefficients of like terms:
+
 $$
 1 = \frac{s_A}{s_C}  \implies s_C = s_A \\
 $$
 
 Replacing $s_C = s_A$ in: $z_A - \frac{s_B}{s_A}z_B = - \frac{s_A}{s_C}z_A - \frac{s_B}{s_C}z_B + z_C$ we get:
+
 $$
 z_C = 2z_A
 $$
