@@ -1,24 +1,27 @@
 
 # A note on types
 
-Quantized quantities have an inherent scale/zero associated with them, and essentially different scale/zeroes are different datatypes. If we try to add 2 quantized quantities with differing ranges, we should get a compile time error.
+Quantized quantities have an inherent scale/zero associated with them, and essentially different scale/zeroes are different datatypes. 
+
+
+## Motivation
+If we try to add 2 quantized quantities with differing ranges, we should get a compile time error. Encoding quantization parameters as types helps catch errors early and ensures that only compatible quantized values are combined, reducing bugs in numerical code that relies on quantization.
 
 
 Note this would be much easier to do as runtime checks, but this note/code is more of an exercise in encoding info in compile type types/checks.
 
-
 ## Specs
-
-### Need to support
 1. Should be able to define quant spec as `scale`/`zero` or `Min`/`Max`
 2. Types of the same range should add, else it should be a compile time error
+
+## Try 1
 
 
 ### Simplification
 1. `Min`/`Max` are defined as ints (though practically they are floats)
 
 
-## Design
+### Design
 TL;DR: canonicalization to scale/zero followed by storing the scale/zero as type level metadata (template params or static members).
 
 1. We need a way to canonilize scale/zero and min/max representation of quantization.
@@ -33,7 +36,7 @@ TL;DR: canonicalization to scale/zero followed by storing the scale/zero as type
 
 
 
-## Compile and run
+### Compile and run
 
 ```bash
 g++ -std=c++20 quant_types.cpp
@@ -41,17 +44,31 @@ g++ -std=c++20 quant_types.cpp
 ```
 
 
+## Try 2
 
-## Motivation
-
-Encoding quantization parameters as types helps catch errors early and ensures that only compatible quantized values are combined, reducing bugs in numerical code that relies on quantization.
-
+### Design
 
 
-# TODOS
-this is still a bit clunky, cleanup?
+1. A base class `QuantSpec<int NBits, bool Symmetric>`
+2. That is subclassed into `QuantSpecScaleZero<float Scale, int Zero, int NBits, bool Symmetric>` and `QuantSpecMinMax<float Min, float Max, int NBits, bool Symmetric>`
+3. At compile time, some static asserts perform some sanity checks, and everything is canonicalised to scale/zero representation, and concept `QuantSpecType` is satisfied
+4. `QuantizedNumber<QSpec>` can be constructed using an int, or a float (in which case its quantized), or from another `QuantizedNumber` (in which case it undergoes requantization by undergoing dequant and quant).
+5. addition works only on `QuantizedNumber`s with same `QSpec`, as expected of the type system
 
 
-addn should return a wider quant type
 
-requantize as typecast
+### Compile and run
+
+```bash
+g++ -std=c++20 quant_types_2.cpp
+./a.out
+```
+
+
+### TODOS
+1. addn should return a wider quant type 
+2. when adding dont dequant, just adjust scales
+3. code isnt well tested
+
+
+
