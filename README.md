@@ -14,4 +14,6 @@ This repository contains notes, experiments, and code for various topics. See th
 	- [optmizations/](pytorch_fx/optmizations/): Model optimization experiments
 		- [conv_bn_fold/](pytorch_fx/optmizations/conv_bn_fold/): BatchNorm folding into Conv layers
 		- [gelu_quickgelu_replacement/](pytorch_fx/optmizations/gelu_quickgelu_replacement/): Training and evaluating GELU/QuickGELU variants on vision models
-	- [quantization/](pytorch_fx/quantization/): Quantization experiments and observers
+- [quantization/](quantization/): Quantization notes and experiments
+    - [basics/](quantization/basics/): General foundational notes and concepts
+    - [typed_quant/](quantization/typed_quant/): Some expts in C++ for a type system for quantized numbers
