@@ -265,6 +265,12 @@ b ----/
 
 ```
 
+## Abstract Interpretation / Static Analysis
+`fx.Interpreter` can be subclassed and the abstract information can be propagated through the node's `meta` field. 
+
+See [this](../abstract_interpret/README.md) for an example.
+
+
 ## Custom Tracer
 `Tracer` class could be subclassed, and the following methods could be overridden to control tracing behaviour:
 1. `is_leaf_module`: By default, modules in torch.nn are treated as leaves. Override this to treat more modules as leafs (i.e., not traced inside)
