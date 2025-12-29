@@ -227,9 +227,11 @@ We have 2 options:
 Whatever option we follow must give us same result in float domain:
 
 $$
-A = DQ^{(s_A,z_A)}(A_q^{(s_A,z_A))} = s_A(A_q^{(s_A,z_A)} - z_A) \\
-B = DQ^{(s_B,z_B)}(B_q^{(s_B,z_B))} = s_B(B_q^{(s_B,z_B)} - z_B) \\
-C = A+B
+\begin{aligned}
+A &= DQ^{(s_A,z_A)}(A_q^{(s_A,z_A)}) = s_A(A_q^{(s_A,z_A)} - z_A) \\
+B &= DQ^{(s_B,z_B)}(B_q^{(s_B,z_B)}) = s_B(B_q^{(s_B,z_B)} - z_B) \\
+C &= A+B
+\end{aligned}
 $$
 
 ### Option 1
@@ -287,5 +289,199 @@ Replacing $s_C = s_A$ in: $z_A - \frac{s_B}{s_A}z_B = - \frac{s_A}{s_C}z_A - \fr
 $$
 z_C = 2z_A
 $$
+
+
+
+# Overflow analysis of quantized matmul
+
+Assume we use $n_0$ bits for input matrices $X$ and $W$. The integer matmul itself is done in a wider integer type $n_1 > n_0$. Note that the int matmul is symmetric, as discussed in the quantized matmul section above
+
+Range of inputs:
+
+$$
+\begin{aligned}
+m_{n_0} = 2^{n_0-1} - 1\\
+X_i, W_i \in \left[ -m_{n_0},m_{n_0} \right]
+\end{aligned}
+$$
+
+Similarly range of accumulator is:
+
+$$
+\begin{aligned}
+m_{n_1} = 2^{n_1-1} - 1 \\
+acc \in \left[ - m_{n_1},m_{n_1} \right]
+\end{aligned}
+$$
+
+### Worst case analysis
+Assume max magnitude of product:
+
+$$
+X_iW_i = m^2_{n_0} = (2^{n_0-1}-1)^2
+$$
+
+
+Maximum safe number of accumulations:
+
+$$
+K^{worst}_{max} = round_{down}\left(\frac{m_{n_1}}{m^2_{n_0}}\right) = round_{down} \left( \frac{2^{n_1-1}-1}{(2^{n_0-1}-1)^2} \right)
+$$
+
+The approximate expression is (which is a stricter bound):
+
+$$
+\hat{K}^{worst}_{max} = 2^{n_1-2n_0 + 1}
+$$
+
+#### Concrete examples
+For $n_0=8$, $n_1=16$, $K^{worst}_{max}=\left\lfloor \frac{2^{15}-1}{(2^{7}-1)^2} \right\rfloor = 2$
+
+For $n_0=8$, $n_1=16$, $K^{worst}_{max}=\left\lfloor \frac{2^{31}-1}{(2^{7}-1)^2} \right\rfloor = 133144$
+
+### Probabilistic analysis
+Assume every element of $X_q$ and $W_q$ are independent and uniformly distributed. Then $X_q^{'} = X_q - z_x$ and $W_q^{'}=W_q-z_w$ both have zero means. Also they have same distribution:
+
+$$
+X_q^{'}, W_q^{'} \sim \mathcal{U}(-m_{n_0}, m_{n_0} ) =\mathcal{U}(- (2^{n_0-1} - 1), 2^{n_0-1} - 1)
+$$
+
+The mean of this is $0$ and the variance is $\sigma_x^2 = \frac{(2m_{n_0}+1)^2-1}{12} $
+
+
+The RV $p_i = X_{q,i}^{'}W_{q,i}^{'}$ is zero mean and variance is a product (because iid): $\sigma^2_p = \text{Var}(p_i) = \text{Var}(X_{q,i})\text{Var}(W_{q,i})= {\left( \frac{(2m_{n_0}+1)^2-1}{12} \right)}^2$. 
+
+
+Therefore:
+
+$$
+\sigma_p = \frac{(2m_{n_0}+1)^2-1}{12} = \frac{m_{n_0}(m_{n_0}+1)}{3} \approx \frac{m_{n_0}^2}{3}
+$$
+
+Now consider the RV $S_k = \sum_{i=1}^{k}{p_i}$. This is a discrete [Irwin-Hall distribution](https://en.wikipedia.org/wiki/Irwin%E2%80%93Hall_distribution), which is a bit janky
+
+
+Instead we can use the Central Limit Theorem, to get a reasonable approximation, especially for large enough $k$
+
+
+#### CLT refresher
+
+See [this](./../probability/notes/basics.md#central-limit-theorem) for CLT statement and [this for proof](../../probability/notes/ch_fn_clt.md)
+
+
+Let $X$ be a random variable with mean $\mu$ and variance $\sigma^2$. The sum of $k$ independent and identically distributed (i.i.d.) copies of $X$ is:
+
+$$
+S_k = \sum_{i=1}^k X_i
+$$
+
+The mean and variance of $S_k$ are:
+
+$$
+\mathbb{E}[S_k] = k\mu
+$$
+
+$$
+\mathrm{Var}[S_k] = k\sigma^2
+$$
+
+By the Central Limit Theorem, for large $k$:
+
+$$
+S_k \approx \mathcal{N}(k\mu,\, k\sigma^2)
+$$
+
+
+By symmetry of Normal distribution
+$$
+P(|S_k| > A) = P(S_k > A) + P(S_k < -A) = 2P(S_k < -A)
+$$
+
+ 
+
+Standardize to $Z \sim  \mathcal{N}(0,1)$
+
+$$
+P(S_k<-A)=P\left(Z < \frac{-A-\mu}{\sigma}\right) = \Phi\left(\frac{-A-\mu}{\sigma}\right)\
+$$
+
+But we have:
+
+$$
+\begin{aligned}
+\mu &= \sum{\mu_p} =0  \\
+\sigma &= \sigma_p \sqrt{k}  \\
+A &= m_{n_1} = acc_{max}
+\end{aligned}
+$$
+
+Therefore 
+
+$$
+\begin{aligned}
+P_{overflow} &= 2\Phi\left(-\frac{m_{n_1}}{\sigma_p \sqrt{k}}\right) \\
+&=2\Phi\left( -\frac{2^{n_1-1}-1}{\sqrt{k} \left( \frac{m_{n_0}(m_{n_0}+1)}{3}\right)} \right) \\
+&=2\Phi\left( -\frac{2^{n_1-1}-1}{\sqrt{k} \left( \frac{2^{n_0-1}(2^{n_0-1}-1)}{3}\right)} \right) \\
+&\approx 2\Phi\left(- \frac{3.2^{n_1-1}}{2^{2(n_0-1)}\sqrt{k}} \right) = 2\Phi\left(- \frac{3.2^{n_1-2n_0+1}}{\sqrt{k}} \right) = 2\Phi\left(- \frac{3.\hat{K}^{worst}_{max}}{\sqrt{k}} \right)  
+\end{aligned}
+$$
+
+Keeping the probability 3 std deviations away:
+
+$$
+\begin{aligned}
+\frac{3.2^{n_1-2n_0+1}}{\sqrt{k}} \ge 3 \\
+k \le 2^{2(n_1-2n_0+1)} \\
+k \le (\hat{K}^{worst}_{max})^2
+\end{aligned}
+$$
+
+
+
+Calculating some "safe" $k$ values for different quantization bits. Note that for $n_0=4, n_1=16$, its still not very safe, as the worst case supports only $512$ accumulations, but probabilistically it might work out.
+
+| $n_0$ | $n_1$ | approx probabilistic safe $k$ | approx worst case safe $k$  |
+|-------|-------|---------------------------|---------------------------|
+| 8     | 16    | $2^{2}$             | $2$ | 
+| 8     | 32    | $2^{34}$                  | $2^{17}$ |
+| 4     | 16    | $2^{18}$             | $2^9$ |
+
+
+Note, we can also use other bounds (like Hoeffding's) to bound this
+
+# Simulating quantized matmul: bit-exact vs fake-quant
+Till now we have been discussing the bit-exact method of simulating accuracy for quantized matmuls, whose pseudo-code is
+
+$$
+\begin{aligned}
+x_q &= Q(x) \\
+w_q &= Q(w) \\
+m_{int32} &= (x_q-z_x)(w_q-z_w) \\
+m_1 &= s_w s_x m_{int32} 
+\end{aligned}
+$$
+
+Often times an alternate method is used, called fake-quant
+
+
+$$
+\begin{aligned}
+x_q &= DQ(Q(x))\\
+w_q &= DQ(Q(w))\\
+m_2 &= x_q w_q
+\end{aligned}
+$$
+
+These methods are equivalent if we are in a regime where no clamping/overflow is happening (its easy to see this, as the 3 operations, quantize, dequantize are scalar linear operations that can be swapped around with the matmul). However in real usecases we might have clamping and overflows.
+
+
+## Some experiments:
+Small $k$, using int32 accumulator: `python fakequant_vs_bitexact.py --M 40 --K 80 --N 40 --widen-type 32`, we will see practically no difference in the 2 methods
+
+
+But, if we use less bits for accumulation, `python fakequant_vs_bitexact.py --M 40 --K 80 --N 40 --widen-type 16` we see that the 2 methods diverge, with about 5-10% elements overflowing
+
+
+
 
 
