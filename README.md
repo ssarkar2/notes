@@ -15,6 +15,7 @@ This repository contains notes, experiments, and code for various topics. See th
 		- [conv_bn_fold/](pytorch_fx/optmizations/conv_bn_fold/): BatchNorm folding into Conv layers
 		- [gelu_quickgelu_replacement/](pytorch_fx/optmizations/gelu_quickgelu_replacement/): Training and evaluating GELU/QuickGELU variants on vision models
     - [abstract_interpret/](pytorch_fx/abstract_interpret/): a simple abstract interpretation example in the odd/even domain by subclassing `fx.Interpreter`.
+    - [quantization/](pytorch_fx/quantization/): A framework to do quantization simulation. WIP
 - [quantization/](quantization/): Quantization notes and experiments
     - [basics/](quantization/basics/): General foundational notes and concepts
     - [typed_quant/](quantization/typed_quant/): Some expts in C++ for a type system for quantized numbers
