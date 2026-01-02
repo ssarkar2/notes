@@ -19,3 +19,5 @@ This repository contains notes, experiments, and code for various topics. See th
 - [quantization/](quantization/): Quantization notes and experiments
     - [basics/](quantization/basics/): General foundational notes and concepts
     - [typed_quant/](quantization/typed_quant/): Some expts in C++ for a type system for quantized numbers
+- [queueing/](queueing/): Notes/experiments on queueing processes
+    - [batching/](queueing/batching/): Analysis/simulation of a process with restricted batch sizes, and an introduction to SimPy
