@@ -6,9 +6,9 @@ This repository contains notes, experiments, and code for various topics. See th
 
 - [probability/](probability/)
     - [notes/](probability/notes/): Notes on probability basics
-	- [estimating_low_head_prob_coinflips/](probability/estimating_low_head_prob_coinflips/): A bit of estimation theory for coin flips with low head probability
-	
-
+- [statistics/](statistics/)
+    - [estimating_low_head_prob_coinflips/](statistics/estimating_low_head_prob_coinflips/): A bit of estimation theory for coin flips with low head probability
+    - [curve_separation/](statistics/curve_separation/): Curve separation / peak detection
 - [pytorch_fx/](pytorch_fx/)
 	- [basic_intro/](pytorch_fx/basic_intro/): Introductory FX usage, pattern matching, and graph manipulation
 	- [optmizations/](pytorch_fx/optmizations/): Model optimization experiments
