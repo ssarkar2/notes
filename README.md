@@ -24,3 +24,4 @@ This repository contains notes, experiments, and code for various topics. See th
 - [compilers/](compilers/): A collection of notes/experiments
     - [llvm/](compilers/llvm/): Notes on LLVM
     - [theory/](compilers/theory/): General notes
+    - [DAG_tiling/](compilers/DAG_tiling/): Tiling a DAG with a library of smaller DAGs
