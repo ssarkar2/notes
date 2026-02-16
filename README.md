@@ -14,7 +14,8 @@ This repository contains notes, experiments, and code for various topics. See th
 	- [optmizations/](pytorch_fx/optmizations/): Model optimization experiments
 		- [conv_bn_fold/](pytorch_fx/optmizations/conv_bn_fold/): BatchNorm folding into Conv layers
 		- [gelu_quickgelu_replacement/](pytorch_fx/optmizations/gelu_quickgelu_replacement/): Training and evaluating GELU/QuickGELU variants on vision models
-    - [abstract_interpret/](pytorch_fx/abstract_interpret/): a simple abstract interpretation example in the odd/even domain by subclassing `fx.Interpreter`.
+    - [abstract_interpret/](pytorch_fx/abstract_interpret/): a simple abstract interpretation example in the odd/
+    - [block_detect/](pytorch_fx/block_detect/): an algorithm to detect block boundaries in repetative model structures
     - [quantization/](pytorch_fx/quantization/): A framework to do quantization simulation. WIP
 - [quantization/](quantization/): Quantization notes and experiments
     - [basics/](quantization/basics/): General foundational notes and concepts
