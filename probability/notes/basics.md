@@ -54,6 +54,26 @@ discrete: bernoulli (coin toss), binomial (how many heads in n tosses), geometri
 continuous: uniform, exponential, pareto (heavy tailed)
 
 
+## Change of variable
+
+The standard change of variables formula for probability densities. If you have a random variable $z$ with known density $p(z)$, and you
+  define a new random variable $y = g(z)$, then the density of $y$ is:
+
+  $$
+  q(y) = p(z) \cdot \left|\frac{dz}{dy}\right|
+  $$
+
+  The intuition: probability mass must be conserved. The probability in a small interval $[z, z+dz]$ must equal the probability in the
+  corresponding interval $[y, y+dy]$:
+
+  $$
+  p(z)dz = q(y)dy \implies q(y) = p(z)\frac{dz}{dy}
+  $$
+
+  The $dz/dy$ factor accounts for how the mapping stretches or compresses intervals. If a small $dy$ corresponds to a large $dz$, more probability
+  mass gets "compressed" into that $dy$, so the density is higher there.
+
+
 ## Moments
 Moment: $m_i = \mathbb{E}[X^i]$
 
@@ -102,11 +122,59 @@ $$
 For example, we can express binomial RV as a sum of indicator variables, denoting if it was a success or not for each flip, and then use LoE to find expectation of binomial RV
 
 ## Normal distribution
+
+
+
+### Linear combinations
+
+Linear combinarions of gaussians are gaussians
+
 Has the linear transform property
 
 $$
 X \sim \mathcal{N}(\mu, \sigma^2) \quad \Longrightarrow \quad Y = a X + b \sim \mathcal{N}(a \mu + b, a^2 \sigma^2)
 $$
+
+
+Univariate:
+$$
+X_i \sim \mathcal{N}(\mu_i, \sigma_i^2),
+\quad i = 1, \dots, n,
+\quad \text{independent}
+$$
+
+$$
+Y = \sum_{i=1}^n a_i X_i
+$$
+
+$$
+Y \sim \mathcal{N}
+\left(
+\sum_{i=1}^n a_i \mu_i,
+\;
+\sum_{i=1}^n a_i^2 \sigma_i^2
+\right)
+$$
+
+multivariate:
+$$
+X \sim \mathcal{N}(\mu, \Sigma)
+$$
+
+$$
+Y = A X + b
+$$
+
+$$
+Y \sim \mathcal{N}
+\big(
+A\mu + b,
+\;
+A\Sigma A^T
+\big)
+$$
+
+#### Converting to standard
 
 We can convert any normal distribution to the standard one:
 
@@ -119,6 +187,76 @@ $$
 \mathbb{P}(X \le x) = \mathbb{P}\!\Bigg( \frac{X - \mu}{\sigma} \le \frac{x - \mu}{\sigma} \Bigg)
 = \Phi\Bigg(\frac{x - \mu}{\sigma}\Bigg)
 $$
+
+### Conditional
+
+Conditionals are also gaussians
+
+Bivariate:
+
+$$
+\begin{pmatrix}
+X_1 \\
+X_2
+\end{pmatrix}
+\sim
+\mathcal{N}
+\left(
+\begin{pmatrix}
+\mu_1 \\
+\mu_2
+\end{pmatrix},
+\begin{pmatrix}
+\sigma_1^2 & \rho \sigma_1 \sigma_2 \\
+\rho \sigma_1 \sigma_2 & \sigma_2^2
+\end{pmatrix}
+\right)
+$$
+
+$$
+X_1 \mid X_2 = x_2
+\sim
+\mathcal{N}
+\left(
+\mu_1 + \rho \frac{\sigma_1}{\sigma_2}(x_2 - \mu_2),
+\;
+\sigma_1^2 (1 - \rho^2)
+\right)
+$$
+
+
+Multivariate:
+
+$$
+\begin{pmatrix}
+X_1 \\
+X_2
+\end{pmatrix}
+\sim
+\mathcal{N}
+\left(
+\begin{pmatrix}
+\mu_1 \\
+\mu_2
+\end{pmatrix},
+\begin{pmatrix}
+\Sigma_{11} & \Sigma_{12} \\
+\Sigma_{21} & \Sigma_{22}
+\end{pmatrix}
+\right)
+$$
+
+$$
+X_1 \mid X_2 = x_2
+\sim
+\mathcal{N}
+\left(
+\mu_1 + \Sigma_{12}\Sigma_{22}^{-1}(x_2 - \mu_2),
+\;
+\Sigma_{11} - \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}
+\right)
+$$
+
 
 ## Central limit theorem
 Sum of IID RVs tend to normal distribution
