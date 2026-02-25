@@ -48,6 +48,8 @@ class _DebugLogger:
         os.makedirs(debug_dir, exist_ok=True)
         os.makedirs(os.path.join(debug_dir, "steps"), exist_ok=True)
         os.makedirs(os.path.join(debug_dir, "library"), exist_ok=True)
+        os.makedirs(os.path.join(debug_dir, "candidates"), exist_ok=True)
+        self._candidate_idx = 0
 
         self._candidates_f = open(os.path.join(debug_dir, "candidates.txt"), "w")
         self._search_f = open(os.path.join(debug_dir, "search.txt"), "w")
@@ -74,8 +76,19 @@ class _DebugLogger:
             f"{n}:{pattern.nodes[n]}" for n in pattern.nodes
         )
         self._candidates_f.write(
+            f"candidate {self._candidate_idx}: "
             f"pattern {tile.pattern_id} [{pat_ops}]  =>  {{{covered}}}\n"
         )
+
+        # Visualize this candidate placement on the big graph.
+        title = (f"Candidate {self._candidate_idx}: "
+                 f"pat {tile.pattern_id} ({pat_ops})")
+        self._snapshot_tiles(
+            [tile],
+            os.path.join("candidates", f"cand_{self._candidate_idx:04d}"),
+            title,
+        )
+        self._candidate_idx += 1
 
     def log_candidates_done(self, total: int):
         self._candidates_f.write(f"\nTotal candidate placements: {total}\n")
@@ -116,7 +129,7 @@ class _DebugLogger:
         )
         self._snapshot_tiles(
             best_tiles,
-            f"step_{self._step:04d}_best",
+            os.path.join("steps", f"step_{self._step:04d}_best"),
             f"Step {self._step}: best cov={coverage} tiles={num_tiles}",
         )
 
@@ -178,7 +191,7 @@ class _DebugLogger:
 
     def _snapshot(self, name: str, title: str):
         """Render the current exploration state (tile stack) as DOT/PNG."""
-        self._snapshot_tiles(list(self._tile_stack), name, title)
+        self._snapshot_tiles(list(self._tile_stack), os.path.join("steps", name), title)
 
     def _snapshot_tiles(self, tiles: list[Tile], name: str, title: str):
         """Render an explicit list of tiles as DOT/PNG."""
@@ -189,7 +202,7 @@ class _DebugLogger:
             coverage=len(covered), total_nodes=len(self.big.nodes),
         )
         dot = self.big.to_dot_with_tiling(tmp_result, title)
-        self._write_dot(dot, os.path.join("steps", name))
+        self._write_dot(dot, name)
 
     def _write_dot(self, dot_str: str, name: str):
         dot_path = os.path.join(self.dir, f"{name}.dot")
@@ -201,7 +214,6 @@ class _DebugLogger:
                 ["dot", "-Tpng", dot_path, "-o", png_path],
                 check=False, capture_output=True,
             )
-
 
 class _NoOpLogger:
     """Stub that does nothing — zero overhead when debug is off."""
