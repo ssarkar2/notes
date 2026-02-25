@@ -28,6 +28,12 @@ my_debug/
   result.txt             # final coverage summary
   tiled_graph.dot        # DOT source for the tiled graph (colored clusters)
   tiled_graph.png        # rendered PNG
+  candidates/            # one DOT/PNG per candidate placement (on the big graph)
+    cand_0000.dot
+    cand_0000.png
+    cand_0001.dot
+    cand_0001.png
+    ...
   library/               # one DOT/PNG pair per pattern in the library
     pat_00.dot
     pat_00.png
@@ -64,11 +70,22 @@ enumeration).  Each line shows:
 Example:
 
 ```
-pattern 0 [1:linear -> 2:sigmoid -> 5:mul -> ...]  =>  {add:add, block1_down_proj:linear, ...}
-pattern 0 [1:linear -> 2:sigmoid -> 5:mul -> ...]  =>  {add_1:add, block2_down_proj:linear, ...}
+candidate 0: pattern 0 [1:linear -> 2:sigmoid -> 5:mul -> ...]  =>  {add:add, block1_down_proj:linear, ...}
+candidate 1: pattern 0 [1:linear -> 2:sigmoid -> 5:mul -> ...]  =>  {add_1:add, block2_down_proj:linear, ...}
 
 Total candidate placements: 2
 ```
+
+Each candidate number corresponds to a visualization in `candidates/`
+(e.g. `cand_0000.png`).
+
+### `candidates/`
+
+One DOT/PNG pair per candidate placement.  Each image shows the **full input
+graph** with the candidate's covered nodes highlighted in a colored cluster
+and the remaining nodes in grey.  This lets you visually verify where each
+pattern matched on the big graph — useful for spotting unexpected or missing
+matches before looking at the solver's search trace.
 
 ### `search.txt`
 
@@ -142,6 +159,7 @@ nodes (if any) appear without a cluster border.
    For each `[step K]`, open the corresponding `steps/step_KKKK_*.png` to see
    exactly what the solver was considering at that point.
 
-5. **Check `candidates.txt`** — if a pattern you expected to match is missing,
-   the issue is in Phase 1 (candidate enumeration / pattern matching), not
-   the search.
+5. **Check `candidates.txt`** and **`candidates/`** — if a pattern you expected
+   to match is missing, the issue is in Phase 1 (candidate enumeration /
+   pattern matching), not the search.  Open `cand_NNNN.png` to see exactly
+   which nodes each candidate covers on the big graph.
