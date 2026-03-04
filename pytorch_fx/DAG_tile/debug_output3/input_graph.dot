@@ -1,0 +1,18 @@
+digraph {
+  label="Input Graph"
+  n1 [label="1:conv"]
+  n2 [label="2:bn"]
+  n3 [label="3:relu"]
+  n4 [label="4:conv"]
+  n5 [label="5:bn"]
+  n6 [label="6:relu"]
+  n7 [label="7:custom"]
+  n8 [label="8:pool"]
+  n1 -> n2
+  n2 -> n3
+  n3 -> n4
+  n4 -> n5
+  n5 -> n6
+  n6 -> n7
+  n3 -> n8
+}

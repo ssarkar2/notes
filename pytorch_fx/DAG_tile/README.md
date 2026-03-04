@@ -118,6 +118,7 @@ see [docs/debugging.md](docs/debugging.md) for more details
 | [`pt_tiler.py`](pt_tiler.py) | PyTorch-level wrapper for compiled-binary stitching |
 | [`example.py`](example.py) | Runnable walkthrough — **start here** |
 | [`example2.py`](example2.py) | Runnable walkthrough for a more complex graph |
+| [`example3.py`](example3.py) | An example to understand the algorithm. See accompanying [doc](docs/example_walkthrough.md) |
 | [`example_pt.py`](example_pt.py) | PyTorch-level API example with stitching plan |
 | [`test_solver.py`](test_solver.py) | 42 tests for core solver logic |
 | [`test_fx.py`](test_fx.py) | 14 tests for FX integration |
@@ -134,6 +135,7 @@ Detailed documentation lives in [`docs/`](docs/):
   data flow, key classes, how to extend
 - **[`debugging.md`](docs/debugging.md)** — Detailed debugging of
   internal steps
+- **[`example_walkthrough.md`](docs/example_walkthrough.md)** — Walkthrough of [example3.py](example3.py)
 
 ## Running tests
 

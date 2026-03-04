@@ -1,0 +1,27 @@
+digraph {
+  label="Step 12: try pat=2"
+  compound=true
+  subgraph cluster_0 {
+    label="tile 0 (pat 1)"
+    style=filled; fillcolor="#cce5ff"
+    n3 [label="3:relu"]
+    n8 [label="8:pool"]
+  }
+  subgraph cluster_1 {
+    label="tile 1 (pat 2)"
+    style=filled; fillcolor="#d4edda"
+    n1 [label="1:conv"]
+    n2 [label="2:bn"]
+  }
+  n4 [label="4:conv" style=dashed color=gray fontcolor=gray]
+  n5 [label="5:bn" style=dashed color=gray fontcolor=gray]
+  n6 [label="6:relu" style=dashed color=gray fontcolor=gray]
+  n7 [label="7:custom" style=dashed color=gray fontcolor=gray]
+  n1 -> n2
+  n2 -> n3
+  n3 -> n4
+  n4 -> n5
+  n5 -> n6
+  n6 -> n7
+  n3 -> n8
+}

@@ -1,0 +1,7 @@
+candidate 0: pattern 0 [1:conv -> 2:bn -> 3:relu]  =>  {1:conv, 2:bn, 3:relu}
+candidate 1: pattern 0 [1:conv -> 2:bn -> 3:relu]  =>  {4:conv, 5:bn, 6:relu}
+candidate 2: pattern 1 [1:relu -> 2:pool]  =>  {3:relu, 8:pool}
+candidate 3: pattern 2 [1:conv -> 2:bn]  =>  {1:conv, 2:bn}
+candidate 4: pattern 2 [1:conv -> 2:bn]  =>  {4:conv, 5:bn}
+
+Total candidate placements: 5

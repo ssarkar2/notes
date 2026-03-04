@@ -1,0 +1,6 @@
+digraph {
+  label="Pattern 1: 1:relu, 2:pool"
+  n1 [label="1:relu"]
+  n2 [label="2:pool"]
+  n1 -> n2
+}

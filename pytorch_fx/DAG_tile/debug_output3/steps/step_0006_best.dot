@@ -1,0 +1,27 @@
+digraph {
+  label="Step 6: best cov=5 tiles=2"
+  compound=true
+  subgraph cluster_0 {
+    label="tile 0 (pat 2)"
+    style=filled; fillcolor="#cce5ff"
+    n4 [label="4:conv"]
+    n5 [label="5:bn"]
+  }
+  subgraph cluster_1 {
+    label="tile 1 (pat 0)"
+    style=filled; fillcolor="#d4edda"
+    n1 [label="1:conv"]
+    n2 [label="2:bn"]
+    n3 [label="3:relu"]
+  }
+  n6 [label="6:relu" style=dashed color=gray fontcolor=gray]
+  n7 [label="7:custom" style=dashed color=gray fontcolor=gray]
+  n8 [label="8:pool" style=dashed color=gray fontcolor=gray]
+  n1 -> n2
+  n2 -> n3
+  n3 -> n4
+  n4 -> n5
+  n5 -> n6
+  n6 -> n7
+  n3 -> n8
+}
