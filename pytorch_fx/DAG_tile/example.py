@@ -343,19 +343,19 @@ show(result, big)
 
 # ── Generate DOT visualisation ──
 
-print("\n--- DOT visualisation (saved to tiling_example.png) ---")
+print("\n--- DOT visualisation (saved to tiling_example.svg) ---")
 dot = big.to_dot_with_tiling(result, title="TwoBlockModel Tiling")
 with open("tiling_example.dot", "w") as f:
     f.write(dot)
 
-# Try to render to PNG if graphviz is available.
+# Try to render to SVG if graphviz is available.
 import shutil, subprocess
 if shutil.which("dot"):
-    subprocess.run(["dot", "-Tpng", "tiling_example.dot", "-o", "tiling_example.png"],
+    subprocess.run(["dot", "-Tsvg", "tiling_example.dot", "-o", "tiling_example.svg"],
                    check=True)
-    print("  Written: tiling_example.dot, tiling_example.png")
+    print("  Written: tiling_example.dot, tiling_example.svg")
 else:
-    print("  Written: tiling_example.dot  (install graphviz to render PNG)")
+    print("  Written: tiling_example.dot  (install graphviz to render SVG)")
 
 
 # ─────────────────────────────────────────────────────────────────

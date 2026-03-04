@@ -190,11 +190,11 @@ class _DebugLogger:
     # ── Helpers ──
 
     def _snapshot(self, name: str, title: str):
-        """Render the current exploration state (tile stack) as DOT/PNG."""
+        """Render the current exploration state (tile stack) as DOT/SVG."""
         self._snapshot_tiles(list(self._tile_stack), os.path.join("steps", name), title)
 
     def _snapshot_tiles(self, tiles: list[Tile], name: str, title: str):
-        """Render an explicit list of tiles as DOT/PNG."""
+        """Render an explicit list of tiles as DOT/SVG."""
         covered = frozenset().union(*(t.covered_nodes for t in tiles)) if tiles else frozenset()
         uncovered = frozenset(self.big.nodes) - covered
         tmp_result = TilingResult(
@@ -206,12 +206,12 @@ class _DebugLogger:
 
     def _write_dot(self, dot_str: str, name: str):
         dot_path = os.path.join(self.dir, f"{name}.dot")
-        png_path = os.path.join(self.dir, f"{name}.png")
+        svg_path = os.path.join(self.dir, f"{name}.svg")
         with open(dot_path, "w") as f:
             f.write(dot_str)
         if shutil.which("dot"):
             subprocess.run(
-                ["dot", "-Tpng", dot_path, "-o", png_path],
+                ["dot", "-Tsvg", dot_path, "-o", svg_path],
                 check=False, capture_output=True,
             )
 
@@ -244,15 +244,15 @@ def tile(big: Graph, library: list[Graph], debug_dir: str | None = None) -> Tili
     Returns a :class:`TilingResult` with the best tiling found.
 
     If *debug_dir* is provided, creates that directory and writes detailed
-    logs and DOT/PNG visualizations of each tiling phase into it:
+    logs and DOT/SVG visualizations of each tiling phase into it:
 
     - ``candidates.txt`` — every candidate tile placement found
-    - ``library/`` — DOT/PNG of each pattern graph in the library
-    - ``input_graph.dot/.png`` — the input graph before tiling
+    - ``library/`` — DOT/SVG of each pattern graph in the library
+    - ``input_graph.dot/.svg`` — the input graph before tiling
     - ``search.txt`` — backtracking search decisions (with ``[step N]`` labels)
-    - ``steps/`` — DOT/PNG snapshot for each labeled step in search.txt
+    - ``steps/`` — DOT/SVG snapshot for each labeled step in search.txt
     - ``result.txt`` — final coverage summary
-    - ``tiled_graph.dot/.png`` — the graph with tile clusters colored
+    - ``tiled_graph.dot/.svg`` — the graph with tile clusters colored
     """
     dbg: _DebugLogger | _NoOpLogger
     if debug_dir is not None:

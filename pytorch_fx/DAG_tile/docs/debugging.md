@@ -1,7 +1,7 @@
 # Debug Mode
 
 The tiler has a built-in debug mode that records every decision the solver
-makes and produces DOT/PNG visualizations at each step.  Enable it by passing
+makes and produces DOT/SVG visualizations at each step.  Enable it by passing
 `debug_dir` to `tile()`:
 
 ```python
@@ -22,38 +22,38 @@ After tiling completes, the debug directory contains:
 ```
 my_debug/
   input_graph.dot        # DOT source for the input graph
-  input_graph.png        # rendered PNG (requires Graphviz `dot`)
+  input_graph.svg        # rendered PNG (requires Graphviz `dot`)
   candidates.txt         # every candidate tile placement found
   search.txt             # backtracking search trace
   result.txt             # final coverage summary
   tiled_graph.dot        # DOT source for the tiled graph (colored clusters)
-  tiled_graph.png        # rendered PNG
-  candidates/            # one DOT/PNG per candidate placement (on the big graph)
+  tiled_graph.svg        # rendered PNG
+  candidates/            # one DOT/SVG per candidate placement (on the big graph)
     cand_0000.dot
-    cand_0000.png
+    cand_0000.svg
     cand_0001.dot
-    cand_0001.png
+    cand_0001.svg
     ...
-  library/               # one DOT/PNG pair per pattern in the library
+  library/               # one DOT/SVG pair per pattern in the library
     pat_00.dot
-    pat_00.png
+    pat_00.svg
     ...
-  steps/                 # one DOT/PNG snapshot per search step
+  steps/                 # one DOT/SVG snapshot per search step
     step_0001_try.dot
-    step_0001_try.png
+    step_0001_try.svg
     step_0002_best.dot
-    step_0002_best.png
+    step_0002_best.svg
     ...
 ```
 
 If `dot` (Graphviz) is not on your `PATH`, the `.dot` files are still written
-but the `.png` files are skipped.
+but the `.svg` files are skipped.
 
 ---
 
 ## Output files explained
 
-### `input_graph.dot / .png`
+### `input_graph.dot / .svg`
 
 A visualization of the input graph before any tiling happens.  Useful as a
 reference when reading the search trace.
@@ -77,11 +77,11 @@ Total candidate placements: 2
 ```
 
 Each candidate number corresponds to a visualization in `candidates/`
-(e.g. `cand_0000.png`).
+(e.g. `cand_0000.svg`).
 
 ### `candidates/`
 
-One DOT/PNG pair per candidate placement.  Each image shows the **full input
+One DOT/SVG pair per candidate placement.  Each image shows the **full input
 graph** with the candidate's covered nodes highlighted in a colored cluster
 and the remaining nodes in grey.  This lets you visually verify where each
 pattern matched on the big graph — useful for spotting unexpected or missing
@@ -101,12 +101,12 @@ recursion depth.  Key entries:
 | `memo hit (uncovered size=S)` | A memoized result was reused for a subproblem of size S. |
 | `pruned (full sub-coverage)` | The remaining subproblem was fully covered, so no further branching is needed. |
 
-The `[step K]` labels correspond to files in `steps/` (e.g. `step_0003_try.png`),
+The `[step K]` labels correspond to files in `steps/` (e.g. `step_0003_try.svg`),
 so you can visually follow the solver's decisions.
 
 ### `steps/`
 
-Contains a DOT/PNG snapshot for every `[step K]` entry in `search.txt`.
+Contains a DOT/SVG snapshot for every `[step K]` entry in `search.txt`.
 
 - **`step_NNNN_try`** — shows the graph right after the solver *tries* a tile.
   Covered nodes are colored; uncovered nodes are grey.
@@ -117,7 +117,7 @@ search.
 
 ### `library/`
 
-One DOT/PNG pair per pattern in the library (`pat_00`, `pat_01`, ...).
+One DOT/SVG pair per pattern in the library (`pat_00`, `pat_01`, ...).
 Each visualization labels the pattern's nodes with their ops so you can
 cross-reference with the pattern indices in `candidates.txt` and `search.txt`.
 
@@ -136,7 +136,7 @@ A summary of the final tiling:
   uncovered (listed at the bottom).
 - Each tile line shows the library pattern index and the covered node set.
 
-### `tiled_graph.dot / .png`
+### `tiled_graph.dot / .svg`
 
 The final visualization with each tile drawn as a colored cluster.  Uncovered
 nodes (if any) appear without a cluster border.
@@ -153,13 +153,13 @@ nodes (if any) appear without a cluster border.
 2. **Check `result.txt`** — did the solver achieve full coverage?  If not,
    which nodes are uncovered?
 
-3. **Open `tiled_graph.png`** — visually verify the tile boundaries make sense.
+3. **Open `tiled_graph.svg`** — visually verify the tile boundaries make sense.
 
 4. **If something looks wrong**, open `search.txt` and follow the step labels.
-   For each `[step K]`, open the corresponding `steps/step_KKKK_*.png` to see
+   For each `[step K]`, open the corresponding `steps/step_KKKK_*.svg` to see
    exactly what the solver was considering at that point.
 
 5. **Check `candidates.txt`** and **`candidates/`** — if a pattern you expected
    to match is missing, the issue is in Phase 1 (candidate enumeration /
-   pattern matching), not the search.  Open `cand_NNNN.png` to see exactly
+   pattern matching), not the search.  Open `cand_NNNN.svg` to see exactly
    which nodes each candidate covers on the big graph.

@@ -101,5 +101,5 @@ print(f"  uncovered: {{{uncov}}}")
 
 import os
 steps_dir = os.path.join("debug_output2", "steps")
-n_steps = len([f for f in os.listdir(steps_dir) if f.endswith(".png")])
+n_steps = len([f for f in os.listdir(steps_dir) if f.endswith(".svg")])
 print(f"\nDebug: {n_steps} step snapshots in debug_output2/steps/")
