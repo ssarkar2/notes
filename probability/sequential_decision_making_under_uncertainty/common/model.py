@@ -5,8 +5,8 @@ Notation (matches the main README):
     N        number of core levels, L in 0..N-1 in code (1..N in the docs)
     M        number of item star tiers, j in 0..M-1 in code (1..M stars)
     P[L, j]  probability that a hit at level L yields a (j+1)-star item
-    w[j]     worth of a (j+1)-star item
-    r[L]     expected worth per hit at level L  = sum_j w[j] P[L, j]
+    stars[j] = j+1, the star rating of tier j
+    r[L]     expected stars per hit at level L  = sum_j stars[j] P[L, j]
     h        cost of one hit
     C[L]     cost of attempting upgrade L -> L+1        (len N-1)
     U[L]     success probability of upgrade L -> L+1    (len N-1)
@@ -14,7 +14,7 @@ Notation (matches the main README):
 
 Currency is *coins*; *stars* only ever mean item quality.
 
-Words: "worth" = an item's score, "value" = value function V (best expected total worth).
+Words: utility u = what is maximised (baseline: total stars); value V = best expected utility.
 
 Every axis of the tag (I, U, B, E, O, K) is a *property of the problem*, not of the
 numbers. Mechanics (demotion via D, pity, hit cap) are rule tweaks, not axes. The helpers at the bottom produce the variant of the running example that a
@@ -35,14 +35,12 @@ class Game:
     C: tuple[int, ...]
     U: tuple[float, ...]
     P: np.ndarray                       # (N, M)
-    w: np.ndarray                       # (M,)
     D: tuple[float, ...] = field(default=())
     items_deterministic: bool = False   # axis I: Id if True, Ir if False
 
     def __post_init__(self):
         N, M = self.P.shape
         assert len(self.C) == len(self.U) == N - 1
-        assert len(self.w) == M
         assert np.allclose(self.P.sum(1), 1)
         if not self.D:
             object.__setattr__(self, "D", (0.0,) * (N - 1))
@@ -57,9 +55,14 @@ class Game:
         return self.P.shape[1]
 
     @property
+    def stars(self) -> np.ndarray:
+        """Star rating of each tier: 1..M."""
+        return np.arange(1, self.M + 1, dtype=float)
+
+    @property
     def r(self) -> np.ndarray:
-        """Expected worth per hit at each level."""
-        return self.P @ self.w
+        """Expected stars per hit at each level."""
+        return self.P @ self.stars
 
     @property
     def unit(self) -> int:
@@ -98,7 +101,6 @@ EXAMPLE = Game(
     C=(400, 600, 900, 1300, 1800, 2500),
     U=(0.70, 0.60, 0.50, 0.40, 0.30, 0.25),
     P=EXAMPLE_P,
-    w=np.arange(1, 6, dtype=float),     # worth of an item = its star count
 )
 
 

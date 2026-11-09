@@ -73,7 +73,7 @@ def main():
                 color=LEVEL_COLORS[k], lw=1, label=f"target level {k + 1}")
     ax.plot(Bs, V.max(1), color="black", lw=2, ls="--", label="optimum (envelope)")
     ax.set_xlabel("budget B (coins)")
-    ax.set_ylabel("total item worth")
+    ax.set_ylabel("total stars")
     ax.set_title("(a) value of each 'upgrade to k, then hit' plan")
     ax.legend(fontsize=8)
 

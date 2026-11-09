@@ -6,7 +6,7 @@
 | U | `Ud` | every upgrade succeeds |
 | B | `Bk` | budget $B$ known up front |
 | E | `Ec` | closed economy: items don't produce coins |
-| O | `Oe` | maximise total item worth |
+| O | `Oe` | maximise total stars |
 | K | `Kk` | all numbers known |
 
 Nothing is random. This is the baseline every later problem is compared against.
@@ -41,7 +41,7 @@ V(B) = \max_k \; r_k \left\lfloor \frac{B - C_{<k}}{h} \right\rfloor, \qquad C_{
 ```
 
 That is the **invest vs. harvest** trade-off in its purest form: a bigger $k$ means
-fewer hits, each worth more.
+fewer hits, each giving more stars on average.
 
 ## Tools
 
@@ -75,4 +75,4 @@ Upgrades always succeed here, at the listed costs $C = (400, 600, 900, 1300, 180
 ## What's next
 
 [02](../02_Ir-Ud-Bk-Ec-Oe-Kk/): make the **item quality random** ($I$: `Id → Ir`).
-The optimal plan and its expected worth stay the same; only the spread of outcomes changes.
+The optimal plan and its expected total stars stay the same; only the spread of outcomes changes.

@@ -37,7 +37,7 @@ def solve(start, actions):
     """Generic deterministic DP. Returns (value, plan) where plan is a list of action names."""
     @lru_cache(maxsize=None)
     def best(state):
-        v, choice = 0.0, None                       # "stop" is always allowed, worth 0
+        v, choice = 0.0, None                       # "stop" is always allowed, value 0
         for name, reward, nxt in actions(state):
             cand = reward + best(nxt)[0]
             if cand > v:
@@ -128,7 +128,7 @@ def main():
     ax.plot(Bs, dp_plain, color=ACCENT, lw=1.2, ls="--", label="deterministic DP")
     ax.set_title("(a) plain game: identical")
     ax.set_xlabel("budget B (coins)")
-    ax.set_ylabel("total item worth")
+    ax.set_ylabel("total stars")
     ax.legend(fontsize=8)
     ax = axes[1]
     ax.plot(Bs, en_cap, color="black", lw=1.5, label="best 'upgrade to k, then hit'")

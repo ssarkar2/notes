@@ -41,7 +41,7 @@ digraph reductions {
   Ku -> Kb2 [label="≈ fit a model, then plan", style=dashed];
 
   edge [style=bold, color="#2171b5", fontcolor="#2171b5"];
-  Ou -> MDP [label="+ worth so far / progress to goal"];
+  Ou -> MDP [label="+ whatever u depends on"];
   Bh -> MDP [label="state = coins spent"];
   Bt -> MDP [label="+ time"];
   Ei -> MDP [label="+ time, income ρ"];
