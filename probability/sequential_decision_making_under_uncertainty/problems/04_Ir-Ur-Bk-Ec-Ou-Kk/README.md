@@ -25,6 +25,34 @@ Two options with the same expected stars:
 Every $u$ here is increasing, so more stars is always better for sure outcomes. Where
 they differ is how they rank **gambles**. In this game every upgrade is a gamble.
 
+**Why: Jensen's inequality.** For convex $u$, $E[u(W)] \ge u(E[W])$: spread adds utility,
+so a gamble beats its own mean. For concave $u$ the inequality flips. For linear $u$ it's
+an equality, which is why 01–03 only look at the mean.
+
+Jensen gives the direction. For the size, expand $u$ to second order around the mean:
+
+```math
+E[u(W)] \approx u(\bar W) + \tfrac12\, u''(\bar W)\, \mathrm{Var}(W)
+```
+
+In stars, spread is worth about $\frac12 \cdot \frac{u''}{u'} \cdot \mathrm{Var}(W)$, where
+$-u''/u'$ is the **absolute risk aversion**. For the 03 policy at $B$ = 20,000
+(mean 250.35, sd 32.8), compared with the exact certainty equivalent (the sure number of
+stars with the same utility):
+
+| $u$ | $-u''/u'$ at the mean | spread worth (2nd order) | exact |
+|---|---|---|---|
+| $\sqrt{W}$ | $1/(2W)$ = 0.002 | −1.07 stars | −1.09 |
+| $W^2$ | $-1/W$ = −0.004 | +2.15 | +2.14 |
+| exponential, $\theta$ = 0.01 | $\theta$ | −5.38 | −5.35 |
+| exponential, $\theta$ = 0.1 | $\theta$ | −53.8 | −86.0 |
+
+With $\sqrt{W}$ and $W^2$, spread is worth a star or two out of 250, so their optimal
+policies barely move (below). With $\theta$ = 0.1 it's worth tens of stars, and the policy
+gives up mean to cut spread. The second-order formula is good for small spread and
+underestimates the large case. Jensen says nothing about goals: a step is neither concave
+nor convex.
+
 Examples used below:
 
 - **concave**: $\sqrt{W}$, where $W$ is total stars (avoids risk);
