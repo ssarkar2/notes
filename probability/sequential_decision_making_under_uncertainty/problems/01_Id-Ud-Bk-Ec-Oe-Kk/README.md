@@ -6,7 +6,7 @@
 | U | `Ud` | every upgrade succeeds |
 | B | `Bk` | budget $B$ known up front |
 | E | `Ec` | closed economy: items don't produce coins |
-| O | `Oe` | maximise total item value |
+| O | `Oe` | maximise total item worth |
 | K | `Kk` | all numbers known |
 
 Nothing is random. This is the baseline every later problem is compared against.
@@ -34,10 +34,13 @@ looks like
 
 > **upgrade straight to some target level $k$, then spend everything else on hits.**
 
-The whole problem collapses to one number, $k$:
+This is a statement about **order**, not about whether to upgrade. $k = 1$ means "no
+upgrades, just hit", and it is often the right answer. Say upgrading costs 1000 coins, a
+hit costs 10, and you have 100: you should hit 10 times. The whole problem collapses to
+choosing one number, $k$:
 
 $$
-V(B) = \max_k \; r_k \left\lfloor \frac{B - K_k}{h} \right\rfloor, \qquad K_k = \sum_{i<k} C_i
+V(B) = \max_k \; r_k \left\lfloor \frac{B - C_{<k}}{h} \right\rfloor, \qquad C_{<k} = \sum_{i<k} C_i
 $$
 
 That is the **invest vs. harvest** trade-off in its purest form: a bigger $k$ means
@@ -47,7 +50,7 @@ fewer hits, each worth more.
 
 | Method | When | Link |
 |---|---|---|
-| **Enumeration** over target level | the "upgrade first" structure holds | [enumeration/](enumeration/) |
+| **Enumeration** over target level | the "upgrades before hits" structure holds | [enumeration/](enumeration/) |
 | **Deterministic DP** (longest path in a DAG) | always; needed once the structure breaks | [deterministic_dp/](deterministic_dp/) |
 
 ## On the running example
@@ -63,10 +66,11 @@ Upgrades always succeed here, at the listed costs $C = (400, 600, 900, 1300, 180
 
 **Takeaways**
 
-- **Richer → invest more.** The best target level rises in steps with the budget (panel b).
+- **Richer → invest more.** Below about 1 700 coins, don't upgrade at all. After that the
+  best target level rises in steps with the budget (panel b).
 - The switch points are roughly where one plan's line overtakes the next. With
   continuous hits they are exact:
-  $B^*_k = \dfrac{K_{k+1} r_{k+1} - K_k r_k}{r_{k+1} - r_k}$ (≈ 1.7k, 2.9k, 5.1k, 9.1k, 16.8k, 32.6k).
+  $B^*_k = \dfrac{C_{<k+1}\, r_{k+1} - C_{<k}\, r_k}{r_{k+1} - r_k}$ (≈ 1.7k, 2.9k, 5.1k, 9.1k, 16.8k, 32.6k).
 - Near a switch point the exact answer flickers between two levels. That comes from the
   $\lfloor\cdot\rfloor$: a leftover of less than one hit can tip the choice. It's a small
   effect in value terms, but it's why integer problems rarely have clean closed forms.

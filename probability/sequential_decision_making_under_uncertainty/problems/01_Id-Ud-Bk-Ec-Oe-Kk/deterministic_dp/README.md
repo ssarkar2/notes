@@ -21,9 +21,9 @@ expectation, and the same code skeleton becomes an MDP solver.
 
 DP needs **no insight** into the problem. You describe the rules (which actions are
 allowed, what they cost, where they lead) and it finds the optimum. Enumeration needed
-the "upgrade first" argument, and that argument is fragile.
+the "upgrades before hits" argument, and that argument is fragile.
 
-The demo breaks it on purpose with a **worn core**: each level can be hit at most
+The demo breaks it on purpose with the **hit-cap** mechanic (a "worn core"): each level can be hit at most
 `CAP = 15` times. Now the best plan harvests at several levels. At $B = 20\,000$:
 
 ```
@@ -43,7 +43,7 @@ No single target level describes that plan. The state needs one more variable,
 
 $O(\#\text{states} \times \#\text{actions})$.
 
-- Plain game: about $(B/g) \cdot N$ states, where $g = \gcd$ of all costs.
+- Plain game: about $(B/\Delta) \cdot N$ states, where $\Delta = \gcd$ of all costs.
 - Worn core: multiply by `CAP`.
 
 Every new piece of information the plan must remember multiplies the state count. That
@@ -70,8 +70,3 @@ growth is the **curse of dimensionality**, and it comes back in the later proble
 ```
 python solve.py
 ```
-
-## References
-
-- Bertsekas, *Dynamic Programming and Optimal Control*, Vol. 1, ch. 1–2 (deterministic DP, shortest paths).
-- Cormen et al., *Introduction to Algorithms*, ch. 15 (DP), 24 (shortest paths in DAGs).

@@ -1,5 +1,6 @@
-// Reductions between axis values: harder variant (left) -> something already solved (right).
+// Reductions: harder variant (left) -> something already solved (right).
 // solid = exact, dashed = approximation, bold blue = exact after enlarging the state.
+// Grey italics = mechanics (rule tweaks), not axis values.
 // Build: ./build.sh
 digraph reductions {
   rankdir=LR;
@@ -7,21 +8,21 @@ digraph reductions {
   node  [shape=box, style="rounded", fontname="Helvetica", fontsize=10, color="#555555", width=2.6];
   edge  [fontname="Helvetica", fontsize=9, color="#555555", arrowsize=0.7];
 
-  // left: harder axis values
+  // left: harder variants
   { rank=same;
     Ir [label="Ir  random items"];
     Ur [label="Ur  random upgrades"];
     Bs [label="Bs  random budget, seen first"];
     Er [label="Er  one-time refund"];
     Ku [label="Ku  nothing known"];
-    Up [label="Up  pity"];
-    Ux [label="Ux  demotion"];
     Ot [label="Ot / Ou  nonlinear objective"];
     Bh [label="Bh  hidden budget"];
     Bt [label="Bt  trickle income"];
     Ei [label="Ei  factory income"];
     Es [label="Es  sell items"];
     Kb [label="Kb  unknown params"];
+    dem  [label="demotion (mechanic)", fontname="Helvetica-Oblique", color="#999999", fontcolor="#666666"];
+    pity [label="pity (mechanic)", fontname="Helvetica-Oblique", color="#999999", fontcolor="#666666"];
   }
   // right: targets
   { rank=same;
@@ -40,12 +41,12 @@ digraph reductions {
   Ku -> Kb2 [label="≈ fit a model, then plan", style=dashed];
 
   edge [style=bold, color="#2171b5", fontcolor="#2171b5"];
-  Up -> MDP [label="+ failure counter"];
-  Ux -> MDP [label="same state, cycles"];
   Ot -> MDP [label="+ progress / wealth"];
   Bh -> MDP [label="state = coins spent"];
   Bt -> MDP [label="+ time"];
   Ei -> MDP [label="+ time, income ρ"];
   Es -> MDP [label="+ inventory"];
   Kb -> MDP [label="+ posterior"];
+  dem -> MDP [label="same state, 3rd outcome"];
+  pity -> MDP [label="+ failure counter"];
 }

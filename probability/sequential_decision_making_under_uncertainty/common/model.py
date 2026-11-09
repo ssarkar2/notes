@@ -5,17 +5,19 @@ Notation (matches the main README):
     N        number of core levels, L in 0..N-1 in code (1..N in the docs)
     M        number of item star tiers, j in 0..M-1 in code (1..M stars)
     P[L, j]  probability that a hit at level L yields a (j+1)-star item
-    w[j]     value of a (j+1)-star item
-    r[L]     expected value per hit at level L  = sum_j w[j] P[L, j]
+    w[j]     worth of a (j+1)-star item
+    r[L]     expected worth per hit at level L  = sum_j w[j] P[L, j]
     h        cost of one hit
     C[L]     cost of attempting upgrade L -> L+1        (len N-1)
     U[L]     success probability of upgrade L -> L+1    (len N-1)
-    D[L]     prob. of dropping to L-1 when upgrade from L fails (len N-1, variant Ux)
+    D[L]     prob. of dropping to L-1 when upgrade from L fails (len N-1, demotion mechanic)
 
 Currency is *coins*; *stars* only ever mean item quality.
 
+Words: "worth" = an item's score, "value" = value function V (best expected total worth).
+
 Every axis of the tag (I, U, B, E, O, K) is a *property of the problem*, not of the
-numbers. The helpers at the bottom produce the variant of the running example that a
+numbers. Mechanics (demotion via D, pity, hit cap) are rule tweaks, not axes. The helpers at the bottom produce the variant of the running example that a
 given problem folder needs (e.g. `sure_upgrades` for the Ud axis value).
 """
 from __future__ import annotations
@@ -56,12 +58,12 @@ class Game:
 
     @property
     def r(self) -> np.ndarray:
-        """Expected value per hit at each level."""
+        """Expected worth per hit at each level."""
         return self.P @ self.w
 
     @property
     def unit(self) -> int:
-        """gcd of all costs: budgets are discretised on this grid."""
+        """Delta = gcd of all costs: budgets are discretised on this grid."""
         return reduce(gcd, [self.h, *self.C])
 
     @property
@@ -72,12 +74,7 @@ class Game:
     @property
     def tag_IU(self) -> str:
         i = "Id" if self.items_deterministic else "Ir"
-        if all(u == 1 for u in self.U):
-            u = "Ud"
-        elif any(d > 0 for d in self.D):
-            u = "Ux"
-        else:
-            u = "Ur"
+        u = "Ud" if all(p == 1 for p in self.U) else "Ur"
         return f"{i}-{u}"
 
 
@@ -101,7 +98,7 @@ EXAMPLE = Game(
     C=(400, 600, 900, 1300, 1800, 2500),
     U=(0.70, 0.60, 0.50, 0.40, 0.30, 0.25),
     P=EXAMPLE_P,
-    w=np.arange(1, 6, dtype=float),     # value of an item = its star count
+    w=np.arange(1, 6, dtype=float),     # worth of an item = its star count
 )
 
 

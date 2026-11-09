@@ -11,7 +11,7 @@ The solver below is *generic*: it only needs a function  actions(state) -> list 
 
 Two demos on the running example:
   (a) plain game, state (b, L): reproduces the enumeration answer exactly.
-  (b) "worn core" variant: each level can be hit at most CAP times. Now "upgrade to k,
+  (b) "worn core" (hit-cap mechanic): each level can be hit at most CAP times. Now "upgrade to k,
       then hit" is no longer optimal (you want hits at several levels), so enumeration
       over k fails, while the DP (state (b, L, hits_at_L)) still just works.
 
@@ -30,7 +30,7 @@ import numpy as np  # noqa: E402
 from common.loader import load  # noqa: E402
 from common.model import EXAMPLE, Game, deterministic_items, sure_upgrades  # noqa: E402
 
-CAP = 15  # max hits per core level in the "worn core" variant
+CAP = 15  # max hits per core level in the "worn core" (hit-cap mechanic)
 
 
 def solve(start, actions):
@@ -82,9 +82,9 @@ def capped_actions(game: Game, cap: int):
 
 def capped_target_plan(game: Game, B: int, cap: int) -> float:
     """Best 'upgrade to k, then hit' plan in the capped game (what enumeration would do)."""
-    K = np.concatenate([[0], np.cumsum(game.C)])
-    hits = np.minimum(np.floor((B - K) / game.h), cap)
-    return float(max(0.0, np.max(np.where(B >= K, hits * game.r, -np.inf))))
+    Ccum = np.concatenate([[0], np.cumsum(game.C)])
+    hits = np.minimum(np.floor((B - Ccum) / game.h), cap)
+    return float(max(0.0, np.max(np.where(B >= Ccum, hits * game.r, -np.inf))))
 
 
 def compress(plan):
@@ -128,7 +128,7 @@ def main():
     ax.plot(Bs, dp_plain, color=ACCENT, lw=1.2, ls="--", label="deterministic DP")
     ax.set_title("(a) plain game: identical")
     ax.set_xlabel("budget B (coins)")
-    ax.set_ylabel("total item value")
+    ax.set_ylabel("total item worth")
     ax.legend(fontsize=8)
     ax = axes[1]
     ax.plot(Bs, en_cap, color="black", lw=1.5, label="best 'upgrade to k, then hit'")

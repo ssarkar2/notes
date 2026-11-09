@@ -1,10 +1,13 @@
 """
 Problem 01 (Id-Ud-Bk-Ec-Oe-Kk), method: enumeration over the target level.
 
-Everything is deterministic and r_L rises with L, so the optimal plan is
-"upgrade straight to some level k, then spend the rest on hits". Try every k:
+Everything is deterministic and r_L rises with L, so any upgrades should come before any
+hits: the optimal plan is "upgrade straight to some level k, then spend the rest on
+hits". Try every k:
 
-    value(B) = max_k  r_k * floor( (B - K_k) / h ),     K_k = sum_{i<k} C_i
+    V(B) = max_k  r_k * floor( (B - C_{<k}) / h ),     C_{<k} = sum_{i<k} C_i
+
+k = 1 (no upgrades) is included: with a small budget it is the best choice.
 
 Run:  python solve.py     (prints a table, writes value_vs_budget.svg)
 """
@@ -21,9 +24,9 @@ from common.model import EXAMPLE, Game, deterministic_items, sure_upgrades  # no
 
 def per_target(game: Game, B: int) -> np.ndarray:
     """Value of the plan "go to level k, then hit" for every k (-inf if unaffordable)."""
-    K = np.concatenate([[0], np.cumsum(game.C)])          # cumulative upgrade cost
-    hits = np.floor((B - K) / game.h)
-    return np.where(B >= K, hits * game.r, -np.inf)
+    Ccum = np.concatenate([[0], np.cumsum(game.C)])          # C_{<k}: cumulative upgrade cost
+    hits = np.floor((B - Ccum) / game.h)
+    return np.where(B >= Ccum, hits * game.r, -np.inf)
 
 
 def solve(game: Game, B: int) -> tuple[float, int]:
@@ -36,11 +39,12 @@ def solve(game: Game, B: int) -> tuple[float, int]:
 def switch_budgets(game: Game) -> np.ndarray:
     """Budgets where target k+1 overtakes target k, ignoring the floor (continuous hits):
 
-        (B - K_k) r_k = (B - K_{k+1}) r_{k+1}   =>   B*_k = (K_{k+1} r_{k+1} - K_k r_k) / (r_{k+1} - r_k)
+        (B - C_{<k}) r_k = (B - C_{<k+1}) r_{k+1}
+        =>  B*_k = (C_{<k+1} r_{k+1} - C_{<k} r_k) / (r_{k+1} - r_k)
     """
-    K = np.concatenate([[0], np.cumsum(game.C)])
+    Ccum = np.concatenate([[0], np.cumsum(game.C)])
     r = game.r
-    return (K[1:] * r[1:] - K[:-1] * r[:-1]) / (r[1:] - r[:-1])
+    return (Ccum[1:] * r[1:] - Ccum[:-1] * r[:-1]) / (r[1:] - r[:-1])
 
 
 def main():
@@ -69,7 +73,7 @@ def main():
                 color=LEVEL_COLORS[k], lw=1, label=f"target level {k + 1}")
     ax.plot(Bs, V.max(1), color="black", lw=2, ls="--", label="optimum (envelope)")
     ax.set_xlabel("budget B (coins)")
-    ax.set_ylabel("total item value")
+    ax.set_ylabel("total item worth")
     ax.set_title("(a) value of each 'upgrade to k, then hit' plan")
     ax.legend(fontsize=8)
 

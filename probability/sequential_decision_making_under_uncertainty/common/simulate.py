@@ -31,7 +31,7 @@ Policy = Callable[[Obs], str]
 
 def play_once(game: Game, policy: Policy, budget: int, rng: np.random.Generator,
               hidden_budget: bool = False, max_steps: int = 10**6) -> float:
-    """Play one game; return total item value collected."""
+    """Play one game; return total item worth collected."""
     b, s, L, value = budget, 0, 0, 0.0
     r = game.r
     for _ in range(max_steps):
