@@ -10,7 +10,7 @@ It turns a choice among exponentially many action sequences into a choice among 
 levels ($k = 1$ meaning no upgrades at all):
 
 ```math
-V(B) = \max_{k \in 1..N} \; r_k \left\lfloor \frac{B - C_{<k}}{h} \right\rfloor
+V(B) = \max_{k \in 1..N} \; r_k \left\lfloor \frac{B - C_{\lt k}}{h} \right\rfloor
 ```
 
 ## When it applies
@@ -32,7 +32,7 @@ $B$ with slope $r_k/h$. The optimum is the **upper envelope** of $N$ lines. Plan
 overtakes plan $k$ at
 
 ```math
-B^*_k = \frac{C_{<k+1}\, r_{k+1} - C_{<k}\, r_k}{r_{k+1} - r_k}.
+B^*_k = \frac{C_{\lt k+1}\, r_{k+1} - C_{\lt k}\, r_k}{r_{k+1} - r_k}.
 ```
 
 This "drop the integrality, get clean formulas" move is the seed of the

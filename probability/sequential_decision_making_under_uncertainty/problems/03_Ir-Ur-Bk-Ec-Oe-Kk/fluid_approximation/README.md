@@ -27,7 +27,7 @@ There's also a **one-step break-even rule**: compare "hit at $L$ forever" with "
 expected cost of one upgrade, then hit at $L+1$ forever". Upgrading wins when
 
 ```math
-b > \frac{C_L}{U_L} \cdot \frac{r_{L+1}}{r_{L+1} - r_L}
+b \gt \frac{C_L}{U_L} \cdot \frac{r_{L+1}}{r_{L+1} - r_L}
 ```
 
 ## On the running example

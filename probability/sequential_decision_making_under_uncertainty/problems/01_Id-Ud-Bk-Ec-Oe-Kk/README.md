@@ -47,7 +47,7 @@ reads "upgrades before hits".
 The whole problem collapses to choosing one number, $k$:
 
 ```math
-V(B) = \max_k \; r_k \left\lfloor \frac{B - C_{<k}}{h} \right\rfloor, \qquad C_{<k} = \sum_{i<k} C_i
+V(B) = \max_k \; r_k \left\lfloor \frac{B - C_{\lt k}}{h} \right\rfloor, \qquad C_{\lt k} = \sum_{i\lt k} C_i
 ```
 
 That is the **invest vs. harvest** trade-off in its purest form: a bigger $k$ means

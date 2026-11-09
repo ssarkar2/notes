@@ -178,6 +178,15 @@ def main(argv: list[str]) -> int:
     per_file = [(f, extract(f)) for f in files]
     for _, segs in per_file:
         all_segs += segs
+
+    # stage 0: raw < or > anywhere in math (fences included). GitHub's renderer re-reads the
+    # math as HTML in the browser, so "<k}..." becomes a tag and eats the rest of the formula
+    # ("Missing close brace"). The markdown API output looks fine, so stage 1 can't see this.
+    for s in all_segs:
+        if "<" in s.tex or ">" in s.tex:
+            rel = s.file.relative_to(ROOT) if s.file.is_relative_to(ROOT) else s.file
+            print(f"{rel}:{s.line}: [lint] raw < or > in math; use \\lt / \\gt\n    source: {norm(s.tex)}")
+            problems += 1
     with_math = [(f, segs) for f, segs in per_file if segs]
     if not offline and with_math:
         try:
