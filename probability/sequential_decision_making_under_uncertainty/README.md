@@ -123,7 +123,7 @@ Status: ✅ built · ⬜ planned.
 | # | Tag | What changes | Tools | |
 |---|---|---|---|---|
 | [01](problems/01_Id-Ud-Bk-Ec-Oe-Kk/) | `Id-Ud-Bk-Ec-Oe-Kk` | nothing random | enumeration, deterministic DP | ✅ |
-| 02 | `Ir-Ud-Bk-Ec-Oe-Kk` | item quality random | reduction (linearity of expectation) | ⬜ |
+| [02](problems/02_Ir-Ud-Bk-Ec-Oe-Kk/) | `Ir-Ud-Bk-Ec-Oe-Kk` | item quality random | reduction (linearity of expectation) | ✅ |
 | 03 | `Ir-Ur-Bk-Ec-Oe-Kk` | upgrades can fail (+ demotion, pity mechanics) | MDP / backward induction, optimal stopping, fluid approximation | ⬜ |
 | 04 | `Ir-Ur-Bk-Ec-Ou-Kk` | nonlinear objective (incl. goals) | state augmentation, risk-sensitive DP | ⬜ |
 | 05 | `Ir-Ur-Bs-Ec-Oe-Kk` | budget random, seen first | reduction (average) | ⬜ |
@@ -159,7 +159,24 @@ works in the special case below).
 upgrade at all. The best target level is 3 at $B$ = 5,000, 6 at 20,000, and 7 from about
 32,600 up. Value at $B$ = 20,000: **316.5**.
 
-### 02 – 13
+### 02 · Random items: `Ir-Ud-Bk-Ec-Oe-Kk`
+
+**What changed:** a hit gives a random item, a $j$★ item with probability $P(L, j)$,
+instead of exactly $r_L$ stars.
+
+**Formulation:** same state $(b, L)$; the hit term averages over the item,
+$\sum_j P(L,j) \cdot [ j + V(b-h, L) ]$, which equals 01's $r_L + V(b-h, L)$.
+
+**Why nothing new is needed:** the utility is a plain sum (linearity of expectation), and
+the item doesn't change the state, so there's nothing to react to. 01's plan stays optimal.
+
+**Tool:** none new, a reduction to 01, checked by
+[`verify.py`](problems/02_Ir-Ud-Bk-Ec-Oe-Kk/verify.py).
+
+**On the running example:** same values as 01 (simulated means agree within their 95%
+intervals). Randomness only adds spread: sd 3.5 stars at 5,000 coins, 6.1 at 20,000.
+
+### 03 – 13
 
 *Planned.*
 
@@ -170,6 +187,7 @@ Each problem reports its value (best expected total stars) on the running exampl
 | # | $B$ = 5,000 | $B$ = 20,000 | Note |
 |---|---|---|---|
 | 01 | 46.80 | 316.50 | upgrades always succeed (an upper bound for 03) |
+| 02 | 46.80 | 316.50 | same as 01; random items only add spread (sd 3.5 / 6.1) |
 
 ## Fields this touches
 

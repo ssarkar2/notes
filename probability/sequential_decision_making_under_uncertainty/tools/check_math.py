@@ -18,15 +18,22 @@ Safe style that passes both:
 
 Usage:  python tools/check_math.py [files or dirs ...]      (default: whole tutorial)
         --offline   skip the GitHub API stage
+
+All files go to GitHub in ONE request; results are cached by content hash in tools/.cache
+(unchanged files cost nothing). If the rate limit is hit, the GitHub stage is skipped and
+reported as a problem.
 Exit code 1 if anything is broken.
 """
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import re
 import subprocess
 import sys
+import time
+import urllib.error
 import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
@@ -94,12 +101,50 @@ def extract(path: Path) -> list[Seg]:
     return segs
 
 
+class RateLimited(Exception):
+    pass
+
+
+CACHE = TOOLS / ".cache"
+SPLIT = "SPLITMARKER7f3a"
+
+
 def github_render(text: str) -> str:
     req = urllib.request.Request(
         "https://api.github.com/markdown",
         data=json.dumps({"text": text, "mode": "gfm"}).encode(),
         headers={"Accept": "application/vnd.github+json", "User-Agent": "math-check"})
-    return urllib.request.urlopen(req, timeout=30).read().decode()
+    try:
+        return urllib.request.urlopen(req, timeout=30).read().decode()
+    except urllib.error.HTTPError as e:
+        if e.code in (403, 429):
+            reset = e.headers.get("X-RateLimit-Reset")
+            when = time.strftime("%H:%M", time.localtime(int(reset))) if reset else "within the hour"
+            raise RateLimited(f"GitHub API rate limit hit (60/hour unauthenticated); resets at {when}")
+        raise
+
+
+def render_all(texts: list[str]) -> list[str]:
+    """Render several markdown files with ONE API call (cached by content hash)."""
+    CACHE.mkdir(exist_ok=True)
+    keys = [hashlib.sha256(x.encode()).hexdigest()[:16] for x in texts]
+    out: dict[int, str] = {}
+    todo = []
+    for i, k in enumerate(keys):
+        f = CACHE / f"{k}.html"
+        if f.exists():
+            out[i] = f.read_text()
+        else:
+            todo.append(i)
+    if todo:
+        joined = f"\n\n{SPLIT}\n\n".join(texts[i] for i in todo)
+        parts = github_render(joined).split(f"<p>{SPLIT}</p>")
+        if len(parts) != len(todo):
+            raise RuntimeError("could not split the batched GitHub render back into files")
+        for i, html_part in zip(todo, parts):
+            out[i] = html_part
+            (CACHE / f"{keys[i]}.html").write_text(html_part)
+    return [out[i] for i in range(len(texts))]
 
 
 def rendered_segments(html_out: str) -> list[str]:
@@ -130,25 +175,31 @@ def main(argv: list[str]) -> int:
 
     problems = 0
     all_segs: list[Seg] = []
-    for f in files:
-        segs = extract(f)
+    per_file = [(f, extract(f)) for f in files]
+    for _, segs in per_file:
         all_segs += segs
-        if offline or not segs:
-            continue
-        got = rendered_segments(github_render(f.read_text()))
-        rel = f.relative_to(ROOT) if f.is_relative_to(ROOT) else f
-        if len(got) != len(segs):
-            print(f"{rel}: GitHub found {len(got)} math segments, checker found {len(segs)} "
-                  f"(a stray or unmatched $?)")
+    with_math = [(f, segs) for f, segs in per_file if segs]
+    if not offline and with_math:
+        try:
+            rendered = render_all([f.read_text() for f, _ in with_math])
+        except RateLimited as e:
+            print(f"skipping GitHub stage: {e}. Re-run later (or use --offline for MathJax only).")
             problems += 1
-        # GitHub keeps document order; our list is sorted by line (same-line order may differ)
-        got_set = [norm(g) for g in got]
-        for s in segs:
-            if norm(s.tex) not in got_set:
-                cand = min(got, key=lambda g: _dist(norm(g), norm(s.tex))) if got else ""
-                print(f"{rel}:{s.line}: [markdown] mangled ({s.form})\n    source:   {norm(s.tex)}\n"
-                      f"    rendered: {norm(cand)}")
+            rendered = []
+        for (f, segs), html_out in zip(with_math, rendered):
+            got = rendered_segments(html_out)
+            rel = f.relative_to(ROOT) if f.is_relative_to(ROOT) else f
+            if len(got) != len(segs):
+                print(f"{rel}: GitHub found {len(got)} math segments, checker found {len(segs)} "
+                      f"(a stray or unmatched $?)")
                 problems += 1
+            got_set = [norm(g) for g in got]
+            for s in segs:
+                if norm(s.tex) not in got_set:
+                    cand = min(got, key=lambda g: _dist(norm(g), norm(s.tex))) if got else ""
+                    print(f"{rel}:{s.line}: [markdown] mangled ({s.form})\n    source:   {norm(s.tex)}\n"
+                          f"    closest:  {norm(cand)}")
+                    problems += 1
 
     # stage 2: MathJax parse
     if not (TOOLS / "node_modules" / "mathjax-full").exists():

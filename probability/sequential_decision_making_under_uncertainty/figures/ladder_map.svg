@@ -20,7 +20,7 @@
 <!-- p02 -->
 <g id="node2" class="node">
 <title>p02</title>
-<path fill="white" stroke="#555555" d="M320,-204.75C320,-204.75 229,-204.75 229,-204.75 223,-204.75 217,-198.75 217,-192.75 217,-192.75 217,-175 217,-175 217,-169 223,-163 229,-163 229,-163 320,-163 320,-163 326,-163 332,-169 332,-175 332,-175 332,-192.75 332,-192.75 332,-198.75 326,-204.75 320,-204.75"/>
+<path fill="#c6dbef" stroke="#555555" d="M320,-204.75C320,-204.75 229,-204.75 229,-204.75 223,-204.75 217,-198.75 217,-192.75 217,-192.75 217,-175 217,-175 217,-169 223,-163 229,-163 229,-163 320,-163 320,-163 326,-163 332,-169 332,-175 332,-175 332,-192.75 332,-192.75 332,-198.75 326,-204.75 320,-204.75"/>
 <text xml:space="preserve" text-anchor="middle" x="274.5" y="-191.25" font-family="Helvetica,sans-Serif" font-size="10.00">02 &#160;Ir&#45;Ud&#45;Bk&#45;Ec&#45;Oe&#45;Kk</text>
 <text xml:space="preserve" text-anchor="middle" x="274.5" y="-180" font-family="Helvetica,sans-Serif" font-size="10.00">random items</text>
 <text xml:space="preserve" text-anchor="middle" x="274.5" y="-168.75" font-family="Helvetica,sans-Serif" font-size="10.00">· reduction (linearity)</text>

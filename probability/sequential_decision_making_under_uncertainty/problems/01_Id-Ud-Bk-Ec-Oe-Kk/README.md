@@ -72,8 +72,8 @@ Upgrades always succeed here, at the listed costs $C = (400, 600, 900, 1300, 180
   continuous hits they are exact:
   $`B^*_k = \dfrac{C_{\lt k+1}\, r_{k+1} - C_{\lt k}\, r_k}{r_{k+1} - r_k}`$ (≈ 1.7k, 2.9k, 5.1k, 9.1k, 16.8k, 32.6k).
 - Near a switch point the exact answer flickers between two levels. That comes from the
-  $\lfloor\cdot\rfloor$: a leftover of less than one hit can tip the choice. It's a small
-  effect in value terms, but it's why integer problems rarely have clean closed forms.
+  $\lfloor\cdot\rfloor$: a leftover of less than one hit can tip the choice. So the exact
+  switch points have no clean formula; the continuous version above does.
 
 ## What's next
 
