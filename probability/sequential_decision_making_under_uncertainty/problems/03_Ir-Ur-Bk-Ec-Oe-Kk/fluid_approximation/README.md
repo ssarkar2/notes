@@ -28,6 +28,15 @@ V_{MV}(B) = \max_k \; r_k \left\lfloor \frac{B - \sum_{i \lt k} C_i / U_i}{h} \r
    closed-loop policy built from an open-loop calculation, the idea behind model
    predictive control.
 
+**Why re-planning is only approximate here.** Certainty-equivalent control is exactly
+optimal in one classic setting: linear dynamics, quadratic cost, additive Gaussian noise
+(LQG). There the noise doesn't change the best action. You solve the deterministic problem
+and act on the current state. If the state is only seen through noisy measurements, you
+act on its Kalman-filter estimate; that's the separation principle (more in 06). This game
+is not linear-quadratic: actions are discrete, the budget is a hard limit, and an upgrade
+either works or doesn't. So re-planning with means is an approximation, and here it loses
+up to 1.9% against the exact policy.
+
 There's also a **one-step break-even rule**: compare "hit at $L$ forever" with "pay the
 expected cost of one upgrade, then hit at $L+1$ forever". Upgrading wins when
 
