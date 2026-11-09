@@ -9,9 +9,9 @@ Here the argument is "any upgrades come before any hits" (see the [problem READM
 It turns a choice among exponentially many action sequences into a choice among $N$ target
 levels ($k = 1$ meaning no upgrades at all):
 
-$$
+```math
 V(B) = \max_{k \in 1..N} \; r_k \left\lfloor \frac{B - C_{<k}}{h} \right\rfloor
-$$
+```
 
 ## When it applies
 
@@ -30,9 +30,9 @@ If you pretend hits can be fractional (drop the floor), plan $k$ is a straight l
 $B$ with slope $r_k/h$. The optimum is the **upper envelope** of $N$ lines. Plan $k+1$
 overtakes plan $k$ at
 
-$$
+```math
 B^*_k = \frac{C_{<k+1}\, r_{k+1} - C_{<k}\, r_k}{r_{k+1} - r_k}.
-$$
+```
 
 This "drop the integrality, get clean formulas" move is the seed of the
 **fluid approximation** used in problem 03.

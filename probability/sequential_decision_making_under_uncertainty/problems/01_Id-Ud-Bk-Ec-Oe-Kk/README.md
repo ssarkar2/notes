@@ -20,9 +20,9 @@ Nothing is random. This is the baseline every later problem is compared against.
   - *stop*.
 - **Objective**: maximise total gain.
 
-$$
+```math
 V(b, L) = \max\Big\{\, r_L + V(b-h,\, L),\;\; V(b - C_L,\, L+1),\;\; 0 \,\Big\}
-$$
+```
 
 (an action is only allowed if affordable). The answer is $V(B, 1)$.
 
@@ -34,14 +34,11 @@ looks like
 
 > **upgrade straight to some target level $k$, then spend everything else on hits.**
 
-This is a statement about **order**, not about whether to upgrade. $k = 1$ means "no
-upgrades, just hit", and it is often the right answer. Say upgrading costs 1000 coins, a
-hit costs 10, and you have 100: you should hit 10 times. The whole problem collapses to
-choosing one number, $k$:
+The whole problem collapses to choosing one number, $k$:
 
-$$
+```math
 V(B) = \max_k \; r_k \left\lfloor \frac{B - C_{<k}}{h} \right\rfloor, \qquad C_{<k} = \sum_{i<k} C_i
-$$
+```
 
 That is the **invest vs. harvest** trade-off in its purest form: a bigger $k$ means
 fewer hits, each worth more.
@@ -70,7 +67,7 @@ Upgrades always succeed here, at the listed costs $C = (400, 600, 900, 1300, 180
   best target level rises in steps with the budget (panel b).
 - The switch points are roughly where one plan's line overtakes the next. With
   continuous hits they are exact:
-  $B^*_k = \dfrac{C_{<k+1}\, r_{k+1} - C_{<k}\, r_k}{r_{k+1} - r_k}$ (≈ 1.7k, 2.9k, 5.1k, 9.1k, 16.8k, 32.6k).
+  $`B^*_k = \dfrac{C_{\lt k+1}\, r_{k+1} - C_{\lt k}\, r_k}{r_{k+1} - r_k}`$ (≈ 1.7k, 2.9k, 5.1k, 9.1k, 16.8k, 32.6k).
 - Near a switch point the exact answer flickers between two levels. That comes from the
   $\lfloor\cdot\rfloor$: a leftover of less than one hit can tip the choice. It's a small
   effect in value terms, but it's why integer problems rarely have clean closed forms.
@@ -78,4 +75,4 @@ Upgrades always succeed here, at the listed costs $C = (400, 600, 900, 1300, 180
 ## What's next
 
 [02](../02_Ir-Ud-Bk-Ec-Oe-Kk/): make the **item quality random** ($I$: `Id → Ir`).
-Surprisingly, nothing changes.
+The optimal plan and its expected worth stay the same; only the spread of outcomes changes.

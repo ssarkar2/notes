@@ -36,7 +36,7 @@ Words: **stars** only ever describe item quality; **coins** are the currency; an
 | $r_L = \sum_j w_j P(L,j)$ | expected worth of one hit at level $L$ |
 | $h$ | cost of a hit |
 | $C_L$, $U_L$ | cost and success probability of upgrading $L \to L+1$ |
-| $C_{<k} = \sum_{i<k} C_i$ | total cost of upgrading from level 1 to level $k$ |
+| $C_{\lt k} = \sum_{i\lt k} C_i$ | total cost of upgrading from level 1 to level $k$ |
 | $\Delta$ | budget grid step: gcd of all costs |
 | $B$, $F_B$, $S(x)$ | budget, its distribution, its survival function $P(B \ge x)$ |
 | $b$, $s$ | coins remaining, coins spent so far |
@@ -126,19 +126,20 @@ upgrade succeeds.
 
 **Formulation:** state $(b, L)$; actions hit, upgrade, stop.
 
-$$V(b,L) = \max\{\, r_L + V(b-h, L),\; V(b-C_L, L+1),\; 0 \,\}$$
+```math
+V(b,L) = \max\{\, r_L + V(b-h, L),\; V(b-C_L, L+1),\; 0 \,\}
+```
 
 **Key structure:** if $r_L$ increases with $L$, any upgrades you make should come
-*before* any hits. The only decision left is how far to upgrade: a target level $k$, where
-$k = 1$ (no upgrades at all) is a valid answer and is the best one when the budget is small.
+*before* any hits. The only decision left is how far to upgrade.
 
 **Tools:** [enumeration](problems/01_Id-Ud-Bk-Ec-Oe-Kk/enumeration/) (try every $k$);
 [deterministic DP](problems/01_Id-Ud-Bk-Ec-Oe-Kk/deterministic_dp/) (longest path in a
 DAG; needed once the structure breaks, e.g. under the hit-cap mechanic).
 
-**On the running example:** richer means investing more. Below about $1\,700$ coins, don't
-upgrade at all. The best target level is 3 at $B = 5\,000$, 6 at $20\,000$, and 7 from about
-$32\,600$ up. Value at $B = 20\,000$: **316.5**.
+**On the running example:** richer means investing more. Below about 1,700 coins, don't
+upgrade at all. The best target level is 3 at $B$ = 5,000, 6 at 20,000, and 7 from about
+32,600 up. Value at $B$ = 20,000: **316.5**.
 
 ### 02 – 13
 
@@ -148,7 +149,7 @@ $32\,600$ up. Value at $B = 20\,000$: **316.5**.
 
 Each problem reports its value (best expected total worth) on the running example:
 
-| # | $B = 5\,000$ | $B = 20\,000$ | Note |
+| # | $B$ = 5,000 | $B$ = 20,000 | Note |
 |---|---|---|---|
 | 01 | 46.80 | 316.50 | upgrades always succeed (an upper bound for 03) |
 

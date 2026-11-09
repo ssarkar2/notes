@@ -7,9 +7,9 @@ Spending coins always lowers $b$, so the graph has no cycles: it is a DAG. The b
 plan is the **longest path** from the start node, and the value of a node is the best
 reward-to-go:
 
-$$
+```math
 V(\text{state}) = \max\Big(0,\; \max_{\text{action}} \big[\text{reward} + V(\text{next state})\big]\Big)
-$$
+```
 
 Compute it with memoised recursion, or bottom-up in order of increasing $b$. Then follow
 the argmax from the start to read off the plan.
@@ -24,7 +24,7 @@ allowed, what they cost, where they lead) and it finds the optimum. Enumeration 
 the "upgrades before hits" argument, and that argument is fragile.
 
 The demo breaks it on purpose with the **hit-cap** mechanic (a "worn core"): each level can be hit at most
-`CAP = 15` times. Now the best plan harvests at several levels. At $B = 20\,000$:
+`CAP = 15` times. Now the best plan harvests at several levels. At $B$ = 20,000:
 
 ```
 up->2, up->3, hit@3 x2, up->4, hit@4 x15, up->5, hit@5 x15, up->6, hit@6 x15, up->7, hit@7 x15
@@ -37,11 +37,11 @@ No single target level describes that plan. The state needs one more variable,
 
 - **(a)** Plain game: DP and enumeration agree to $10^{-12}$.
 - **(b)** Worn core: the best "upgrade to $k$, then hit" plan stalls at about 70, while DP
-  keeps growing (315 vs 69.6 at $B = 28\,500$).
+  keeps growing (315 vs 69.6 at $B$ = 28,500).
 
 ## Cost
 
-$O(\#\text{states} \times \#\text{actions})$.
+O(#states × #actions).
 
 - Plain game: about $(B/\Delta) \cdot N$ states, where $\Delta = \gcd$ of all costs.
 - Worn core: multiply by `CAP`.
