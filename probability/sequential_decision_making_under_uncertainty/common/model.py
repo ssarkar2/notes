@@ -12,6 +12,8 @@ Notation (matches the main README):
     U[L]     success probability of upgrade L -> L+1    (len N-1)
     D[L]     prob. of dropping to L-1 when upgrade from L fails (len N-1, variant Ux)
 
+Currency is *coins*; *stars* only ever mean item quality.
+
 Every axis of the tag (I, U, B, E, O, K) is a *property of the problem*, not of the
 numbers. The helpers at the bottom produce the variant of the running example that a
 given problem folder needs (e.g. `sure_upgrades` for the Ud axis value).
@@ -64,7 +66,7 @@ class Game:
 
     @property
     def expected_upgrade_cost(self) -> np.ndarray:
-        """C_L / U_L: expected stars to clear level L (geometric number of tries)."""
+        """C_L / U_L: expected coins to clear level L (geometric number of tries)."""
         return np.array(self.C) / np.array(self.U)
 
     @property

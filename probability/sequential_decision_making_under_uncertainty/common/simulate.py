@@ -21,8 +21,8 @@ from .model import Game
 
 @dataclass(frozen=True)
 class Obs:
-    b: int | None   # stars remaining (None if the budget is hidden)
-    s: int          # stars spent so far
+    b: int | None   # coins remaining (None if the budget is hidden)
+    s: int          # coins spent so far
     L: int          # core level, 0-indexed
 
 

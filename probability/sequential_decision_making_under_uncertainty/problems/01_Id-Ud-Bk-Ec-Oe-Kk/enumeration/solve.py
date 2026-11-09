@@ -68,7 +68,7 @@ def main():
         ax.plot(Bs, np.where(np.isfinite(V[:, k]), V[:, k], np.nan),
                 color=LEVEL_COLORS[k], lw=1, label=f"target level {k + 1}")
     ax.plot(Bs, V.max(1), color="black", lw=2, ls="--", label="optimum (envelope)")
-    ax.set_xlabel("budget B (stars)")
+    ax.set_xlabel("budget B (coins)")
     ax.set_ylabel("total item value")
     ax.set_title("(a) value of each 'upgrade to k, then hit' plan")
     ax.legend(fontsize=8)
@@ -78,7 +78,7 @@ def main():
         ax2.axvline(Bstar, color=ACCENT, ls=":", lw=1,
                     label="switch point, continuous hits" if i == 0 else None)
     ax2.legend(fontsize=8, loc="lower right")
-    ax2.set_xlabel("budget B (stars)")
+    ax2.set_xlabel("budget B (coins)")
     ax2.set_ylabel("optimal target level k*")
     ax2.set_yticks(range(1, game.N + 1))
     ax2.set_title("(b) richer → invest more before harvesting")

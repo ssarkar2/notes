@@ -5,7 +5,7 @@
 | I | `Id` | every hit at level $L$ yields exactly $r_L$ (no luck) |
 | U | `Ud` | every upgrade succeeds |
 | B | `Bk` | budget $B$ known up front |
-| E | `Ec` | closed economy: items don't produce stars |
+| E | `Ec` | closed economy: items don't produce coins |
 | O | `Oe` | maximise total item value |
 | K | `Kk` | all numbers known |
 
@@ -13,7 +13,7 @@ Nothing is random. This is the baseline every later problem is compared against.
 
 ## Formulation
 
-- **State** $(b, L)$: stars left, core level.
+- **State** $(b, L)$: coins left, core level.
 - **Actions**
   - *hit*: pay $h$, gain $r_L$, stay at $L$.
   - *upgrade*: pay $C_L$, gain nothing now, move to $L+1$.

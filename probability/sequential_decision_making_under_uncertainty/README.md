@@ -6,8 +6,7 @@ it; the tools themselves live in sub-folders with notes and code.*
 ## The game
 
 A **core** produces **items** rated 1 to $M$ stars. The core has levels $1..N$. Your
-currency is **stars** (yes, same word, different thing), and you have a budget of them.
-You can spend stars two ways:
+currency is **coins**, and you have a budget of them. You can spend coins two ways:
 
 - **Hit** the core: pay $h$, receive an item. A higher core level gives better odds of
   high-star items.
@@ -36,8 +35,8 @@ therefore a **policy** (a rule: in this situation, do this), not a fixed plan.
 | $C_L$, $U_L$ | cost and success probability of upgrading $L \to L+1$ |
 | $D_L$ | probability of dropping a level when an upgrade fails |
 | $B$, $F_B$, $S(x)$ | budget, its distribution, its survival function $P(B \ge x)$ |
-| $b$, $s$ | stars remaining, stars spent so far |
-| $g_j$, $\rho$, $T$, $t$ | stars per tick earned by a $j$★ item, total income rate, horizon, time |
+| $b$, $s$ | coins remaining, coins spent so far |
+| $g_j$, $\rho$, $T$, $t$ | coins per tick earned by a $j$★ item, total income rate, horizon, time |
 | $V$, $\pi$ | value function, policy |
 
 ### Running example
@@ -59,8 +58,8 @@ Every variant gets a tag `I?-U?-B?-E?-O?-K?`, one letter per axis:
 |---|---|
 | **I** item outcome | `Id` deterministic (each hit gives exactly $r_L$) · `Ir` random |
 | **U** upgrade | `Ud` sure · `Ur` random · `Ux` random, failure may demote · `Up` pity (chance rises after failures) |
-| **B** budget | `Bk` known · `Bs` random, seen before play · `Bh` hidden (you find out when you run out) · `Bt` trickle (stars arrive over time from outside) |
-| **E** economy | `Ec` closed · `Er` items refund stars once · `Ei` items generate income (a factory) · `Es` items can be sold |
+| **B** budget | `Bk` known · `Bs` random, seen before play · `Bh` hidden (you find out when you run out) · `Bt` trickle (coins arrive over time from outside) |
+| **E** economy | `Ec` closed · `Er` items refund coins once · `Ei` items generate income (a factory) · `Es` items can be sold |
 | **O** objective | `Oe` expected value · `Ou` utility (risk-averse) · `Ot` hit a target (e.g. P(at least one 5★)) |
 | **K** knowledge of the probabilities | `Kk` known · `Kb` known family, unknown parameters (Bayesian) · `Ku` unknown |
 
@@ -98,7 +97,7 @@ Status: ✅ built · ⬜ planned.
 | 06 | `Ir-Up-Bk-Ec-Oe-Kk` | pity counter | state augmentation | ⬜ |
 | 07 | `Ir-Ur-Bs-Ec-Oe-Kk` | budget random, seen first | reduction (average) | ⬜ |
 | 08 | `Ir-Ur-Bh-Ec-Oe-Kk` | budget hidden | survival analysis, POMDP → MDP, value of information | ⬜ |
-| 09 | `Ir-Ur-Bk-Er-Oe-Kk` | items refund stars | value iteration | ⬜ |
+| 09 | `Ir-Ur-Bk-Er-Oe-Kk` | items refund coins | value iteration | ⬜ |
 | 10 | `Ir-Ur-Bt-Ec-Oe-Kk` | outside income over time | time-indexed DP | ⬜ |
 | 11 | `Ir-Ur-Bk-Ei-Oe-Kk` | items generate income (factory) | time-indexed DP, optimal control (Pontryagin, turnpike) | ⬜ |
 | 12 | `Ir-Ur-Bk-Es-Oe-Kk` | items can be sold | inventory state | ⬜ |

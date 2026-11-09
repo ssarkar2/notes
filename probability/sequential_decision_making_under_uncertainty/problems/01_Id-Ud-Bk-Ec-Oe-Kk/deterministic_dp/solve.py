@@ -127,7 +127,7 @@ def main():
     ax.plot(Bs, en_plain, color="black", lw=3, alpha=0.3, label="enumeration")
     ax.plot(Bs, dp_plain, color=ACCENT, lw=1.2, ls="--", label="deterministic DP")
     ax.set_title("(a) plain game: identical")
-    ax.set_xlabel("budget B (stars)")
+    ax.set_xlabel("budget B (coins)")
     ax.set_ylabel("total item value")
     ax.legend(fontsize=8)
     ax = axes[1]
@@ -135,7 +135,7 @@ def main():
     ax.plot(Bs, dp_cap, color=ACCENT, lw=1.5, label="deterministic DP")
     ax.fill_between(Bs, en_cap, dp_cap, color=ACCENT, alpha=0.15)
     ax.set_title(f"(b) worn core, ≤{CAP} hits per level: DP wins")
-    ax.set_xlabel("budget B (stars)")
+    ax.set_xlabel("budget B (coins)")
     ax.legend(fontsize=8)
     save(fig, __file__, "dp_vs_enumeration")
 

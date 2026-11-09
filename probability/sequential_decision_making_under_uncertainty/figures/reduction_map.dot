@@ -43,7 +43,7 @@ digraph reductions {
   Up -> MDP [label="+ failure counter"];
   Ux -> MDP [label="same state, cycles"];
   Ot -> MDP [label="+ progress / wealth"];
-  Bh -> MDP [label="state = stars spent"];
+  Bh -> MDP [label="state = coins spent"];
   Bt -> MDP [label="+ time"];
   Ei -> MDP [label="+ time, income ρ"];
   Es -> MDP [label="+ inventory"];

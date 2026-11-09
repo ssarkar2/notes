@@ -3,7 +3,7 @@
 ## Idea
 
 Draw every **state** as a node and every **action** as an edge labelled with its reward.
-Spending stars always lowers $b$, so the graph has no cycles: it is a DAG. The best
+Spending coins always lowers $b$, so the graph has no cycles: it is a DAG. The best
 plan is the **longest path** from the start node, and the value of a node is the best
 reward-to-go:
 

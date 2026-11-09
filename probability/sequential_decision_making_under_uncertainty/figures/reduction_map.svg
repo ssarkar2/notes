@@ -161,7 +161,7 @@
 <title>Bh&#45;&gt;MDP</title>
 <path fill="none" stroke="#2171b5" stroke-width="2" d="M187.64,-418.31C258.71,-414.72 356.55,-409.79 429.57,-406.11"/>
 <polygon fill="#2171b5" stroke="#2171b5" stroke-width="2" points="428.01,-408.64 434.88,-405.84 427.76,-403.74 428.01,-408.64"/>
-<text xml:space="preserve" text-anchor="middle" x="312.7" y="-415.17" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#2171b5">state = stars spent</text>
+<text xml:space="preserve" text-anchor="middle" x="312.7" y="-415.17" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#2171b5">state = coins spent</text>
 </g>
 <!-- Bt -->
 <g id="node10" class="node">
