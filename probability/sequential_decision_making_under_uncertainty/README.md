@@ -42,7 +42,7 @@ utility (expected total stars, under the baseline).
 | $P(L, j)$ | probability a hit at level $L$ gives a $j$★ item |
 | $j_k$ | star rating of the $k$-th item obtained |
 | $u(j_1, j_2, \dots)$ | utility of the collection; baseline $u = \sum_k j_k$ (total stars) |
-| $W$ | total stars so far, $\sum_k j_k$ (plays the role of wealth in $u(W)$) |
+| $W$ | total stars so far, $\sum_k j_k$; plays the role of wealth in $u(W)$ |
 | $r_L = \sum_j j \cdot P(L,j)$ | expected stars from one hit at level $L$ |
 | $h$ | cost of a hit |
 | $C_L$, $U_L$ | cost and success probability of upgrading $L \to L+1$ |
