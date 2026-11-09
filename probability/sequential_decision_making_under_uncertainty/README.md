@@ -20,7 +20,8 @@ Examples of $u$:
 
 - **total stars** $j_1 + j_2 + \dots$: the **baseline**, used until problem 04;
 - "at least one 5★": $u = 1$ if any $j_k = 5$, else 0;
-- a concave function of total stars, for a player who dislikes risk.
+- a concave function of total stars (e.g. $\sqrt{\cdot}$), for a player who dislikes risk;
+- a convex function of total stars (e.g. $(\cdot)^2$), for a player who likes risk.
 
 Every variant below is a version of one trade-off: **invest** (upgrade, so future hits
 are better) vs. **harvest** (hit now, and get more items).
@@ -74,7 +75,7 @@ $U = 1$); it gets its own value because it unlocks simpler methods.
 | **U** | Is the upgrade outcome random? | `Ud` no (always succeeds) · `Ur` yes |
 | **B** | What do you know about the budget, and does it grow? | `Bk` known · `Bs` random, seen before play · `Bh` hidden (you find out when you run out) · `Bt` trickle (coins arrive over time from outside) |
 | **E** | Do items feed back into coins? | `Ec` no (closed) · `Er` one-time refund per item · `Ei` items pay income (every item held pays coins each tick) · `Es` items can be sold (they then no longer count toward $u$) |
-| **O** | Is the utility $u$ a plain sum over items? | `Oe` yes: total stars $u = \sum_k j_k$ · `Ou` no: any other $u(j_1, j_2, \dots)$; its shape sets the behaviour (concave → avoids risk; a step at a goal, e.g. "at least one 5★" → can seek risk) |
+| **O** | Is the utility $u$ a plain sum over items? | `Oe` yes: total stars $u = \sum_k j_k$ · `Ou` no: any other $u(j_1, j_2, \dots)$; its shape sets the behaviour: concave (e.g. $\sqrt{\cdot}$ of total stars) → avoids risk · convex (e.g. $(\cdot)^2$) → seeks risk · a step at a goal (e.g. "at least one 5★") → either, depending on whether a safe plan reaches the goal |
 | **K** | Do you know the probabilities? | `Kk` known · `Kb` known family, unknown parameters (Bayesian) · `Ku` unknown |
 
 What additivity (`Oe`) buys: the state needs no memory of past items; item randomness can be
