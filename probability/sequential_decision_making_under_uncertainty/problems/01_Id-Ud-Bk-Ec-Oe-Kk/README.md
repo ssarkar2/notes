@@ -40,8 +40,8 @@ With **plain rules** (no per-level limits such as a hit cap), some optimal plan 
 > **upgrade straight to some target level $k$, then spend everything else on hits.**
 
 Why: take any plan. Move all its hits to the best level it visits (highest $r$) and stop
-climbing there. That costs no more, makes the same number of hits, and each hit is at least
-as good. If $r_L$ increases with $L$, the best level visited is simply the top one, so this
+climbing there. Since a hit costs $h$ at every level, this costs no more, so it makes at
+least as many hits, and each hit is at least as good. If $r_L$ increases with $L$, the best level visited is simply the top one, so this
 reads "upgrades before hits".
 
 The whole problem collapses to choosing one number, $k$:
