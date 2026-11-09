@@ -32,7 +32,8 @@ V_{MV}(B) = \max_k \; r_k \left\lfloor \frac{B - \sum_{i \lt k} C_i / U_i}{h} \r
 optimal in one classic setting: linear dynamics, quadratic cost, additive Gaussian noise
 (LQG). There the noise doesn't change the best action. You solve the deterministic problem
 and act on the current state. If the state is only seen through noisy measurements, you
-act on its Kalman-filter estimate; that's the separation principle (more in 06). This game
+act on its Kalman-filter estimate; that's the separation principle (more in
+[06](../../06_Ir-Ur-Bh-Ec-Oe-Kk/belief_mdp/#same-family-as-the-kalman-filter)). This game
 is not linear-quadratic: actions are discrete, the budget is a hard limit, and an upgrade
 either works or doesn't. So re-planning with means is an approximation, and here it loses
 up to 1.9% against the exact policy.

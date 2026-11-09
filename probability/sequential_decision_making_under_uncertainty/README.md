@@ -127,7 +127,7 @@ Status: ✅ built · ⬜ planned.
 | [03](problems/03_Ir-Ur-Bk-Ec-Oe-Kk/) | `Ir-Ur-Bk-Ec-Oe-Kk` | upgrades can fail (+ demotion, pity mechanics) | MDP / backward induction, optimal stopping, fluid approximation | ✅ |
 | [04](problems/04_Ir-Ur-Bk-Ec-Ou-Kk/) | `Ir-Ur-Bk-Ec-Ou-Kk` | other utilities: risk attitude, goals | state augmentation, risk-sensitive DP | ✅ |
 | [05](problems/05_Ir-Ur-Bs-Ec-Oe-Kk/) | `Ir-Ur-Bs-Ec-Oe-Kk` | budget random, seen first | reduction (average) | ✅ |
-| 06 | `Ir-Ur-Bh-Ec-Oe-Kk` | budget hidden | survival analysis, POMDP → MDP, value of information | ⬜ |
+| [06](problems/06_Ir-Ur-Bh-Ec-Oe-Kk/) | `Ir-Ur-Bh-Ec-Oe-Kk` | budget hidden | belief MDP (POMDP → MDP), survival analysis, value of information | ✅ |
 | 07 | `Ir-Ur-Bk-Er-Oe-Kk` | items refund coins (coins can go up) | value iteration | ⬜ |
 | 08 | `Ir-Ur-Bt-Ec-Oe-Kk` | outside income over time | time-indexed DP | ⬜ |
 | 09 | `Ir-Ur-Bk-Ei-Oe-Kk` | items pay income | time-indexed DP, optimal control (Pontryagin, turnpike) | ⬜ |
@@ -240,7 +240,32 @@ than a fixed one: 108.96 (uniform 0 to 20,000) and 118.35 (exponential) vs 100.2
 convex (stars per coin rise with the budget), so Jensen gives $E[V(B)] \ge V(E[B])$. Most of
 the outcome's spread then comes from which budget you got, not from luck during play.
 
-### 06 – 13
+### 06 · Hidden budget: `Ir-Ur-Bh-Ec-Oe-Kk`
+
+**What changed:** the budget is drawn from a known $p(B)$ but never shown. You see what
+you've spent, $s$. An action you can't afford is refused and ends the game; leftover coins
+are lost.
+
+**Formulation:** the only news about $B$ is "not broke yet", so the belief is the prior cut
+off below $s$, fixed by $s$ alone. The hidden-state problem (POMDP) becomes an MDP on
+$(s, L)$; each action goes through with probability $S(s+c)/S(s)$, where $S(x) = P(B \ge x)$:
+
+```math
+V(s, L) = \max\Big\{ \tfrac{S(s+h)}{S(s)} \big( r_L + V(s+h, L) \big),\;\; \tfrac{S(s+C_L)}{S(s)} \big( U_L\, V(s+C_L, L+1) + (1-U_L)\, V(s+C_L, L) \big),\;\; 0 \Big\}
+```
+
+**Tools:** [belief MDP](problems/06_Ir-Ur-Bh-Ec-Oe-Kk/belief_mdp/) (exact; same family as
+the Kalman filter); [survival analysis](problems/06_Ir-Ur-Bh-Ec-Oe-Kk/survival_analysis/)
+(hazard, mean residual budget $m(s)$, the heuristic "play 03 as if $m(s)$ coins were
+left"); value of information (05's value minus 06's).
+
+**On the running example:** with mean 10,000, not seeing $B$ costs 4.4 (2,000 or 18,000),
+5.0 (uniform) and 10.6 stars (exponential), 4% to 9%. With the exponential prior
+(memoryless) the policy ignores $s$: upgrade to level 4, then hit. Plugging in $m(s)$ is
+within 0.02 stars of optimal for the uniform and exponential priors, and loses 2.5 on the
+two-point one.
+
+### 07 – 13
 
 *Planned.*
 
@@ -255,6 +280,7 @@ Each problem reports its value (best expected total stars) on the running exampl
 | 03 | 40.64 | 250.35 | upgrades can fail; best fixed plan: 40.14 / 248.43 |
 | 04 | 40.63 | 250.28 | expected stars of the policy optimal for $\sqrt{W}$; sd 7.2 / 31.1 vs 03's 7.3 / 32.8 |
 | 05 | — | — | budget random with mean 10,000: 108.96 (uniform 0 to 20,000), 118.35 (exponential) vs 100.25 fixed |
+| 06 | — | — | same budgets, hidden: 104.00 (uniform), 107.76 (exponential) |
 
 ## Fields this touches
 
