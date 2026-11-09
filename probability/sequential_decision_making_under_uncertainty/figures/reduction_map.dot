@@ -1,0 +1,51 @@
+// Reductions between axis values: harder variant (left) -> something already solved (right).
+// solid = exact, dashed = approximation, bold blue = exact after enlarging the state.
+// Build: ./build.sh
+digraph reductions {
+  rankdir=LR;
+  graph [fontname="Helvetica", fontsize=11, nodesep=0.12, ranksep=2.2, bgcolor="white"];
+  node  [shape=box, style="rounded", fontname="Helvetica", fontsize=10, color="#555555", width=2.6];
+  edge  [fontname="Helvetica", fontsize=9, color="#555555", arrowsize=0.7];
+
+  // left: harder axis values
+  { rank=same;
+    Ir [label="Ir  random items"];
+    Ur [label="Ur  random upgrades"];
+    Bs [label="Bs  random budget, seen first"];
+    Er [label="Er  one-time refund"];
+    Ku [label="Ku  nothing known"];
+    Up [label="Up  pity"];
+    Ux [label="Ux  demotion"];
+    Ot [label="Ot / Ou  nonlinear objective"];
+    Bh [label="Bh  hidden budget"];
+    Bt [label="Bt  trickle income"];
+    Ei [label="Ei  factory income"];
+    Es [label="Es  sell items"];
+    Kb [label="Kb  unknown params"];
+  }
+  // right: targets
+  { rank=same;
+    Id [label="Id  deterministic items"];
+    Ud [label="Ud  sure upgrades"];
+    Bk [label="Bk  known budget"];
+    Ec [label="Ec  closed economy"];
+    Kb2 [label="Kb  Bayesian"];
+    MDP [label="MDP on a bigger state\n(known transitions)", style="rounded,filled", fillcolor="#c6dbef", height=1.2];
+  }
+
+  Ir -> Id [label="≡ under Oe (linearity)"];
+  Ur -> Ud [label="≈ pay C/U per upgrade", style=dashed];
+  Bs -> Bk [label="≡ average V over B"];
+  Er -> Ec [label="≈ hit costs h − E[g]", style=dashed];
+  Ku -> Kb2 [label="≈ fit a model, then plan", style=dashed];
+
+  edge [style=bold, color="#2171b5", fontcolor="#2171b5"];
+  Up -> MDP [label="+ failure counter"];
+  Ux -> MDP [label="same state, cycles"];
+  Ot -> MDP [label="+ progress / wealth"];
+  Bh -> MDP [label="state = stars spent"];
+  Bt -> MDP [label="+ time"];
+  Ei -> MDP [label="+ time, income ρ"];
+  Es -> MDP [label="+ inventory"];
+  Kb -> MDP [label="+ posterior"];
+}

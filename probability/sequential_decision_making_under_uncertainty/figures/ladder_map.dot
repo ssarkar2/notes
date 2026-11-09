@@ -1,0 +1,40 @@
+// Ladder of problems: each edge = one axis loosened. Filled = built, white = planned.
+// Build: ./build.sh
+digraph ladder {
+  rankdir=LR;
+  graph [fontname="Helvetica", fontsize=11, nodesep=0.25, ranksep=0.5, bgcolor="white"];
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=10, fillcolor="white", color="#555555"];
+  edge  [fontname="Helvetica", fontsize=9, color="#777777", fontcolor="#d95f02"];
+
+  // fillcolor "#c6dbef" = built
+  p01 [label="01  Id-Ud-Bk-Ec-Oe-Kk\ndeterministic\n· enumeration · deterministic DP", fillcolor="#c6dbef"];
+  p02 [label="02  Ir-Ud-Bk-Ec-Oe-Kk\nrandom items\n· reduction (linearity)"];
+  p03 [label="03  Ir-Ur-Bk-Ec-Oe-Kk\nrandom upgrades\n· backward induction · optimal stopping\n· fluid approximation"];
+  p04 [label="04  Ir-Ur-Bk-Ec-Ot/Ou-Kk\nnonlinear objective\n· state augmentation"];
+  p05 [label="05  Ir-Ux-Bk-Ec-Oe-Kk\ndemotion (cycles)\n· value iteration"];
+  p06 [label="06  Ir-Up-Bk-Ec-Oe-Kk\npity counter\n· state augmentation"];
+  p07 [label="07  Ir-Ur-Bs-Ec-Oe-Kk\nrandom budget, seen first\n· reduction (average)"];
+  p08 [label="08  Ir-Ur-Bh-Ec-Oe-Kk\nhidden budget\n· survival analysis · POMDP collapse"];
+  p09 [label="09  Ir-Ur-Bk-Er-Oe-Kk\none-time refund\n· value iteration"];
+  p10 [label="10  Ir-Ur-Bt-Ec-Oe-Kk\nexternal trickle income\n· time-indexed DP"];
+  p11 [label="11  Ir-Ur-Bk-Ei-Oe-Kk\nfactory: items → income\n· time-indexed DP · optimal control"];
+  p12 [label="12  Ir-Ur-Bk-Es-Oe-Kk\nsell items\n· inventory state"];
+  p13 [label="13  Ir-Ur-Bk-Ec-Oe-Kb\nunknown params (Bayesian)\n· Bayesian adaptive MDP · Thompson"];
+  p14 [label="14  Ir-Ur-Bk-Ec-Oe-Ku\nnothing known\n· model-free RL"];
+  p15 [label="15  Ir-Ur-Bh-Ei-Oe-Kb\neverything\n· policy search · approximate DP"];
+
+  p01 -> p02 [label="I: d→r"];
+  p02 -> p03 [label="U: d→r"];
+  p03 -> p04 [label="O: e→t/u"];
+  p03 -> p05 [label="U: r→x"];
+  p04 -> p06 [label="U: r→p"];
+  p03 -> p07 [label="B: k→s"];
+  p07 -> p08 [label="B: s→h"];
+  p05 -> p09 [label="E: c→r"];
+  p03 -> p10 [label="B: k→t"];
+  p10 -> p11 [label="E: c→i"];
+  p03 -> p12 [label="E: c→s"];
+  p03 -> p13 [label="K: k→b"];
+  p13 -> p14 [label="K: b→u"];
+  p08 -> p15; p11 -> p15; p13 -> p15;
+}
