@@ -5,7 +5,7 @@
 Sometimes a structural argument shrinks a big decision space to a tiny one. Then you
 just **try every option** and keep the best.
 
-Here the argument is "any upgrades come before any hits" (see the [problem README](../README.md)).
+Here the argument is "with plain rules, do all hits at one level" (see the [problem README](../README.md)).
 It turns a choice among exponentially many action sequences into a choice among $N$ target
 levels ($k = 1$ meaning no upgrades at all):
 
@@ -15,7 +15,8 @@ V(B) = \max_{k \in 1..N} \; r_k \left\lfloor \frac{B - C_{<k}}{h} \right\rfloor
 
 ## When it applies
 
-- The structure argument holds: deterministic, $r_L$ increasing, no per-level limits.
+- Deterministic, with plain rules (no per-level limits such as a hit cap). Any $r_L$ works;
+  increasing $r_L$ just means the chosen level is the top one reached.
 - **Breaks** as soon as the best plan isn't "pick one number". Two examples:
   - hits capped per level (see [deterministic_dp](../deterministic_dp/));
   - random upgrades, where the plan must react to luck (problem 03).

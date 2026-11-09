@@ -17,11 +17,19 @@ the argmax from the start to read off the plan.
 This is the **Bellman equation** without any expectation. Problem 03 adds the
 expectation, and the same code skeleton becomes an MDP solver.
 
-## Why bother, if enumeration works?
+## Special case: plain rules → enumeration
+
+With no per-level limits, some optimal plan is "upgrade to some level $k$, then hit there":
+moving all of a plan's hits to the best level it visits, and climbing no further, never
+hurts. When $r_L$ increases with $L$ that level is the top one reached ("upgrades before
+hits"). Either way the DP's whole search reduces to $N$ candidate plans, one per $k$:
+that's [enumeration](../enumeration/).
+
+## Why bother with DP, then?
 
 DP needs **no insight** into the problem. You describe the rules (which actions are
-allowed, what they cost, where they lead) and it finds the optimum. Enumeration needed
-the "upgrades before hits" argument, and that argument is fragile.
+allowed, what they cost, where they lead) and it finds the optimum. Enumeration relies on
+the special-case argument above, which breaks as soon as the rules change.
 
 The demo breaks it on purpose with the **hit-cap** mechanic (a "worn core"): each level can be hit at most
 `CAP = 15` times. Now the best plan harvests at several levels. At $B$ = 20,000:

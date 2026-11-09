@@ -26,13 +26,23 @@ V(b, L) = \max\Big\{\, r_L + V(b-h,\, L),\;\; V(b - C_L,\, L+1),\;\; 0 \,\Big\}
 
 (an action is only allowed if affordable). The answer is $V(B, 1)$.
 
-## The structure that makes it easy
+## Tools
 
-If $r_L$ increases with $L$, **never hit before an upgrade you're going to make anyway**:
-moving that hit to after the upgrade costs the same and pays more. So every optimal plan
-looks like
+| Method | When | Link |
+|---|---|---|
+| **Deterministic DP** (longest path in a DAG) | any rules | [deterministic_dp/](deterministic_dp/) |
+| **Enumeration** over target level | the special case below | [enumeration/](enumeration/) |
+
+## Special case: plain rules → pick one level
+
+With **plain rules** (no per-level limits such as a hit cap), some optimal plan has the form
 
 > **upgrade straight to some target level $k$, then spend everything else on hits.**
+
+Why: take any plan. Move all its hits to the best level it visits (highest $r$) and stop
+climbing there. That costs no more, makes the same number of hits, and each hit is at least
+as good. If $r_L$ increases with $L$, the best level visited is simply the top one, so this
+reads "upgrades before hits".
 
 The whole problem collapses to choosing one number, $k$:
 
@@ -42,13 +52,6 @@ V(B) = \max_k \; r_k \left\lfloor \frac{B - C_{<k}}{h} \right\rfloor, \qquad C_{
 
 That is the **invest vs. harvest** trade-off in its purest form: a bigger $k$ means
 fewer hits, each giving more stars on average.
-
-## Tools
-
-| Method | When | Link |
-|---|---|---|
-| **Enumeration** over target level | the "upgrades before hits" structure holds | [enumeration/](enumeration/) |
-| **Deterministic DP** (longest path in a DAG) | always; needed once the structure breaks | [deterministic_dp/](deterministic_dp/) |
 
 ## On the running example
 

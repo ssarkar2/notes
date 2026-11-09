@@ -147,12 +147,13 @@ upgrade succeeds.
 V(b,L) = \max\{\, r_L + V(b-h, L),\; V(b-C_L, L+1),\; 0 \,\}
 ```
 
-**Key structure:** if $r_L$ increases with $L$, any upgrades you make should come
-*before* any hits. The only decision left is how far to upgrade.
+**Tools:** [deterministic DP](problems/01_Id-Ud-Bk-Ec-Oe-Kk/deterministic_dp/) (longest
+path in a DAG; works for any rules, e.g. under the hit-cap mechanic);
+[enumeration](problems/01_Id-Ud-Bk-Ec-Oe-Kk/enumeration/) (try every target level $k$;
+works in the special case below).
 
-**Tools:** [enumeration](problems/01_Id-Ud-Bk-Ec-Oe-Kk/enumeration/) (try every $k$);
-[deterministic DP](problems/01_Id-Ud-Bk-Ec-Oe-Kk/deterministic_dp/) (longest path in a
-DAG; needed once the structure breaks, e.g. under the hit-cap mechanic).
+**Special case:** if $r_L$ increases with $L$, any upgrades you make should come
+*before* any hits. The only decision left is how far to upgrade.
 
 **On the running example:** richer means investing more. Below about 1,700 coins, don't
 upgrade at all. The best target level is 3 at $B$ = 5,000, 6 at 20,000, and 7 from about
