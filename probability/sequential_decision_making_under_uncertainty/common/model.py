@@ -128,8 +128,8 @@ def sure_upgrades(g: Game) -> Game:
     return replace(g, U=(1.0,) * len(g.U), D=())
 
 
-def certainty_equivalent(g: Game) -> Game:
-    """Ur -> Ud by charging the expected cost C_L/U_L for a sure upgrade.
+def mean_value_game(g: Game) -> Game:
+    """Ur -> Ud by charging the expected cost C_L/U_L for a sure upgrade (mean-value game).
 
     Costs are rounded to the game's unit so budgets stay on the grid.
     """

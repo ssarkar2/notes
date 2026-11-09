@@ -1548,15 +1548,15 @@ L 350.71812 246.04
 " style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
    </g>
    <g id="text_15">
-    <text style="font-size: 12px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="198.67906" y="20.88" transform="rotate(-0 198.67906 20.88)">(a) how good is the certainty equivalent?</text>
+    <text style="font-size: 12px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: middle" x="198.67906" y="20.88" transform="rotate(-0 198.67906 20.88)">(a) how good is the mean-value approximation?</text>
    </g>
    <g id="legend_1">
     <g id="patch_5">
      <path d="M 52.24 242.04 
-L 245.48875 242.04 
-Q 247.08875 242.04 247.08875 240.44 
-L 247.08875 206.0125 
-Q 247.08875 204.4125 245.48875 204.4125 
+L 247.2225 242.04 
+Q 248.8225 242.04 248.8225 240.44 
+L 248.8225 206.0125 
+Q 248.8225 204.4125 247.2225 204.4125 
 L 52.24 204.4125 
 Q 50.64 204.4125 50.64 206.0125 
 L 50.64 240.44 
@@ -1571,7 +1571,7 @@ L 69.84 210.89125
 " style="fill: none; stroke: #999999; stroke-opacity: 0.6; stroke-width: 0.5; stroke-linecap: square"/>
     </g>
     <g id="text_16">
-     <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="76.24" y="213.69125" transform="rotate(-0 76.24 213.69125)">CE prediction − DP (sawtooth: whole hits)</text>
+     <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="76.24" y="213.69125" transform="rotate(-0 76.24 213.69125)">MV prediction − DP (sawtooth: whole hits)</text>
     </g>
     <g id="line2d_30">
      <path d="M 53.84 222.63375 
@@ -1580,7 +1580,7 @@ L 69.84 222.63375
 " style="fill: none; stroke: #2171b5; stroke-linecap: square"/>
     </g>
     <g id="text_17">
-     <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="76.24" y="225.43375" transform="rotate(-0 76.24 225.43375)">CE open-loop plan − DP</text>
+     <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="76.24" y="225.43375" transform="rotate(-0 76.24 225.43375)">MV open-loop plan − DP</text>
     </g>
     <g id="line2d_31">
      <path d="M 53.84 234.37625 
@@ -1589,7 +1589,7 @@ L 69.84 234.37625
 " style="fill: none; stroke: #d95f02; stroke-width: 1.5; stroke-linecap: square"/>
     </g>
     <g id="text_18">
-     <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="76.24" y="237.17625" transform="rotate(-0 76.24 237.17625)">CE re-planning − DP</text>
+     <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="76.24" y="237.17625" transform="rotate(-0 76.24 237.17625)">MV re-planning − DP</text>
     </g>
    </g>
   </g>
@@ -1991,7 +1991,7 @@ L 428.32188 49.10125
      </g>
     </g>
     <g id="text_31">
-     <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="434.72188" y="51.90125" transform="rotate(-0 434.72188 51.90125)">CE re-planning</text>
+     <text style="font-size: 8px; font-family: 'DejaVu Sans', 'Bitstream Vera Sans', 'Computer Modern Sans Serif', 'Lucida Grande', 'Verdana', 'Geneva', 'Lucid', 'Arial', 'Helvetica', 'Avant Garde', sans-serif; text-anchor: start" x="434.72188" y="51.90125" transform="rotate(-0 434.72188 51.90125)">MV re-planning</text>
     </g>
     <g id="line2d_69">
      <path d="M 412.32188 60.84375 

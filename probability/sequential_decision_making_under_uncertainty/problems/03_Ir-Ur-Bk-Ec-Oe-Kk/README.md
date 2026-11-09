@@ -35,7 +35,7 @@ and the answer is a **policy**, an action for every $(b, L)$, not a fixed plan.
 |---|---|---|
 | **Backward induction** (finite MDP) | the exact optimal policy and its value | [backward_induction/](backward_induction/) |
 | **Optimal stopping** | the shape of that policy: one threshold per level | [optimal_stopping/](optimal_stopping/) |
-| **Fluid / certainty-equivalent approximation** | a cheap estimate: replace randomness by means, reuse 01's tools | [fluid_approximation/](fluid_approximation/) |
+| **Fluid / mean-value approximation** | a cheap estimate: replace randomness by means, reuse 01's tools | [fluid_approximation/](fluid_approximation/) |
 | Mechanics: **demotion, pity** | same backward induction, with a third outcome or a bigger state | [mechanics_variants/](mechanics_variants/) |
 
 ## On the running example

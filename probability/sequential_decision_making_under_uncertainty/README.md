@@ -126,7 +126,7 @@ Status: ✅ built · ⬜ planned.
 | [02](problems/02_Ir-Ud-Bk-Ec-Oe-Kk/) | `Ir-Ud-Bk-Ec-Oe-Kk` | item quality random | reduction (linearity of expectation) | ✅ |
 | [03](problems/03_Ir-Ur-Bk-Ec-Oe-Kk/) | `Ir-Ur-Bk-Ec-Oe-Kk` | upgrades can fail (+ demotion, pity mechanics) | MDP / backward induction, optimal stopping, fluid approximation | ✅ |
 | [04](problems/04_Ir-Ur-Bk-Ec-Ou-Kk/) | `Ir-Ur-Bk-Ec-Ou-Kk` | other utilities: risk attitude, goals | state augmentation, risk-sensitive DP | ✅ |
-| 05 | `Ir-Ur-Bs-Ec-Oe-Kk` | budget random, seen first | reduction (average) | ⬜ |
+| [05](problems/05_Ir-Ur-Bs-Ec-Oe-Kk/) | `Ir-Ur-Bs-Ec-Oe-Kk` | budget random, seen first | reduction (average) | ✅ |
 | 06 | `Ir-Ur-Bh-Ec-Oe-Kk` | budget hidden | survival analysis, POMDP → MDP, value of information | ⬜ |
 | 07 | `Ir-Ur-Bk-Er-Oe-Kk` | items refund coins (coins can go up) | value iteration | ⬜ |
 | 08 | `Ir-Ur-Bt-Ec-Oe-Kk` | outside income over time | time-indexed DP | ⬜ |
@@ -224,7 +224,23 @@ within 0.3 stars at 20,000; sd 31.1 and 37.0 vs 32.8): over this range both are 
 straight lines. Goals change a lot: aiming for at least one 5★ raises its chance from 0.318
 to 0.782 at 10,000 coins, at a cost of about 31 expected stars.
 
-### 05 – 13
+### 05 · Random budget, seen first: `Ir-Ur-Bs-Ec-Oe-Kk`
+
+**What changed:** the budget is drawn from a known distribution $p(B)$ and shown to you
+before the first move.
+
+**Formulation:** once you see $B$ it's problem 03, so the value is $\sum_B p(B) V(B)$.
+03's table holds $V(b, L)$ for every $b$, so one table plays every budget.
+
+**Tool:** none new, a reduction to 03, checked by
+[`verify.py`](problems/05_Ir-Ur-Bs-Ec-Oe-Kk/verify.py).
+
+**On the running example:** with a mean budget of 10,000, a random budget is worth more
+than a fixed one: 108.96 (uniform 0 to 20,000) and 118.35 (exponential) vs 100.25. $V$ is
+convex (stars per coin rise with the budget), so Jensen gives $E[V(B)] \ge V(E[B])$. Most of
+the outcome's spread then comes from which budget you got, not from luck during play.
+
+### 06 – 13
 
 *Planned.*
 
@@ -238,6 +254,7 @@ Each problem reports its value (best expected total stars) on the running exampl
 | 02 | 46.80 | 316.50 | same as 01; random items only add spread (sd 3.5 / 6.1) |
 | 03 | 40.64 | 250.35 | upgrades can fail; best fixed plan: 40.14 / 248.43 |
 | 04 | 40.63 | 250.28 | expected stars of the policy optimal for $\sqrt{W}$; sd 7.2 / 31.1 vs 03's 7.3 / 32.8 |
+| 05 | — | — | budget random with mean 10,000: 108.96 (uniform 0 to 20,000), 118.35 (exponential) vs 100.25 fixed |
 
 ## Fields this touches
 
