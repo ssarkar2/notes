@@ -9,7 +9,7 @@ digraph ladder {
   // fillcolor "#c6dbef" = built
   p01 [label="01  Id-Ud-Bk-Ec-Oe-Kk\ndeterministic\n· enumeration · deterministic DP", fillcolor="#c6dbef"];
   p02 [label="02  Ir-Ud-Bk-Ec-Oe-Kk\nrandom items\n· reduction (linearity)", fillcolor="#c6dbef"];
-  p03 [label="03  Ir-Ur-Bk-Ec-Oe-Kk\nrandom upgrades (+ demotion, pity)\n· backward induction · optimal stopping\n· fluid approximation"];
+  p03 [label="03  Ir-Ur-Bk-Ec-Oe-Kk\nrandom upgrades (+ demotion, pity)\n· backward induction · optimal stopping\n· fluid approximation", fillcolor="#c6dbef"];
   p04 [label="04  Ir-Ur-Bk-Ec-Ou-Kk\nnonlinear objective (incl. goals)\n· state augmentation"];
   p05 [label="05  Ir-Ur-Bs-Ec-Oe-Kk\nrandom budget, seen first\n· reduction (average)"];
   p06 [label="06  Ir-Ur-Bh-Ec-Oe-Kk\nhidden budget\n· survival analysis · POMDP collapse"];

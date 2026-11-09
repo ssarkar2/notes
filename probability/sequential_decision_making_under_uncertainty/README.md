@@ -124,7 +124,7 @@ Status: ✅ built · ⬜ planned.
 |---|---|---|---|---|
 | [01](problems/01_Id-Ud-Bk-Ec-Oe-Kk/) | `Id-Ud-Bk-Ec-Oe-Kk` | nothing random | enumeration, deterministic DP | ✅ |
 | [02](problems/02_Ir-Ud-Bk-Ec-Oe-Kk/) | `Ir-Ud-Bk-Ec-Oe-Kk` | item quality random | reduction (linearity of expectation) | ✅ |
-| 03 | `Ir-Ur-Bk-Ec-Oe-Kk` | upgrades can fail (+ demotion, pity mechanics) | MDP / backward induction, optimal stopping, fluid approximation | ⬜ |
+| [03](problems/03_Ir-Ur-Bk-Ec-Oe-Kk/) | `Ir-Ur-Bk-Ec-Oe-Kk` | upgrades can fail (+ demotion, pity mechanics) | MDP / backward induction, optimal stopping, fluid approximation | ✅ |
 | 04 | `Ir-Ur-Bk-Ec-Ou-Kk` | nonlinear objective (incl. goals) | state augmentation, risk-sensitive DP | ⬜ |
 | 05 | `Ir-Ur-Bs-Ec-Oe-Kk` | budget random, seen first | reduction (average) | ⬜ |
 | 06 | `Ir-Ur-Bh-Ec-Oe-Kk` | budget hidden | survival analysis, POMDP → MDP, value of information | ⬜ |
@@ -176,7 +176,34 @@ the item doesn't change the state, so there's nothing to react to. 01's plan sta
 **On the running example:** same values as 01 (simulated means agree within their 95%
 intervals). Randomness only adds spread: sd 3.5 stars at 5,000 coins, 6.1 at 20,000.
 
-### 03 – 13
+### 03 · Random upgrades: `Ir-Ur-Bk-Ec-Oe-Kk`
+
+**What changed:** an upgrade from $L$ succeeds only with probability $U_L$; you pay $C_L$
+either way.
+
+**Formulation:** state $(b, L)$; the upgrade term averages over the outcome:
+
+```math
+V(b, L) = \max\Big\{\; r_L + V(b-h,\, L),\;\; U_L\, V(b - C_L,\, L+1) + (1 - U_L)\, V(b - C_L,\, L),\;\; 0 \;\Big\}
+```
+
+The upgrade outcome changes the state, so the answer is a **policy** that reacts, not a
+fixed plan.
+
+**Tools:** [backward induction](problems/03_Ir-Ur-Bk-Ec-Oe-Kk/backward_induction/) (exact MDP
+solution; the budget only goes down, so fill the table from small budgets up);
+[optimal stopping](problems/03_Ir-Ur-Bk-Ec-Oe-Kk/optimal_stopping/) (the policy is one
+threshold per level); [fluid approximation](problems/03_Ir-Ur-Bk-Ec-Oe-Kk/fluid_approximation/)
+(expected costs $C_L/U_L$ plugged into 01's tools);
+[mechanics variants](problems/03_Ir-Ur-Bk-Ec-Oe-Kk/mechanics_variants/) (demotion, pity).
+
+**On the running example:** failing upgrades cut the value by 13% at 5,000 coins and 21% at
+20,000 compared with sure upgrades. Reacting to luck recovers little: the best fixed plan is
+within 2.4% of the optimal policy at every budget up to 100,000. The policy is "upgrade
+from level $L$ while coins ≥ $b^*_L$", with thresholds 2,400 · 3,800 · 7,900 · 16,900 ·
+41,200 · 104,700.
+
+### 04 – 13
 
 *Planned.*
 
@@ -188,6 +215,7 @@ Each problem reports its value (best expected total stars) on the running exampl
 |---|---|---|---|
 | 01 | 46.80 | 316.50 | upgrades always succeed (an upper bound for 03) |
 | 02 | 46.80 | 316.50 | same as 01; random items only add spread (sd 3.5 / 6.1) |
+| 03 | 40.64 | 250.35 | upgrades can fail; best fixed plan: 40.14 / 248.43 |
 
 ## Fields this touches
 

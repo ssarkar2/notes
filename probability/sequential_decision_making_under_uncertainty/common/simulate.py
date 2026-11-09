@@ -75,9 +75,13 @@ def summary(x: np.ndarray) -> str:
 
 # ---- a few policies reused across problems --------------------------------------------
 def target_level_policy(game: Game, k: int) -> Policy:
-    """Open-loop plan: upgrade until level k (0-indexed), then hit until broke."""
+    """Fixed-target plan: try to upgrade until level k (0-indexed), then hit until broke.
+
+    If the next upgrade is unaffordable before reaching k (possible when upgrades fail),
+    it hits with what's left instead. With a hidden budget it just keeps trying.
+    """
     def pi(o: Obs) -> str:
-        if o.L < k:
+        if o.L < k and (o.b is None or o.b >= game.C[o.L]):
             return "up"
         return "hit"
     return pi
