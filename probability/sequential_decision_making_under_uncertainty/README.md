@@ -50,7 +50,8 @@ utility (expected total stars, under the baseline).
 | $\Delta$ | budget grid step: gcd of all costs |
 | $B$, $F_B$, $S(x)$ | budget, its distribution, its survival function $P(B \ge x)$ |
 | $b$, $s$ | coins remaining, coins spent so far |
-| $g_j$, $\rho$, $T$, $t$ | coins per tick earned by a $j$★ item, total income rate, horizon, time |
+| $g_j$ | coins a $j$★ item pays: once when it drops (refund, `Er`), or every tick while held (income, `Ei`) |
+| $\rho$, $T$, $t$ | total income rate, horizon, time |
 | $V$, $\pi$ | value function, policy |
 
 ### Running example
@@ -129,7 +130,7 @@ Status: ✅ built · ⬜ planned.
 | [04](problems/04_Ir-Ur-Bk-Ec-Ou-Kk/) | `Ir-Ur-Bk-Ec-Ou-Kk` | other utilities: risk attitude, goals | state augmentation, risk-sensitive DP | ✅ |
 | [05](problems/05_Ir-Ur-Bs-Ec-Oe-Kk/) | `Ir-Ur-Bs-Ec-Oe-Kk` | budget random, seen first | reduction (average) | ✅ |
 | [06](problems/06_Ir-Ur-Bh-Ec-Oe-Kk/) | `Ir-Ur-Bh-Ec-Oe-Kk` | budget hidden | belief MDP (POMDP → MDP), survival analysis, value of information | ✅ |
-| 07 | `Ir-Ur-Bk-Er-Oe-Kk` | items refund coins (coins can go up) | value iteration | ⬜ |
+| [07](problems/07_Ir-Ur-Bk-Er-Oe-Kk/) | `Ir-Ur-Bk-Er-Oe-Kk` | items refund coins (coins can go up) | value iteration | ✅ |
 | 08 | `Ir-Ur-Bt-Ec-Oe-Kk` | outside income over time | time-indexed DP | ⬜ |
 | 09 | `Ir-Ur-Bk-Ei-Oe-Kk` | items pay income | time-indexed DP, optimal control (Pontryagin, turnpike) | ⬜ |
 | 10 | `Ir-Ur-Bk-Es-Oe-Kk` | items can be sold | inventory state | ⬜ |
@@ -266,7 +267,30 @@ left"); value of information (05's value minus 06's).
 within 0.02 stars of optimal for the uniform and exponential priors, and loses 2.5 on the
 two-point one.
 
-### 07 – 13
+### 07 · Items refund coins: `Ir-Ur-Bk-Er-Oe-Kk`
+
+**What changed:** a $j$★ item refunds $g_j$ coins once, when it drops. In the running
+example a 5★ item refunds 250, more than a hit costs, so coins can go up.
+
+**Formulation:** same as 03 except the hit term:
+
+```math
+V(b, L) = \max\Big\{ r_L + \sum_j P(L,j)\, V(b - h + g_j,\, L),\;\; U_L\, V(b - C_L,\, L+1) + (1 - U_L)\, V(b - C_L,\, L),\;\; 0 \Big\}
+```
+
+$(b, L)$ can now repeat, so there's no order for backward induction.
+
+**Tool:** [value iteration](problems/07_Ir-Ur-Bk-Er-Oe-Kk/value_iteration/): start from
+$V = 0$ and apply the update until nothing changes; after $k$ sweeps $V$ is the best value
+with at most $k$ actions. Plus the mean-refund approximation (hit cost $h - E[g]$, back to
+03's tools).
+
+**On the running example:** at 5,000 coins nothing changes; at 20,000 the value rises
+from 250.35 to 433.16, and the policy goes for level 7 once it's at level 4 with about
+9,500 coins. The mean hides a lottery: median 195 stars, 90th percentile 1,177. The
+mean-refund approximation gets the value within 0.8%.
+
+### 08 – 13
 
 *Planned.*
 
@@ -282,6 +306,7 @@ Each problem reports its value (best expected total stars) on the running exampl
 | 04 | 40.63 | 250.28 | expected stars of the policy optimal for $\sqrt{W}$; sd 7.2 / 31.1 vs 03's 7.3 / 32.8 |
 | 05 | — | — | budget random with mean 10,000: 108.96 (uniform 0 to 20,000), 118.35 (exponential) vs 100.25 fixed |
 | 06 | — | — | same budgets, hidden: 104.00 (uniform), 107.76 (exponential) |
+| 07 | 40.64 | 433.16 | 5★ items refund 250 coins; median at 20,000 is 195 |
 
 ## Fields this touches
 

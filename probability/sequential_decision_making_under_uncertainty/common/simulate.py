@@ -55,7 +55,9 @@ def play_once(game: Game, policy: Policy, budget: int, rng: np.random.Generator,
             if game.items_deterministic:
                 value += r[L]
             else:
-                j = int(game.stars[rng.choice(game.M, p=game.P[L])])
+                jt = rng.choice(game.M, p=game.P[L])
+                j = int(game.stars[jt])
+                b, s = b + game.refund[jt], s - game.refund[jt]   # Er: refund (s = net spent)
                 value += j
                 top = max(top, j)
                 items.append(j)

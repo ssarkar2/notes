@@ -11,6 +11,7 @@ Notation (matches the main README):
     C[L]     cost of attempting upgrade L -> L+1        (len N-1)
     U[L]     success probability of upgrade L -> L+1    (len N-1)
     D[L]     prob. of dropping to L-1 when upgrade from L fails (len N-1, demotion mechanic)
+    g[j]     coins refunded once by a (j+1)-star item, when it drops (axis E: Er; len M)
 
 Currency is *coins*; *stars* only ever mean item quality.
 
@@ -37,6 +38,7 @@ class Game:
     P: np.ndarray                       # (N, M)
     D: tuple[float, ...] = field(default=())
     items_deterministic: bool = False   # axis I: Id if True, Ir if False
+    refund: tuple[int, ...] = field(default=())  # g_j, axis E: Ec if all 0, Er otherwise
 
     def __post_init__(self):
         N, M = self.P.shape
@@ -44,6 +46,10 @@ class Game:
         assert np.allclose(self.P.sum(1), 1)
         if not self.D:
             object.__setattr__(self, "D", (0.0,) * (N - 1))
+        if not self.refund:
+            object.__setattr__(self, "refund", (0,) * M)
+        assert len(self.refund) == M
+        assert not (self.items_deterministic and any(self.refund)), "refunds need random items (Ir)"
 
     # ---- derived quantities ----
     @property
@@ -66,8 +72,13 @@ class Game:
 
     @property
     def unit(self) -> int:
-        """Delta = gcd of all costs: budgets are discretised on this grid."""
-        return reduce(gcd, [self.h, *self.C])
+        """Delta = gcd of all costs and refunds: budgets are discretised on this grid."""
+        return reduce(gcd, [self.h, *self.C, *self.refund])
+
+    @property
+    def mean_refund(self) -> np.ndarray:
+        """E[g] per hit at each level: sum_j P(L, j) g_j."""
+        return self.P @ np.array(self.refund, dtype=float)
 
     @property
     def expected_upgrade_cost(self) -> np.ndarray:
@@ -118,6 +129,11 @@ def parametric_item_table(N: int, M: int, sigma: float = 0.8) -> np.ndarray:
 
 
 # ---- axis variants of a game ---------------------------------------------------------
+def with_refund(g: Game, refund: tuple[int, ...]) -> Game:
+    """Axis E: Ec -> Er. A j-star item refunds refund[j-1] coins once, when it drops."""
+    return replace(g, refund=tuple(refund))
+
+
 def deterministic_items(g: Game) -> Game:
     """Axis I: Ir -> Id. Every hit at level L yields exactly r_L."""
     return replace(g, items_deterministic=True)

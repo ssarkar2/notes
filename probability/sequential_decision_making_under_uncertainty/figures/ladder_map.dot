@@ -13,7 +13,7 @@ digraph ladder {
   p04 [label="04  Ir-Ur-Bk-Ec-Ou-Kk\nother utilities (risk, goals)\n· state augmentation · risk-sensitive DP", fillcolor="#c6dbef"];
   p05 [label="05  Ir-Ur-Bs-Ec-Oe-Kk\nrandom budget, seen first\n· reduction (average)", fillcolor="#c6dbef"];
   p06 [label="06  Ir-Ur-Bh-Ec-Oe-Kk\nhidden budget\n· belief MDP · survival analysis", fillcolor="#c6dbef"];
-  p07 [label="07  Ir-Ur-Bk-Er-Oe-Kk\none-time refund\n· value iteration"];
+  p07 [label="07  Ir-Ur-Bk-Er-Oe-Kk\none-time refund\n· value iteration", fillcolor="#c6dbef"];
   p08 [label="08  Ir-Ur-Bt-Ec-Oe-Kk\nexternal trickle income\n· time-indexed DP"];
   p09 [label="09  Ir-Ur-Bk-Ei-Oe-Kk\nitems pay income\n· time-indexed DP · optimal control"];
   p10 [label="10  Ir-Ur-Bk-Es-Oe-Kk\nsell items\n· inventory state"];
