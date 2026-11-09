@@ -125,7 +125,7 @@ Status: ✅ built · ⬜ planned.
 | [01](problems/01_Id-Ud-Bk-Ec-Oe-Kk/) | `Id-Ud-Bk-Ec-Oe-Kk` | nothing random | enumeration, deterministic DP | ✅ |
 | [02](problems/02_Ir-Ud-Bk-Ec-Oe-Kk/) | `Ir-Ud-Bk-Ec-Oe-Kk` | item quality random | reduction (linearity of expectation) | ✅ |
 | [03](problems/03_Ir-Ur-Bk-Ec-Oe-Kk/) | `Ir-Ur-Bk-Ec-Oe-Kk` | upgrades can fail (+ demotion, pity mechanics) | MDP / backward induction, optimal stopping, fluid approximation | ✅ |
-| 04 | `Ir-Ur-Bk-Ec-Ou-Kk` | nonlinear objective (incl. goals) | state augmentation, risk-sensitive DP | ⬜ |
+| [04](problems/04_Ir-Ur-Bk-Ec-Ou-Kk/) | `Ir-Ur-Bk-Ec-Ou-Kk` | other utilities: risk attitude, goals | state augmentation, risk-sensitive DP | ✅ |
 | 05 | `Ir-Ur-Bs-Ec-Oe-Kk` | budget random, seen first | reduction (average) | ⬜ |
 | 06 | `Ir-Ur-Bh-Ec-Oe-Kk` | budget hidden | survival analysis, POMDP → MDP, value of information | ⬜ |
 | 07 | `Ir-Ur-Bk-Er-Oe-Kk` | items refund coins (coins can go up) | value iteration | ⬜ |
@@ -203,7 +203,28 @@ within 2.4% of the optimal policy at every budget up to 100,000. The policy is "
 from level $L$ while coins ≥ $b^*_L$", with thresholds 2,400 · 3,800 · 7,900 · 16,900 ·
 41,200 · 104,700.
 
-### 04 – 13
+### 04 · Other utilities: `Ir-Ur-Bk-Ec-Ou-Kk`
+
+**What changed:** the utility $u$ is no longer total stars: e.g. $\sqrt{W}$ (avoids risk),
+$W^2$ (seeks risk), or a goal ($W \ge G$, at least one 5★), with $W$ the total stars.
+
+**Formulation:** $u$ is applied once at the end, so the state carries the summary $s$ of
+the items that $u$ reads (total stars, a capped counter, a yes/no flag):
+
+```math
+V(b, L, s) = \max\Big\{ \sum_j P(L,j)\, V(b-h, L, s \oplus j),\;\; U_L\, V(b - C_L, L+1, s) + (1 - U_L)\, V(b - C_L, L, s),\;\; u(s) \Big\}
+```
+
+**Tools:** [state augmentation](problems/04_Ir-Ur-Bk-Ec-Ou-Kk/state_augmentation/) (any $u$;
+bigger state); [risk-sensitive DP](problems/04_Ir-Ur-Bk-Ec-Ou-Kk/risk_sensitive/)
+(exponential utility: a risk dial $\theta$ with no extra state).
+
+**On the running example:** with $\sqrt{W}$ and $W^2$ the policies barely change (same mean
+within 0.3 stars at 20,000; sd 31.1 and 37.0 vs 32.8): over this range both are close to
+straight lines. Goals change a lot: aiming for at least one 5★ raises its chance from 0.318
+to 0.782 at 10,000 coins, at a cost of about 31 expected stars.
+
+### 05 – 13
 
 *Planned.*
 
@@ -216,6 +237,7 @@ Each problem reports its value (best expected total stars) on the running exampl
 | 01 | 46.80 | 316.50 | upgrades always succeed (an upper bound for 03) |
 | 02 | 46.80 | 316.50 | same as 01; random items only add spread (sd 3.5 / 6.1) |
 | 03 | 40.64 | 250.35 | upgrades can fail; best fixed plan: 40.14 / 248.43 |
+| 04 | 40.63 | 250.28 | expected stars of the policy optimal for $\sqrt{W}$; sd 7.2 / 31.1 vs 03's 7.3 / 32.8 |
 
 ## Fields this touches
 
