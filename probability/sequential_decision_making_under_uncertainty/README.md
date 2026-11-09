@@ -64,7 +64,7 @@ Every variant gets a tag `I?-U?-B?-E?-O?-K?`. Each axis answers one question:
 | **U** | Is the upgrade outcome random? | `Ud` no (always succeeds) · `Ur` yes |
 | **B** | What do you know about the budget, and does it grow? | `Bk` known · `Bs` random, seen before play · `Bh` hidden (you find out when you run out) · `Bt` trickle (coins arrive over time from outside) |
 | **E** | Do items feed back into coins? | `Ec` no (closed) · `Er` one-time refund per item · `Ei` items pay income (every item held pays coins each tick) · `Es` items can be sold (losing their worth) |
-| **O** | What counts as winning? | `Oe` max expected worth · `Ou` max expected *utility* of worth (risk-averse) · `Ot` max probability of reaching a target (e.g. at least one 5★) |
+| **O** | What counts as winning? | `Oe` max expected worth · `Ou` max expected *utility* $E[u(\text{outcome})]$, $u$ nonlinear; the shape of $u$ sets the behaviour (concave → avoids risk; a step at a goal, e.g. "at least one 5★" → can seek risk) |
 | **K** | Do you know the probabilities? | `Kk` known · `Kb` known family, unknown parameters (Bayesian) · `Ku` unknown |
 
 Two notes on the **K** axis:
@@ -90,7 +90,7 @@ an extra outcome or one extra state variable:
 
 ### Reductions: most tags collapse
 
-There are $2 \cdot 2 \cdot 4 \cdot 4 \cdot 3 \cdot 3 = 576$ tags, but most reduce to
+There are $2 \cdot 2 \cdot 4 \cdot 4 \cdot 2 \cdot 3 = 384$ tags, but most reduce to
 something already solved. Most of the hard variants become a standard **MDP on a bigger
 state**. Learning to spot these reductions is half the skill.
 
@@ -108,7 +108,7 @@ Status: ✅ built · ⬜ planned.
 | [01](problems/01_Id-Ud-Bk-Ec-Oe-Kk/) | `Id-Ud-Bk-Ec-Oe-Kk` | nothing random | enumeration, deterministic DP | ✅ |
 | 02 | `Ir-Ud-Bk-Ec-Oe-Kk` | item quality random | reduction (linearity of expectation) | ⬜ |
 | 03 | `Ir-Ur-Bk-Ec-Oe-Kk` | upgrades can fail (+ demotion, pity mechanics) | MDP / backward induction, optimal stopping, fluid approximation | ⬜ |
-| 04 | `Ir-Ur-Bk-Ec-Ot/Ou-Kk` | nonlinear objective | state augmentation, risk-sensitive DP | ⬜ |
+| 04 | `Ir-Ur-Bk-Ec-Ou-Kk` | nonlinear objective (incl. goals) | state augmentation, risk-sensitive DP | ⬜ |
 | 05 | `Ir-Ur-Bs-Ec-Oe-Kk` | budget random, seen first | reduction (average) | ⬜ |
 | 06 | `Ir-Ur-Bh-Ec-Oe-Kk` | budget hidden | survival analysis, POMDP → MDP, value of information | ⬜ |
 | 07 | `Ir-Ur-Bk-Er-Oe-Kk` | items refund coins (coins can go up) | value iteration | ⬜ |

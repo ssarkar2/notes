@@ -10,7 +10,7 @@ digraph ladder {
   p01 [label="01  Id-Ud-Bk-Ec-Oe-Kk\ndeterministic\n· enumeration · deterministic DP", fillcolor="#c6dbef"];
   p02 [label="02  Ir-Ud-Bk-Ec-Oe-Kk\nrandom items\n· reduction (linearity)"];
   p03 [label="03  Ir-Ur-Bk-Ec-Oe-Kk\nrandom upgrades (+ demotion, pity)\n· backward induction · optimal stopping\n· fluid approximation"];
-  p04 [label="04  Ir-Ur-Bk-Ec-Ot/Ou-Kk\nnonlinear objective\n· state augmentation"];
+  p04 [label="04  Ir-Ur-Bk-Ec-Ou-Kk\nnonlinear objective (incl. goals)\n· state augmentation"];
   p05 [label="05  Ir-Ur-Bs-Ec-Oe-Kk\nrandom budget, seen first\n· reduction (average)"];
   p06 [label="06  Ir-Ur-Bh-Ec-Oe-Kk\nhidden budget\n· survival analysis · POMDP collapse"];
   p07 [label="07  Ir-Ur-Bk-Er-Oe-Kk\none-time refund\n· value iteration"];
@@ -23,7 +23,7 @@ digraph ladder {
 
   p01 -> p02 [label="I: d→r"];
   p02 -> p03 [label="U: d→r"];
-  p03 -> p04 [label="O: e→t/u"];
+  p03 -> p04 [label="O: e→u"];
   p03 -> p05 [label="B: k→s"];
   p05 -> p06 [label="B: s→h"];
   p03 -> p07 [label="E: c→r"];

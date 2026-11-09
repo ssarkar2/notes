@@ -15,7 +15,7 @@ digraph reductions {
     Bs [label="Bs  random budget, seen first"];
     Er [label="Er  one-time refund"];
     Ku [label="Ku  nothing known"];
-    Ot [label="Ot / Ou  nonlinear objective"];
+    Ou [label="Ou  nonlinear utility"];
     Bh [label="Bh  hidden budget"];
     Bt [label="Bt  trickle income"];
     Ei [label="Ei  items pay income"];
@@ -41,7 +41,7 @@ digraph reductions {
   Ku -> Kb2 [label="≈ fit a model, then plan", style=dashed];
 
   edge [style=bold, color="#2171b5", fontcolor="#2171b5"];
-  Ot -> MDP [label="+ progress / wealth"];
+  Ou -> MDP [label="+ worth so far / progress to goal"];
   Bh -> MDP [label="state = coins spent"];
   Bt -> MDP [label="+ time"];
   Ei -> MDP [label="+ time, income ρ"];
