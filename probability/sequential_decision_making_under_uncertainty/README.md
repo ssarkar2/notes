@@ -13,8 +13,13 @@ currency is **coins**, and you have a budget of them. You can spend coins two wa
 - **Upgrade** the core from $L$ to $L+1$: pay $C_L$, succeed with probability $U_L$.
   Upgrades usually get pricier and riskier as $L$ rises.
 
-**Question:** with a given budget, how do you maximise the (expected) total **worth** of
-your items? Coins left over at the end count for nothing.
+**Question:** with a given budget, how do you play to maximise $E[u(\text{outcome})]$? Here
+the outcome is the collection of items you end up with (the counts $n_1, \dots, n_M$ of each
+star tier), and $u$ scores it. Coins left over at the end count for nothing. Examples of $u$:
+
+- total worth $\sum_j w_j n_j$ (with $w_j = j$: total stars), the **baseline** used until problem 04;
+- "at least one 5★": $u = 1$ if $n_5 \ge 1$, else 0;
+- a concave function of total worth, for a player who dislikes risk.
 
 Every variant below is a version of one trade-off: **invest** (upgrade, so future hits
 are better) vs. **harvest** (hit now, and get more items).
@@ -25,7 +30,7 @@ therefore a **policy** (a rule: in this situation, do this), not a fixed plan.
 ## Notation
 
 Words: **stars** only ever describe item quality; **coins** are the currency; an item's
-**worth** is its score; **value** ($V$) is the best achievable expected total worth.
+**worth** is its score; **value** ($V$) is the best achievable $E[u(\text{outcome})]$ (expected total worth under the baseline).
 
 | Symbol | Meaning |
 |---|---|
@@ -56,7 +61,9 @@ The same numbers are used everywhere, so results can be compared across problems
 
 ## Classifying the variants: six axes
 
-Every variant gets a tag `I?-U?-B?-E?-O?-K?`. Each axis answers one question:
+Every variant gets a tag `I?-U?-B?-E?-O?-K?`. Each axis answers one question. On every axis
+the first value is a special case of the others (e.g. a sure upgrade is a random one with
+$U = 1$); it gets its own value because it unlocks simpler methods.
 
 | Axis | Question | Values |
 |---|---|---|
@@ -64,8 +71,14 @@ Every variant gets a tag `I?-U?-B?-E?-O?-K?`. Each axis answers one question:
 | **U** | Is the upgrade outcome random? | `Ud` no (always succeeds) · `Ur` yes |
 | **B** | What do you know about the budget, and does it grow? | `Bk` known · `Bs` random, seen before play · `Bh` hidden (you find out when you run out) · `Bt` trickle (coins arrive over time from outside) |
 | **E** | Do items feed back into coins? | `Ec` no (closed) · `Er` one-time refund per item · `Ei` items pay income (every item held pays coins each tick) · `Es` items can be sold (losing their worth) |
-| **O** | What counts as winning? | `Oe` max expected worth · `Ou` max expected *utility* $E[u(\text{outcome})]$, $u$ nonlinear; the shape of $u$ sets the behaviour (concave → avoids risk; a step at a goal, e.g. "at least one 5★" → can seek risk) |
+| **O** | Is the score $u$ additive over items? | `Oe` yes: $u = \sum_j w_j n_j$ · `Ou` no: any other $u$; its shape sets the behaviour (concave → avoids risk; a step at a goal, e.g. "at least one 5★" → can seek risk) |
 | **K** | Do you know the probabilities? | `Kk` known · `Kb` known family, unknown parameters (Bayesian) · `Ku` unknown |
+
+What additivity (`Oe`) buys: the state needs no memory of past items; item randomness can be
+replaced by its mean $r_L$ (linearity of expectation); rewards arrive hit by hit (the
+standard MDP form); and the closed forms and approximations of problems 01–03 work.
+`Ou` pays with a bigger state (whatever summary of the items $u$ depends on) and loses
+those shortcuts.
 
 Two notes on the **K** axis:
 
