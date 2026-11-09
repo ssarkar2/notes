@@ -96,7 +96,7 @@
 <!-- p08 -->
 <g id="node8" class="node">
 <title>p08</title>
-<path fill="white" stroke="#555555" d="M789.25,-161.75C789.25,-161.75 699,-161.75 699,-161.75 693,-161.75 687,-155.75 687,-149.75 687,-149.75 687,-132 687,-132 687,-126 693,-120 699,-120 699,-120 789.25,-120 789.25,-120 795.25,-120 801.25,-126 801.25,-132 801.25,-132 801.25,-149.75 801.25,-149.75 801.25,-155.75 795.25,-161.75 789.25,-161.75"/>
+<path fill="#c6dbef" stroke="#555555" d="M789.25,-161.75C789.25,-161.75 699,-161.75 699,-161.75 693,-161.75 687,-155.75 687,-149.75 687,-149.75 687,-132 687,-132 687,-126 693,-120 699,-120 699,-120 789.25,-120 789.25,-120 795.25,-120 801.25,-126 801.25,-132 801.25,-132 801.25,-149.75 801.25,-149.75 801.25,-155.75 795.25,-161.75 789.25,-161.75"/>
 <text xml:space="preserve" text-anchor="middle" x="744.12" y="-148.25" font-family="Helvetica,sans-Serif" font-size="10.00">08 &#160;Ir&#45;Ur&#45;Bt&#45;Ec&#45;Oe&#45;Kk</text>
 <text xml:space="preserve" text-anchor="middle" x="744.12" y="-137" font-family="Helvetica,sans-Serif" font-size="10.00">external trickle income</text>
 <text xml:space="preserve" text-anchor="middle" x="744.12" y="-125.75" font-family="Helvetica,sans-Serif" font-size="10.00">· time&#45;indexed DP</text>

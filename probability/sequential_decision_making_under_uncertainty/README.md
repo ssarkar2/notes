@@ -131,7 +131,7 @@ Status: ✅ built · ⬜ planned.
 | [05](problems/05_Ir-Ur-Bs-Ec-Oe-Kk/) | `Ir-Ur-Bs-Ec-Oe-Kk` | budget random, seen first | reduction (average) | ✅ |
 | [06](problems/06_Ir-Ur-Bh-Ec-Oe-Kk/) | `Ir-Ur-Bh-Ec-Oe-Kk` | budget hidden | belief MDP (POMDP → MDP), survival analysis, value of information | ✅ |
 | [07](problems/07_Ir-Ur-Bk-Er-Oe-Kk/) | `Ir-Ur-Bk-Er-Oe-Kk` | items refund coins (coins can go up) | value iteration | ✅ |
-| 08 | `Ir-Ur-Bt-Ec-Oe-Kk` | outside income over time | time-indexed DP | ⬜ |
+| [08](problems/08_Ir-Ur-Bt-Ec-Oe-Kk/) | `Ir-Ur-Bt-Ec-Oe-Kk` | outside income over time | time-indexed DP | ✅ |
 | 09 | `Ir-Ur-Bk-Ei-Oe-Kk` | items pay income | time-indexed DP, optimal control (Pontryagin, turnpike) | ⬜ |
 | 10 | `Ir-Ur-Bk-Es-Oe-Kk` | items can be sold | inventory state | ⬜ |
 | 11 | `Ir-Ur-Bk-Ec-Oe-Kb` | odds unknown, family known | Bayesian adaptive MDP, Thompson sampling | ⬜ |
@@ -290,7 +290,28 @@ from 250.35 to 433.16, and the policy goes for level 7 once it's at level 4 with
 9,500 coins. The mean hides a lottery: median 195 stars, 90th percentile 1,177. The
 mean-refund approximation gets the value within 0.8%.
 
-### 08 – 13
+### 08 · Coins trickle in: `Ir-Ur-Bt-Ec-Oe-Kk`
+
+**What changed:** $\rho$ coins arrive each tick for $T$ ticks, and you take one action
+per tick (hit, upgrade, or wait).
+
+**Formulation:** add time to the state. With $b$ the coins before this tick's income:
+
+```math
+V(t, b, L) = \max\Big\{ V(t+1,\, b+\rho,\, L),\;\; r_L + V(t+1,\, b+\rho-h,\, L),\;\; U_L\, V(t+1,\, b+\rho-C_L,\, L+1) + (1-U_L)\, V(t+1,\, b+\rho-C_L,\, L) \Big\}
+```
+
+**Tool:** [time-indexed DP](problems/08_Ir-Ur-Bt-Ec-Oe-Kk/time_indexed_dp/): coins go up,
+but $t$ only goes forward, so one backward pass in $t$ is exact. Two bounds frame it:
+03 with all $\rho T$ coins up front, and the same ticks with coins never short.
+
+**On the running example:** if $\rho \le h$ the clock doesn't matter at all: 08 is exactly
+03 with $\rho T$ coins (a short proof in the method page). Above that, ticks bind: with
+$T$ = 50 and $\rho$ = 400 (the same 20,000 coins) you get 138.90 stars instead of 250.35.
+With coins never short, the policy is a threshold rule in ticks left: 6 · 7 · 9 · 13 · 23
+· 42.
+
+### 09 – 13
 
 *Planned.*
 
@@ -307,6 +328,7 @@ Each problem reports its value (best expected total stars) on the running exampl
 | 05 | — | — | budget random with mean 10,000: 108.96 (uniform 0 to 20,000), 118.35 (exponential) vs 100.25 fixed |
 | 06 | — | — | same budgets, hidden: 104.00 (uniform), 107.76 (exponential) |
 | 07 | 40.64 | 433.16 | 5★ items refund 250 coins; median at 20,000 is 195 |
+| 08 | — | — | 20,000 coins as income over 50 ticks (400 per tick), one action per tick: 138.90 |
 
 ## Fields this touches
 

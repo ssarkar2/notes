@@ -30,25 +30,36 @@ class Obs:
     L: int          # core level, 0-indexed
     W: float = 0.0  # total stars so far
     top: int = 0    # best item so far (stars; 0 = no items yet)
+    t: int = 0      # tick (problems with time, axis Bt); 0 otherwise
 
 
 Policy = Callable[[Obs], str]
 
 
 def play_once(game: Game, policy: Policy, budget: int, rng: np.random.Generator,
-              hidden_budget: bool = False, max_steps: int = 10**6, utility=None) -> float:
-    """Play one game; return total stars collected, or utility(items) if given."""
+              hidden_budget: bool = False, max_steps: int = 10**6, utility=None,
+              income: int = 0, ticks: int | None = None) -> float:
+    """Play one game; return total stars collected, or utility(items) if given.
+
+    With `ticks` (axis Bt): the game lasts that many ticks; each tick `income` coins
+    arrive, then the policy takes ONE action ("hit", "up", or "wait").
+    """
     b, s, L, value, top = budget, 0, 0, 0.0, 0
     items = []
     r = game.r
-    for _ in range(max_steps):
-        a = policy(Obs(None if hidden_budget else b, s, L, value, top))
+    for t in range(max_steps if ticks is None else ticks):
+        b += income
+        a = policy(Obs(None if hidden_budget else b, s, L, value, top, t))
+        if a == "wait":
+            continue
         if a == "stop":
             break
         cost = game.h if a == "hit" else game.C[L]
         if a == "up" and L >= game.N - 1:
             raise ValueError("policy tried to upgrade past the top level")
         if cost > b:            # cannot afford: the game ends (hidden budget learns it here)
+            if ticks is not None:
+                continue        # with income, more coins may come: the action is just refused
             break
         b, s = b - cost, s + cost
         if a == "hit":
@@ -70,13 +81,15 @@ def play_once(game: Game, policy: Policy, budget: int, rng: np.random.Generator,
 
 
 def simulate(game: Game, policy: Policy, budget, n: int = 2000, seed: int = 0,
-             hidden_budget: bool = False, utility=None) -> np.ndarray:
+             hidden_budget: bool = False, utility=None, income: int = 0,
+             ticks: int | None = None) -> np.ndarray:
     """Play n games. `budget` is an int, or a callable rng -> int (random budget)."""
     rng = np.random.default_rng(seed)
     out = np.empty(n)
     for i in range(n):
         B = budget(rng) if callable(budget) else budget
-        out[i] = play_once(game, policy, B, rng, hidden_budget, utility=utility)
+        out[i] = play_once(game, policy, B, rng, hidden_budget, utility=utility,
+                           income=income, ticks=ticks)
     return out
 
 
