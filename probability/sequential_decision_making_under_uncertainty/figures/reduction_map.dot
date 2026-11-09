@@ -18,7 +18,7 @@ digraph reductions {
     Ot [label="Ot / Ou  nonlinear objective"];
     Bh [label="Bh  hidden budget"];
     Bt [label="Bt  trickle income"];
-    Ei [label="Ei  factory income"];
+    Ei [label="Ei  items pay income"];
     Es [label="Es  sell items"];
     Kb [label="Kb  unknown params"];
     dem  [label="demotion (mechanic)", fontname="Helvetica-Oblique", color="#999999", fontcolor="#666666"];

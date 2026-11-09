@@ -170,10 +170,10 @@
 <!-- p09 -->
 <g id="node9" class="node">
 <title>p09</title>
-<path fill="white" stroke="#555555" d="M1064,-162.5C1064,-162.5 920.5,-162.5 920.5,-162.5 914.5,-162.5 908.5,-156.5 908.5,-150.5 908.5,-150.5 908.5,-131.25 908.5,-131.25 908.5,-125.25 914.5,-119.25 920.5,-119.25 920.5,-119.25 1064,-119.25 1064,-119.25 1070,-119.25 1076,-125.25 1076,-131.25 1076,-131.25 1076,-150.5 1076,-150.5 1076,-156.5 1070,-162.5 1064,-162.5"/>
-<text xml:space="preserve" text-anchor="middle" x="992.25" y="-149" font-family="Helvetica,sans-Serif" font-size="10.00">09 &#160;Ir&#45;Ur&#45;Bk&#45;Ei&#45;Oe&#45;Kk</text>
-<text xml:space="preserve" text-anchor="middle" x="992.25" y="-137.75" font-family="Helvetica,sans-Serif" font-size="10.00">factory: items → income</text>
-<text xml:space="preserve" text-anchor="middle" x="992.25" y="-125" font-family="Helvetica,sans-Serif" font-size="10.00">· time&#45;indexed DP · optimal control</text>
+<path fill="white" stroke="#555555" d="M1064,-161.75C1064,-161.75 920.5,-161.75 920.5,-161.75 914.5,-161.75 908.5,-155.75 908.5,-149.75 908.5,-149.75 908.5,-132 908.5,-132 908.5,-126 914.5,-120 920.5,-120 920.5,-120 1064,-120 1064,-120 1070,-120 1076,-126 1076,-132 1076,-132 1076,-149.75 1076,-149.75 1076,-155.75 1070,-161.75 1064,-161.75"/>
+<text xml:space="preserve" text-anchor="middle" x="992.25" y="-148.25" font-family="Helvetica,sans-Serif" font-size="10.00">09 &#160;Ir&#45;Ur&#45;Bk&#45;Ei&#45;Oe&#45;Kk</text>
+<text xml:space="preserve" text-anchor="middle" x="992.25" y="-137" font-family="Helvetica,sans-Serif" font-size="10.00">items pay income</text>
+<text xml:space="preserve" text-anchor="middle" x="992.25" y="-125.75" font-family="Helvetica,sans-Serif" font-size="10.00">· time&#45;indexed DP · optimal control</text>
 </g>
 <!-- p08&#45;&gt;p09 -->
 <g id="edge8" class="edge">

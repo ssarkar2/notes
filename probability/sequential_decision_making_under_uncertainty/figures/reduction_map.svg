@@ -154,7 +154,7 @@
 <g id="node9" class="node">
 <title>Ei</title>
 <path fill="none" stroke="#555555" d="M175.2,-441C175.2,-441 12,-441 12,-441 6,-441 0,-435 0,-429 0,-429 0,-417 0,-417 0,-411 6,-405 12,-405 12,-405 175.2,-405 175.2,-405 181.2,-405 187.2,-411 187.2,-417 187.2,-417 187.2,-429 187.2,-429 187.2,-435 181.2,-441 175.2,-441"/>
-<text xml:space="preserve" text-anchor="middle" x="93.6" y="-419.12" font-family="Helvetica,sans-Serif" font-size="10.00">Ei &#160;factory income</text>
+<text xml:space="preserve" text-anchor="middle" x="93.6" y="-419.12" font-family="Helvetica,sans-Serif" font-size="10.00">Ei &#160;items pay income</text>
 </g>
 <!-- Ei&#45;&gt;MDP -->
 <g id="edge9" class="edge">

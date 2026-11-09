@@ -14,7 +14,7 @@ currency is **coins**, and you have a budget of them. You can spend coins two wa
   Upgrades usually get pricier and riskier as $L$ rises.
 
 **Question:** with a given budget, how do you maximise the (expected) total **worth** of
-your items?
+your items? Coins left over at the end count for nothing.
 
 Every variant below is a version of one trade-off: **invest** (upgrade, so future hits
 are better) vs. **harvest** (hit now, and get more items).
@@ -63,7 +63,7 @@ Every variant gets a tag `I?-U?-B?-E?-O?-K?`. Each axis answers one question:
 | **I** | Is the item outcome random? | `Id` no (each hit gives exactly $r_L$) · `Ir` yes |
 | **U** | Is the upgrade outcome random? | `Ud` no (always succeeds) · `Ur` yes |
 | **B** | What do you know about the budget, and does it grow? | `Bk` known · `Bs` random, seen before play · `Bh` hidden (you find out when you run out) · `Bt` trickle (coins arrive over time from outside) |
-| **E** | Do items feed back into coins? | `Ec` no (closed) · `Er` one-time refund per item · `Ei` every item pays income each tick (a factory) · `Es` items can be sold (losing their worth) |
+| **E** | Do items feed back into coins? | `Ec` no (closed) · `Er` one-time refund per item · `Ei` items pay income (every item held pays coins each tick) · `Es` items can be sold (losing their worth) |
 | **O** | What counts as winning? | `Oe` max expected worth · `Ou` max expected *utility* of worth (risk-averse) · `Ot` max probability of reaching a target (e.g. at least one 5★) |
 | **K** | Do you know the probabilities? | `Kk` known · `Kb` known family, unknown parameters (Bayesian) · `Ku` unknown |
 
@@ -113,7 +113,7 @@ Status: ✅ built · ⬜ planned.
 | 06 | `Ir-Ur-Bh-Ec-Oe-Kk` | budget hidden | survival analysis, POMDP → MDP, value of information | ⬜ |
 | 07 | `Ir-Ur-Bk-Er-Oe-Kk` | items refund coins (coins can go up) | value iteration | ⬜ |
 | 08 | `Ir-Ur-Bt-Ec-Oe-Kk` | outside income over time | time-indexed DP | ⬜ |
-| 09 | `Ir-Ur-Bk-Ei-Oe-Kk` | items generate income (factory) | time-indexed DP, optimal control (Pontryagin, turnpike) | ⬜ |
+| 09 | `Ir-Ur-Bk-Ei-Oe-Kk` | items pay income | time-indexed DP, optimal control (Pontryagin, turnpike) | ⬜ |
 | 10 | `Ir-Ur-Bk-Es-Oe-Kk` | items can be sold | inventory state | ⬜ |
 | 11 | `Ir-Ur-Bk-Ec-Oe-Kb` | odds unknown, family known | Bayesian adaptive MDP, Thompson sampling | ⬜ |
 | 12 | `Ir-Ur-Bk-Ec-Oe-Ku` | nothing known | model-free RL | ⬜ |
