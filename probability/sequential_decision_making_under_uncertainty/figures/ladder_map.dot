@@ -16,7 +16,7 @@ digraph ladder {
   p07 [label="07  Ir-Ur-Bk-Er-Oe-Kk\none-time refund\n· value iteration", fillcolor="#c6dbef"];
   p08 [label="08  Ir-Ur-Bt-Ec-Oe-Kk\nexternal trickle income\n· time-indexed DP", fillcolor="#c6dbef"];
   p09 [label="09  Ir-Ur-Bk-Ei-Oe-Kk\nitems pay income\n· time-indexed DP · shadow prices", fillcolor="#c6dbef"];
-  p10 [label="10  Ir-Ur-Bk-Es-Oe-Kk\nsell items\n· inventory state"];
+  p10 [label="10  Ir-Ur-Bk-Es-Oe-Kk\nsell items\n· inventory DP", fillcolor="#c6dbef"];
   p11 [label="11  Ir-Ur-Bk-Ec-Oe-Kb\nunknown params (Bayesian)\n· Bayesian adaptive MDP · Thompson"];
   p12 [label="12  Ir-Ur-Bk-Ec-Oe-Ku\nnothing known\n· model-free RL"];
   p13 [label="13  Ir-Ur-Bh-Ei-Oe-Kb\neverything\n· policy search · approximate DP"];

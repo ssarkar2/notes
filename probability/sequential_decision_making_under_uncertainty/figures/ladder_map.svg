@@ -111,10 +111,10 @@
 <!-- p10 -->
 <g id="node10" class="node">
 <title>p10</title>
-<path fill="white" stroke="#555555" d="M788.5,-101.75C788.5,-101.75 699.75,-101.75 699.75,-101.75 693.75,-101.75 687.75,-95.75 687.75,-89.75 687.75,-89.75 687.75,-72 687.75,-72 687.75,-66 693.75,-60 699.75,-60 699.75,-60 788.5,-60 788.5,-60 794.5,-60 800.5,-66 800.5,-72 800.5,-72 800.5,-89.75 800.5,-89.75 800.5,-95.75 794.5,-101.75 788.5,-101.75"/>
+<path fill="#c6dbef" stroke="#555555" d="M788.5,-101.75C788.5,-101.75 699.75,-101.75 699.75,-101.75 693.75,-101.75 687.75,-95.75 687.75,-89.75 687.75,-89.75 687.75,-72 687.75,-72 687.75,-66 693.75,-60 699.75,-60 699.75,-60 788.5,-60 788.5,-60 794.5,-60 800.5,-66 800.5,-72 800.5,-72 800.5,-89.75 800.5,-89.75 800.5,-95.75 794.5,-101.75 788.5,-101.75"/>
 <text xml:space="preserve" text-anchor="middle" x="744.12" y="-88.25" font-family="Helvetica,sans-Serif" font-size="10.00">10 &#160;Ir&#45;Ur&#45;Bk&#45;Es&#45;Oe&#45;Kk</text>
 <text xml:space="preserve" text-anchor="middle" x="744.12" y="-77" font-family="Helvetica,sans-Serif" font-size="10.00">sell items</text>
-<text xml:space="preserve" text-anchor="middle" x="744.12" y="-65.75" font-family="Helvetica,sans-Serif" font-size="10.00">· inventory state</text>
+<text xml:space="preserve" text-anchor="middle" x="744.12" y="-65.75" font-family="Helvetica,sans-Serif" font-size="10.00">· inventory DP</text>
 </g>
 <!-- p03&#45;&gt;p10 -->
 <g id="edge9" class="edge">

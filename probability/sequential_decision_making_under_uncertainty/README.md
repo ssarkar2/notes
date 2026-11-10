@@ -133,7 +133,7 @@ Status: ✅ built · ⬜ planned.
 | [07](problems/07_Ir-Ur-Bk-Er-Oe-Kk/) | `Ir-Ur-Bk-Er-Oe-Kk` | items refund coins (coins can go up) | value iteration | ✅ |
 | [08](problems/08_Ir-Ur-Bt-Ec-Oe-Kk/) | `Ir-Ur-Bt-Ec-Oe-Kk` | outside income over time | time-indexed DP | ✅ |
 | [09](problems/09_Ir-Ur-Bk-Ei-Oe-Kk/) | `Ir-Ur-Bk-Ei-Oe-Kk` | items pay income | time-indexed DP on a bigger state, shadow prices | ✅ |
-| 10 | `Ir-Ur-Bk-Es-Oe-Kk` | items can be sold | inventory state | ⬜ |
+| [10](problems/10_Ir-Ur-Bk-Es-Oe-Kk/) | `Ir-Ur-Bk-Es-Oe-Kk` | items can be sold | inventory DP | ✅ |
 | 11 | `Ir-Ur-Bk-Ec-Oe-Kb` | odds unknown, family known | Bayesian adaptive MDP, Thompson sampling | ⬜ |
 | 12 | `Ir-Ur-Bk-Ec-Oe-Ku` | nothing known | model-free RL | ⬜ |
 | 13 | `Ir-Ur-Bh-Ei-Oe-Kb` | everything at once | policy search, approximate DP | ⬜ |
@@ -332,7 +332,26 @@ income covers a hit every tick, the clock binds. An extra earner or extra coins 
 worth exactly 0 in the last ticks, once the coins held already pay for every remaining
 tick.
 
-### 10 – 13
+### 10 · Items can be sold: `Ir-Ur-Bk-Es-Oe-Kk`
+
+**What changed:** items can be sold for coins, and a sold item no longer counts. On the
+running example only 1★ items have a buyer, at $s_1 \lt h$ coins.
+
+**Formulation:** state $(b, n, L)$ with $n$ the unsold 1★ items; a new action "sell one"
+gives $s_1$ coins and costs 1 star. Coins can go up, but liquid wealth $b + s_1 n$ never
+does, so one pass in that order is exact.
+
+**Tool:** [inventory DP](problems/10_Ir-Ur-Bk-Es-Oe-Kk/inventory_dp/); compared with a
+one-step exchange rule (sell iff $s_1 r_L / h \gt 1$).
+
+**On the running example:** selling barely helps (at most 2.5 stars): a sale undoes a past
+hit at a loss, and good play makes few 1★ items. On a stress example built for it
+(start with 50 1★ items and 2,000 coins, $s_1$ = 150), selling raises the value from 63.60
+to 96.40; the exact policy sells as it goes, keeping a reserve. The one-step exchange
+rule can miss that coins fund upgrades: at $s_1$ = 100 and 100 starting items it gets
+113.60 vs 130.00.
+
+### 11 – 13
 
 *Planned.*
 
@@ -351,6 +370,7 @@ Each problem reports its value (best expected total stars) on the running exampl
 | 07 | 40.64 | 433.16 | 5★ items refund 250 coins; median at 20,000 is 195 |
 | 08 | — | — | 20,000 coins as income over 50 ticks (400 per tick), one action per tick: 138.90 |
 | 09 | — | — | 10,000 coins, 50 ticks, each 5★ item pays 100 per tick: 130.29 (100.25 without income) |
+| 10 | 42.73 | 251.34 | 1★ items sell for 150 coins (03: 40.64 / 250.35) |
 
 ## Fields this touches
 
