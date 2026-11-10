@@ -48,6 +48,8 @@ variable (pity counter, items so far, time) multiplies the state count.
 - `target_policy(game, k)`, `best_fixed_target(game)`: the fixed-target baseline.
 - `main()`: prints the comparison table, checks the DP policy with the simulator, writes
   `value_vs_budget.svg` and `policy_map.svg`.
+- `long_shot()`: the stress example `LONG_SHOT` (see the [03 page](../#where-adapting-matters-a-stress-example)),
+  writes `long_shot.svg`.
 
 ```
 python solve.py

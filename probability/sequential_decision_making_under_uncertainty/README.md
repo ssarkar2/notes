@@ -203,7 +203,8 @@ threshold per level); [fluid approximation](problems/03_Ir-Ur-Bk-Ec-Oe-Kk/fluid_
 20,000 compared with sure upgrades. Reacting to luck recovers little: the best fixed plan is
 within 2.4% of the optimal policy at every budget up to 100,000. The policy is "upgrade
 from level $L$ while coins ≥ $b^*_L$", with thresholds 2,400 · 3,800 · 7,900 · 16,900 ·
-41,200 · 104,700.
+41,200 · 104,700. On a stress example built for it (one 10% upgrade from 1★ to 5★
+hits, `LONG_SHOT`), adapting gains up to 15% and mean-value re-planning loses up to 52%.
 
 ### 04 · Other utilities: `Ir-Ur-Bk-Ec-Ou-Kk`
 

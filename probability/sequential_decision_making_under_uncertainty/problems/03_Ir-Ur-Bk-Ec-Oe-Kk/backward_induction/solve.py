@@ -25,7 +25,7 @@ sys.path.insert(0, str(ROOT))
 
 import numpy as np  # noqa: E402
 
-from common.model import EXAMPLE, Game, sure_upgrades  # noqa: E402
+from common.model import EXAMPLE, LONG_SHOT, Game, sure_upgrades  # noqa: E402
 
 B_MAX = 100_000
 
@@ -154,6 +154,60 @@ def main():
               fontsize=8, loc="upper left", bbox_to_anchor=(1.01, 1.0))
     ax.set_title("optimal action for every (coins remaining, level)")
     save(fig, __file__, "policy_map")
+
+    long_shot()
+
+
+def long_shot():
+    """Where adapting matters: the LONG_SHOT example (one 10% upgrade, 1 star -> 5 stars)."""
+    from common.plotting import ACCENT, plt, save
+    from common.simulate import simulate, summary, table_policy
+
+    g, du, B_max = LONG_SHOT, LONG_SHOT.unit, 20_000
+    V, A = solve(g, B_max)
+    never = evaluate(g, target_policy(g, 0), B_max)[:, 0]
+    always = evaluate(g, target_policy(g, 1), B_max)[:, 0]
+    # mean-value re-planning: upgrade iff 5 (b - C/U) > b, i.e. b > 12,500
+    mv = evaluate(g, lambda b, L: "up" if L == 0 and b > 12_500 else ("hit" if b >= g.h else "stop"),
+                  B_max)[:, 0]
+    up = np.flatnonzero(A[:, 0] == "up")
+    print(f"\nLONG_SHOT: optimal policy upgrades while coins >= {up.min() * du:,} "
+          f"(contiguous: {up.max() - up.min() + 1 == len(up)})")
+    print(f"{'budget':>8} {'never try':>9} {'keep trying':>11} {'optimal':>8} {'gap to best plan':>16} "
+          f"{'mean-value replan':>17}")
+    for B in (3_000, 4_000, 5_000, 7_000, 10_000, 20_000):
+        i = B // du
+        best = max(never[i], always[i])
+        print(f"{B:>8,} {never[i]:>9.2f} {always[i]:>11.2f} {V[i, 0]:>8.2f} "
+              f"{(V[i, 0] - best) / V[i, 0]:>16.1%} {mv[i]:>17.2f}")
+    gap = (V[:, 0] - np.maximum(never, always)) / np.maximum(V[:, 0], 1e-12)
+    print(f"largest gap {gap.max():.1%} at {gap.argmax() * du:,} coins")
+    mv_gap = (V[:, 0] - mv) / np.maximum(V[:, 0], 1e-12)
+    print(f"mean-value re-planning: largest loss {mv_gap.max():.1%} at {mv_gap.argmax() * du:,} coins")
+    sim = simulate(g, table_policy(A, du), 5_000, n=4000, seed=0)
+    print(f"B=5,000: DP {V[5_000 // du, 0]:.2f}, simulator {summary(sim)}")
+
+    Bs = np.arange(len(V)) * du
+    m = Bs <= 12_000
+    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+    ax.plot(Bs[m], never[m], color="black", ls="--", lw=1, label="plan: never try (hit at 1★)")
+    ax.plot(Bs[m], always[m], color="#2171b5", lw=1, label="plan: keep trying until it works")
+    ax.plot(Bs[m], mv[m], color="grey", ls=":", lw=1.5, label="mean-value re-planning (fluid)")
+    ax.plot(Bs[m], V[m, 0], color=ACCENT, lw=2, label="optimal policy (DP)")
+    ax.set_xlabel("budget B (coins)")
+    ax.set_ylabel("expected total stars")
+    ax.set_title("(a) long shot: one 10% upgrade, 1★ → 5★")
+    ax.legend(fontsize=8)
+    ax2.plot(Bs[m], 100 * gap[m], color=ACCENT)
+    ax2.axvline(up.min() * du, color="grey", lw=0.8)
+    ax2.annotate(f"policy gives up below {up.min() * du:,}", (up.min() * du, 1),
+                 xytext=(up.min() * du + 300, 1), fontsize=8, color="grey")
+    ax2.set_xlabel("budget B (coins)")
+    ax2.set_ylabel("% of the optimal value")
+    ax2.set_title("(b) gain from adapting over the best plan")
+    for a in (ax, ax2):
+        a.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"{x:,.0f}"))
+    save(fig, __file__, "long_shot")
 
 
 if __name__ == "__main__":

@@ -115,6 +115,23 @@ EXAMPLE = Game(
 )
 
 
+# --------------------------------------------------------------------------------------
+# Second shared example: the "long shot". Built to stress ONE thing: a single gamble that
+# decides a lot, with budgets near its expected cost. On the running example adapting
+# to luck gains at most 2.4%; here it gains up to about 14%. Used where a problem needs a
+# case in which the simple method visibly fails; always labelled as such.
+#   level 1: every hit gives a 1-star item
+#   one upgrade: costs 1,000, succeeds 10% of the time; afterwards every hit gives 5 stars
+# --------------------------------------------------------------------------------------
+LONG_SHOT = Game(
+    h=200,
+    C=(1000,),
+    U=(0.10,),
+    P=np.array([[1.0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 1.0]]),
+)
+
+
 def parametric_item_table(N: int, M: int, sigma: float = 0.8) -> np.ndarray:
     """P[L, j] proportional to a Gaussian bump centred at mu_L, mu rising 1 -> M.
 

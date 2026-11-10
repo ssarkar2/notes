@@ -65,9 +65,40 @@ The simulator, playing the DP policy, gets 40.70 ± 0.31 at 5,000 and 250.54 ± 
   with $`b^*_L`$ rising with $L$ (2,400 · 3,800 · 7,900 · 16,900 · 41,200 · 104,700). After a
   failed upgrade you have less money, so you may drop below the threshold and switch to
   hitting. That is the adaptivity. Details in [optimal_stopping](optimal_stopping/).
-- **The cheap approximation is close.** Replanning with expected costs $C_L/U_L$ (01's
+- **The cheap approximation is close on this example** (not always: see the stress example
+  below). Replanning with expected costs $C_L/U_L$ (01's
   enumeration rerun at every state) loses at most 1.9% against the exact policy. Details in
   [fluid_approximation](fluid_approximation/).
+
+## Where adapting matters: a stress example
+
+On the running example the policy beats the best plan by at most 2.4%, because each budget
+buys dozens of hits and luck averages out. Making the running example harsher (a 10–15%
+bottleneck upgrade, demotion, lower odds everywhere) didn't push this past about 4%.
+
+What does: **one gamble that decides a lot, with a budget near its expected cost.** The
+second shared example, `LONG_SHOT` in `common/model.py`, is built for that and nothing else:
+
+- level 1: every hit gives a 1★ item;
+- one upgrade: costs 1,000, succeeds 10% of the time (expected cost 10,000); afterwards
+  every hit gives 5★.
+
+| budget | plan: never try | plan: keep trying until it works | optimal policy | gain over the best plan | mean-value re-planning |
+|---|---|---|---|---|---|
+| 4,000 | 20.00 | 14.03 | 21.00 | 4.8% | 20.00 |
+| 5,000 | 25.00 | 22.62 | 28.90 | 13.5% | 25.00 |
+| 7,000 | 35.00 | 44.57 | 49.66 | 10.2% | 35.00 |
+| 10,000 | 50.00 | 87.17 | 90.88 | 4.1% | 50.00 |
+| 20,000 | 100.00 | 280.39 | 281.69 | 0.5% | 254.30 |
+
+- **The policy: try while coins ≥ 3,600, then give up and hit.** Neither plan can give
+  up halfway; that's the whole gain, up to 15.2% (at 5,200 coins).
+- **Mean-value re-planning fails badly here:** with the upgrade priced at its expected
+  cost (10,000) it only tries above 12,500 coins, and loses up to 52.5% (at 12,400). The
+  average hides the spread: 27% of the time the upgrade works within 3 tries (3,000 coins).
+- Simulator at 5,000: 29.54 ± 0.92 vs 28.90 (4,000 games).
+
+![long shot](backward_induction/long_shot.svg)
 
 ## What's next
 

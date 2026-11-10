@@ -36,7 +36,9 @@ act on its Kalman-filter estimate; that's the separation principle (more in
 [06](../../06_Ir-Ur-Bh-Ec-Oe-Kk/belief_mdp/#same-family-as-the-kalman-filter)). This game
 is not linear-quadratic: actions are discrete, the budget is a hard limit, and an upgrade
 either works or doesn't. So re-planning with means is an approximation, and here it loses
-up to 1.9% against the exact policy.
+up to 1.9% against the exact policy on the running example. On a long-shot upgrade
+(10% odds, big payoff) it loses up to 52.5%: see
+[where adapting matters](../#where-adapting-matters-a-stress-example).
 
 There's also a **one-step break-even rule**: compare "hit at $L$ forever" with "pay the
 expected cost of one upgrade, then hit at $L+1$ forever". Upgrading wins when
