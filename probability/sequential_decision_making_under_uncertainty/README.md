@@ -132,7 +132,7 @@ Status: ✅ built · ⬜ planned.
 | [06](problems/06_Ir-Ur-Bh-Ec-Oe-Kk/) | `Ir-Ur-Bh-Ec-Oe-Kk` | budget hidden | belief MDP (POMDP → MDP), survival analysis, value of information | ✅ |
 | [07](problems/07_Ir-Ur-Bk-Er-Oe-Kk/) | `Ir-Ur-Bk-Er-Oe-Kk` | items refund coins (coins can go up) | value iteration | ✅ |
 | [08](problems/08_Ir-Ur-Bt-Ec-Oe-Kk/) | `Ir-Ur-Bt-Ec-Oe-Kk` | outside income over time | time-indexed DP | ✅ |
-| 09 | `Ir-Ur-Bk-Ei-Oe-Kk` | items pay income | time-indexed DP, optimal control (Pontryagin, turnpike) | ⬜ |
+| [09](problems/09_Ir-Ur-Bk-Ei-Oe-Kk/) | `Ir-Ur-Bk-Ei-Oe-Kk` | items pay income | time-indexed DP on a bigger state, shadow prices | ✅ |
 | 10 | `Ir-Ur-Bk-Es-Oe-Kk` | items can be sold | inventory state | ⬜ |
 | 11 | `Ir-Ur-Bk-Ec-Oe-Kb` | odds unknown, family known | Bayesian adaptive MDP, Thompson sampling | ⬜ |
 | 12 | `Ir-Ur-Bk-Ec-Oe-Ku` | nothing known | model-free RL | ⬜ |
@@ -311,7 +311,27 @@ $T$ = 50 and $\rho$ = 400 (the same 20,000 coins) you get 138.90 stars instead o
 With coins never short, the policy is a threshold rule in ticks left: 6 · 7 · 9 · 13 · 23
 · 42.
 
-### 09 – 13
+### 09 · Items pay income: `Ir-Ur-Bk-Ei-Oe-Kk`
+
+**What changed:** every item you hold pays $g_j$ coins per tick (08's clock: one action
+per tick). Items are capital: their stars count at the end, and they earn until then.
+
+**Formulation:** the state must say what you earn. On the running example only 5★ items
+pay ($g_5$ each), so one counter $n$ (5★ items held) is enough: state $(t, b, n, L)$, and
+a hit adds an earner with probability $P(L,5)$.
+
+**Tools:** [time-indexed DP](problems/09_Ir-Ur-Bk-Ei-Oe-Kk/time_indexed_dp/) (08's method
+on the bigger state); shadow prices (what one more coin or earner is worth, by
+differencing $V$; the costates of optimal control).
+
+**On the running example:** $B_0$ = 10,000, $T$ = 50. With $g_5$ = 100 the value rises
+from 100.25 to 130.29, and the policy now climbs to level 5 first (81% of games vs
+none), where 13% of hits make an earner. Doubling $g_5$ to 200 adds only 3.5: once
+income covers a hit every tick, the clock binds. An extra earner or extra coins are
+worth exactly 0 in the last ticks, once the coins held already pay for every remaining
+tick.
+
+### 10 – 13
 
 *Planned.*
 
@@ -329,6 +349,7 @@ Each problem reports its value (best expected total stars) on the running exampl
 | 06 | — | — | same budgets, hidden: 104.00 (uniform), 107.76 (exponential) |
 | 07 | 40.64 | 433.16 | 5★ items refund 250 coins; median at 20,000 is 195 |
 | 08 | — | — | 20,000 coins as income over 50 ticks (400 per tick), one action per tick: 138.90 |
+| 09 | — | — | 10,000 coins, 50 ticks, each 5★ item pays 100 per tick: 130.29 (100.25 without income) |
 
 ## Fields this touches
 
