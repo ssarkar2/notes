@@ -18,7 +18,7 @@ digraph ladder {
   p09 [label="09  Ir-Ur-Bk-Ei-Oe-Kk\nitems pay income\n· time-indexed DP · shadow prices", fillcolor="#c6dbef"];
   p10 [label="10  Ir-Ur-Bk-Es-Oe-Kk\nsell items\n· inventory DP", fillcolor="#c6dbef"];
   p11 [label="11  Ir-Ur-Bk-Ec-Oe-Kb\nunknown params (Bayesian)\n· Bayes-adaptive MDP · Thompson", fillcolor="#c6dbef"];
-  p12 [label="12  Ir-Ur-Bk-Ec-Oe-Ku\nnothing known\n· model-free RL"];
+  p12 [label="12  Ir-Ur-Bk-Ec-Oe-Ku\nnothing known\n· Q-learning vs model-based", fillcolor="#c6dbef"];
   p13 [label="13  Ir-Ur-Bh-Ei-Oe-Kb\neverything\n· policy search · approximate DP"];
 
   p01 -> p02 [label="I: d→r"];

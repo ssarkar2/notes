@@ -191,16 +191,16 @@
 <!-- p12 -->
 <g id="node12" class="node">
 <title>p12</title>
-<path fill="white" stroke="#555555" d="M1032.5,-90.75C1032.5,-90.75 943.75,-90.75 943.75,-90.75 937.75,-90.75 931.75,-84.75 931.75,-78.75 931.75,-78.75 931.75,-61 931.75,-61 931.75,-55 937.75,-49 943.75,-49 943.75,-49 1032.5,-49 1032.5,-49 1038.5,-49 1044.5,-55 1044.5,-61 1044.5,-61 1044.5,-78.75 1044.5,-78.75 1044.5,-84.75 1038.5,-90.75 1032.5,-90.75"/>
+<path fill="#c6dbef" stroke="#555555" d="M1045.25,-90.75C1045.25,-90.75 931,-90.75 931,-90.75 925,-90.75 919,-84.75 919,-78.75 919,-78.75 919,-61 919,-61 919,-55 925,-49 931,-49 931,-49 1045.25,-49 1045.25,-49 1051.25,-49 1057.25,-55 1057.25,-61 1057.25,-61 1057.25,-78.75 1057.25,-78.75 1057.25,-84.75 1051.25,-90.75 1045.25,-90.75"/>
 <text xml:space="preserve" text-anchor="middle" x="988.12" y="-77.25" font-family="Helvetica,sans-Serif" font-size="10.00">12 &#160;Ir&#45;Ur&#45;Bk&#45;Ec&#45;Oe&#45;Ku</text>
 <text xml:space="preserve" text-anchor="middle" x="988.12" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">nothing known</text>
-<text xml:space="preserve" text-anchor="middle" x="988.12" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">· model&#45;free RL</text>
+<text xml:space="preserve" text-anchor="middle" x="988.12" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">· Q&#45;learning vs model&#45;based</text>
 </g>
 <!-- p11&#45;&gt;p12 -->
 <g id="edge11" class="edge">
 <title>p11&#45;&gt;p12</title>
-<path fill="none" stroke="#777777" d="M829.43,-37.94C859.29,-43.99 892.45,-50.71 920.63,-56.41"/>
-<polygon fill="#777777" stroke="#777777" points="919.58,-59.77 930.08,-58.32 920.97,-52.91 919.58,-59.77"/>
+<path fill="none" stroke="#777777" d="M829.43,-37.94C854.74,-43.07 882.42,-48.67 907.43,-53.74"/>
+<polygon fill="#777777" stroke="#777777" points="906.73,-57.17 917.23,-55.72 908.12,-50.31 906.73,-57.17"/>
 <text xml:space="preserve" text-anchor="middle" x="871.75" y="-51.01" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#d95f02">K: b→u</text>
 </g>
 <!-- p11&#45;&gt;p13 -->

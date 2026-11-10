@@ -135,7 +135,7 @@ Status: ✅ built · ⬜ planned.
 | [09](problems/09_Ir-Ur-Bk-Ei-Oe-Kk/) | `Ir-Ur-Bk-Ei-Oe-Kk` | items pay income | time-indexed DP on a bigger state, shadow prices | ✅ |
 | [10](problems/10_Ir-Ur-Bk-Es-Oe-Kk/) | `Ir-Ur-Bk-Es-Oe-Kk` | items can be sold | inventory DP | ✅ |
 | [11](problems/11_Ir-Ur-Bk-Ec-Oe-Kb/) | `Ir-Ur-Bk-Ec-Oe-Kb` | odds unknown, family known | Bayes-adaptive MDP, Thompson sampling | ✅ |
-| 12 | `Ir-Ur-Bk-Ec-Oe-Ku` | nothing known | model-free RL | ⬜ |
+| [12](problems/12_Ir-Ur-Bk-Ec-Oe-Ku/) | `Ir-Ur-Bk-Ec-Oe-Ku` | nothing known | model-free RL (Q-learning) vs model-based learning | ✅ |
 | 13 | `Ir-Ur-Bh-Ei-Oe-Kb` | everything at once | policy search, approximate DP | ⬜ |
 
 ### 01 · Fully deterministic: `Id-Ud-Bk-Ec-Oe-Kk`
@@ -373,7 +373,25 @@ the vaguer the prior. Playing 03 with the current posterior mean is within 0.02 
 the optimum everywhere tried. Thompson sampling loses 3–8% with a vague prior: it keeps
 switching between giving up and trying again.
 
-### 12 – 13
+### 12 · Nothing known: `Ir-Ur-Bk-Ec-Oe-Ku`
+
+**What changed:** no odds and no prior. You play the same game many times and learn from
+experience; the question is how many games until you play well.
+
+**Formulation:** 03's optimum, written per action, $Q(b, L, a)$; each move you make is a
+sample of its right-hand side.
+
+**Tools:** [Q-learning](problems/12_Ir-Ur-Bk-Ec-Oe-Ku/model_free_rl/) (model-free: nudges
+$Q$ towards each sample), against a model-based learner (count outcomes, estimate $P$ and
+$U$, re-solve 03).
+
+**On the running example:** the model-based learner is optimal (to 0.1 stars) after 300
+games; Q-learning is still 3–10% short after 100,000 games, and on `LONG_SHOT` it has
+learned only part of the gain from upgrading. The model-based learner pools its data
+(every hit at level $L$ teaches it about $P(L, \cdot)$ at every budget); Q-learning learns
+each state on its own.
+
+### 13
 
 *Planned.*
 
@@ -394,6 +412,7 @@ Each problem reports its value (best expected total stars) on the running exampl
 | 09 | — | — | 10,000 coins, 50 ticks, each 5★ item pays 100 per tick: 130.29 (100.25 without income) |
 | 10 | 42.73 | 251.34 | 1★ items sell for 150 coins (03: 40.64 / 250.35) |
 | 11 | 39.54 | 227.91 | upgrade odds unknown, Beta prior with $\kappa$ = 2, averaged over the prior |
+| 12 | — | — | at 10,000 coins, after 100,000 games: Q-learning 96.56, model-based 100.25 (optimal) |
 
 ## Fields this touches
 
