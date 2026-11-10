@@ -126,10 +126,10 @@
 <!-- p11 -->
 <g id="node11" class="node">
 <title>p11</title>
-<path fill="white" stroke="#555555" d="M823.38,-41.75C823.38,-41.75 664.88,-41.75 664.88,-41.75 658.88,-41.75 652.88,-35.75 652.88,-29.75 652.88,-29.75 652.88,-12 652.88,-12 652.88,-6 658.88,0 664.88,0 664.88,0 823.38,0 823.38,0 829.38,0 835.38,-6 835.38,-12 835.38,-12 835.38,-29.75 835.38,-29.75 835.38,-35.75 829.38,-41.75 823.38,-41.75"/>
+<path fill="#c6dbef" stroke="#555555" d="M817,-41.75C817,-41.75 671.25,-41.75 671.25,-41.75 665.25,-41.75 659.25,-35.75 659.25,-29.75 659.25,-29.75 659.25,-12 659.25,-12 659.25,-6 665.25,0 671.25,0 671.25,0 817,0 817,0 823,0 829,-6 829,-12 829,-12 829,-29.75 829,-29.75 829,-35.75 823,-41.75 817,-41.75"/>
 <text xml:space="preserve" text-anchor="middle" x="744.12" y="-28.25" font-family="Helvetica,sans-Serif" font-size="10.00">11 &#160;Ir&#45;Ur&#45;Bk&#45;Ec&#45;Oe&#45;Kb</text>
 <text xml:space="preserve" text-anchor="middle" x="744.12" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">unknown params (Bayesian)</text>
-<text xml:space="preserve" text-anchor="middle" x="744.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">· Bayesian adaptive MDP · Thompson</text>
+<text xml:space="preserve" text-anchor="middle" x="744.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">· Bayes&#45;adaptive MDP · Thompson</text>
 </g>
 <!-- p03&#45;&gt;p11 -->
 <g id="edge10" class="edge">
@@ -199,14 +199,14 @@
 <!-- p11&#45;&gt;p12 -->
 <g id="edge11" class="edge">
 <title>p11&#45;&gt;p12</title>
-<path fill="none" stroke="#777777" d="M835.58,-39.19C863.77,-44.9 894.33,-51.09 920.58,-56.4"/>
-<polygon fill="#777777" stroke="#777777" points="919.56,-59.77 930.06,-58.32 920.95,-52.9 919.56,-59.77"/>
+<path fill="none" stroke="#777777" d="M829.43,-37.94C859.29,-43.99 892.45,-50.71 920.63,-56.41"/>
+<polygon fill="#777777" stroke="#777777" points="919.58,-59.77 930.08,-58.32 920.97,-52.91 919.58,-59.77"/>
 <text xml:space="preserve" text-anchor="middle" x="871.75" y="-51.01" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#d95f02">K: b→u</text>
 </g>
 <!-- p11&#45;&gt;p13 -->
 <g id="edge14" class="edge">
 <title>p11&#45;&gt;p13</title>
-<path fill="none" stroke="#777777" d="M835.84,-10.76C903.34,-6.83 996.37,-9.16 1071.5,-39.88 1108.63,-55.06 1142.07,-87.3 1163.32,-111.29"/>
+<path fill="none" stroke="#777777" d="M829.2,-11.17C897.14,-6.71 993.88,-8.14 1071.5,-39.88 1108.63,-55.06 1142.07,-87.3 1163.32,-111.29"/>
 <polygon fill="#777777" stroke="#777777" points="1160.42,-113.28 1169.6,-118.57 1165.72,-108.71 1160.42,-113.28"/>
 </g>
 </g>

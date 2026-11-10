@@ -134,7 +134,7 @@ Status: ✅ built · ⬜ planned.
 | [08](problems/08_Ir-Ur-Bt-Ec-Oe-Kk/) | `Ir-Ur-Bt-Ec-Oe-Kk` | outside income over time | time-indexed DP | ✅ |
 | [09](problems/09_Ir-Ur-Bk-Ei-Oe-Kk/) | `Ir-Ur-Bk-Ei-Oe-Kk` | items pay income | time-indexed DP on a bigger state, shadow prices | ✅ |
 | [10](problems/10_Ir-Ur-Bk-Es-Oe-Kk/) | `Ir-Ur-Bk-Es-Oe-Kk` | items can be sold | inventory DP | ✅ |
-| 11 | `Ir-Ur-Bk-Ec-Oe-Kb` | odds unknown, family known | Bayesian adaptive MDP, Thompson sampling | ⬜ |
+| [11](problems/11_Ir-Ur-Bk-Ec-Oe-Kb/) | `Ir-Ur-Bk-Ec-Oe-Kb` | odds unknown, family known | Bayes-adaptive MDP, Thompson sampling | ✅ |
 | 12 | `Ir-Ur-Bk-Ec-Oe-Ku` | nothing known | model-free RL | ⬜ |
 | 13 | `Ir-Ur-Bh-Ei-Oe-Kb` | everything at once | policy search, approximate DP | ⬜ |
 
@@ -351,7 +351,29 @@ to 96.40; the exact policy sells as it goes, keeping a reserve. The one-step exc
 rule can miss that coins fund upgrades: at $s_1$ = 100 and 100 starting items it gets
 113.60 vs 130.00.
 
-### 11 – 13
+### 11 · Odds unknown, family known: `Ir-Ur-Bk-Ec-Oe-Kb`
+
+**What changed:** the upgrade odds $U_L$ are unknown, with a known Beta prior (mean = the
+running example's $U_L$, concentration $\kappa$). You learn from your own tries.
+
+**Formulation:** you never return to a level, so the belief that matters is the current
+level's, carried by $f$, the failures there so far. The chance the next try works is the
+posterior mean $m_L(f) = a_L / (a_L + b_L + f)$, and the problem is an MDP on $(b, L, f)$:
+
+```math
+V(b, L, f) = \max\Big\{ r_L + V(b-h, L, f),\;\; m_L(f)\, V(b - C_L, L+1, 0) + \big(1 - m_L(f)\big)\, V(b - C_L, L, f+1),\;\; 0 \Big\}
+```
+
+**Tools:** [Bayes-adaptive MDP](problems/11_Ir-Ur-Bk-Ec-Oe-Kb/bayesian_adaptive_mdp/) (exact;
+the SLAM / dual-control parallel); [Thompson sampling](problems/11_Ir-Ur-Bk-Ec-Oe-Kb/thompson_sampling/).
+
+**On the running example:** learning from failures is worth 3.7% at $\kappa$ = 2 (20,000
+coins) and 19% on `LONG_SHOT` ($\kappa$ = 1); the Bayes policy gives up after fewer failures
+the vaguer the prior. Playing 03 with the current posterior mean is within 0.02 stars of
+the optimum everywhere tried. Thompson sampling loses 3–8% with a vague prior: it keeps
+switching between giving up and trying again.
+
+### 12 – 13
 
 *Planned.*
 
@@ -371,6 +393,7 @@ Each problem reports its value (best expected total stars) on the running exampl
 | 08 | — | — | 20,000 coins as income over 50 ticks (400 per tick), one action per tick: 138.90 |
 | 09 | — | — | 10,000 coins, 50 ticks, each 5★ item pays 100 per tick: 130.29 (100.25 without income) |
 | 10 | 42.73 | 251.34 | 1★ items sell for 150 coins (03: 40.64 / 250.35) |
+| 11 | 39.54 | 227.91 | upgrade odds unknown, Beta prior with $\kappa$ = 2, averaged over the prior |
 
 ## Fields this touches
 
